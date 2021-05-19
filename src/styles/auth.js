@@ -4,6 +4,7 @@ export const styleAuth = StyleSheet.create({
     header: {
         fontSize: 40,
         paddingTop: 34,
+        paddingBottom: 39
     },
     paper: {
         width: '89%',
