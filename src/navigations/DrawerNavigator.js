@@ -1,6 +1,5 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import {Text, View} from "react-native";
 import HomeNavigator from "./HomeNavigator";
 import {MAIN} from "../constants/routeNames";
 

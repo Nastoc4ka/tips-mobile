@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import AppNavContainer from "./src/navigations";
+import { styleBackground } from './src/styles';
 
 const App = () => {
 

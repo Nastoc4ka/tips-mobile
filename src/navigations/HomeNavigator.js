@@ -4,14 +4,18 @@ import {Text, View} from "react-native";
 import Main from "../screens/Main";
 import {Icn_home, Icn_tips, Icn_settings, Icn_revievs, Icn_qrcode} from '../assets/icons';
 import {COMMENTS, MAIN, QR_CODE, SETTINGS, TIPS} from "../constants/routeNames";
+import Background from '../components/Background';
+import { styleAuth } from '../styles';
 
 const Tab = createBottomTabNavigator();
 
 const TipsScreen =() => {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Привет из чаевых</Text>
-        </View>
+        <Background>
+            <View style={styleAuth.paper}>
+                <Text>Привет из чаевых</Text>
+            </View>
+        </Background>
     );
 };
 

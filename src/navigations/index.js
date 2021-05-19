@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import {Text} from "react-native";
-import AuthNavigator from "./AuthNavigator";
 import DrawerNavigator from "./DrawerNavigator";
-import HomeNavigator from "./HomeNavigator";
+import Auth from '../screens/auth';
 
 const AppNavContainer = () => {
+    const [isLoggedIn, setIsLogin] = useState(false);
 
-    const isLoggedIn = true;
+    const authorisation = () => {
+        setIsLogin(true);
+    }
 
     return (
         <NavigationContainer>
-            {isLoggedIn ? <DrawerNavigator /> : <AuthNavigator />}
+                {isLoggedIn ? <DrawerNavigator /> : <Auth authorisation={authorisation}/>}
         </NavigationContainer>
     );
 };
