@@ -8,7 +8,7 @@ const AppNavContainer = () => {
 
     const authorisation = () => {
         setIsLogin(true);
-    }
+    };
 
     return (
         <NavigationContainer>

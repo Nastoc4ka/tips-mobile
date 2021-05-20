@@ -1,47 +1,14 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Text, View} from "react-native";
-import Main from "../screens/Main";
+import Main from "../screens/main";
+import Tips from "../screens/Tips";
+import QRcode from "../screens/QRcode";
+import Settings from "../screens/Settings";
+import Comments from "../screens/Comments";
 import {Icn_home, Icn_tips, Icn_settings, Icn_revievs, Icn_qrcode} from '../assets/icons';
 import {COMMENTS, MAIN, QR_CODE, SETTINGS, TIPS} from "../constants/routeNames";
-import Background from '../components/Background';
-import { styleAuth } from '../styles';
 
 const Tab = createBottomTabNavigator();
-
-const TipsScreen =() => {
-    return (
-        <Background>
-            <View style={styleAuth.paper}>
-                <Text>Привет из чаевых</Text>
-            </View>
-        </Background>
-    );
-};
-
-const CommentsScreen =() => {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Привет из отзывов</Text>
-        </View>
-    );
-};
-
-const QRcodeScreen =() => {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Привет из qr code</Text>
-        </View>
-    );
-};
-
-const Settings =() => {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Привет из настроек</Text>
-        </View>
-    );
-};
 
 const HomeNavigator = () => {
 
@@ -97,9 +64,9 @@ const HomeNavigator = () => {
                     }}
                 >
 
-                    <Tab.Screen name={TIPS} component={TipsScreen} />
-                    <Tab.Screen name={COMMENTS} component={CommentsScreen} />
-                    <Tab.Screen name={QR_CODE} component={QRcodeScreen} />
+                    <Tab.Screen name={TIPS} component={Tips} />
+                    <Tab.Screen name={COMMENTS} component={Comments} />
+                    <Tab.Screen name={QR_CODE} component={QRcode} />
                     <Tab.Screen name={MAIN} component={Main} />
                     <Tab.Screen name={SETTINGS} component={Settings} />
             </Tab.Navigator>

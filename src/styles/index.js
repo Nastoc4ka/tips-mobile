@@ -1,12 +1,14 @@
-import styleNavBottom from './styleNavBottom';
-import { buttonFill, buttonLight } from './button';
+import { buttonFill, buttonLight, buttonPanelActive, buttonPanelNotActive } from './button';
 import { styleAuth } from './auth';
-import { styleBackground } from './main'
+import { styleBackground } from './main';
+import { styleMainScreens } from './mainScreens';
 
 export {
-    styleNavBottom,
     buttonFill,
     buttonLight,
+    buttonPanelActive,
+    buttonPanelNotActive,
     styleAuth,
-    styleBackground
+    styleBackground,
+    styleMainScreens,
 }
