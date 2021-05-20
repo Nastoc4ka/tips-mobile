@@ -11,7 +11,7 @@ const Auth = ({ authorisation }) => {
 
     const onRegistartionBtnPress = () => {
         setRegistration(true)
-    }
+    };
 
     return (
       <Background>
@@ -25,6 +25,6 @@ const Auth = ({ authorisation }) => {
         </View>
       </Background>
     )
-}
+};
 
 export default Auth;

@@ -12,7 +12,7 @@ const SignUp = ({handleAuthorisation}) => {
             <CustomButton title='Регистрация' styles={buttonLight} />
         </>
     )
-}
+};
 
 const header = StyleSheet.create({
     fontSize: 30,
