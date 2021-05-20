@@ -12,6 +12,6 @@ const SignUp = ({handleAuthorisation}) => {
             <CustomButton title='Регистрация' styles={buttonLight} />
         </>
     )
-}
+};
 
 export default SignUp

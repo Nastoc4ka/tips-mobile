@@ -12,6 +12,6 @@ const SignIn = ({ handleRegistrationClick, handleAuthorisation }) => {
             <CustomButton title='Регистрация' styles={buttonLight} onPress={handleRegistrationClick}/>
         </>
     )
-}
+};
 
 export default SignIn
