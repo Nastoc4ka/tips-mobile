@@ -21,4 +21,4 @@ export const styleBackground = StyleSheet.create({
       borderLeftColor: '#017C31',
       borderLeftWidth: Dimensions.get('window').width
     }
-})
+});

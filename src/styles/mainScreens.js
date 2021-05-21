@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styleMainScreens = StyleSheet.create({
     header: {
         width: '80%',
+        marginTop: 10,
         height: 80,
         flexDirection: 'row',
         justifyContent: 'space-between'
@@ -17,14 +18,15 @@ export const styleMainScreens = StyleSheet.create({
         width: '80%',
 
     },
+    wrapper : {
+        marginTop: 35,
+    },
     text: {
         fontSize: 17,
         color: 'white',
         fontWeight: '600',
     },
     paper: {
-        position: 'relative',
-        zIndex: 1,
         width: '89%',
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,

@@ -1,11 +1,20 @@
-import React from 'react';
-import {Text, View} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {View} from "react-native";
+import {getNews} from '../../services/serviceQueries';
+import {NewsItem} from '../../components';
 
-const News =() => {
+
+const News =({id}) => {
+    const [news, setNews] = useState([]);
+    useEffect(() => {
+        setNews(getNews(id));
+    }, []);
     return (
-            <View>
-                <Text>news</Text>
-            </View>
+            <>
+                {news.length ? news.map(newsItem => {
+                    return <NewsItem newsItem={newsItem} key={newsItem.id}/>
+                }): null}
+            </>
     );
 };
 

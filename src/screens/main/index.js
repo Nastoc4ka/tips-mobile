@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {SafeAreaView, Text, TouchableHighlight, View} from 'react-native';
 import Events from './Events';
 import News from './News';
@@ -6,11 +6,12 @@ import {Back, Icn_filters}  from '../../assets/icons';
 import Background from '../../components/Background';
 import { styleMainScreens } from '../../styles';
 import { buttonPanelActive, buttonPanelNotActive } from '../../styles';
-import CustomButton from "../../components/Button";
+import CustomButton from "../../components/CustomButton";
 
 const Main = () => {
     const NEWS = 'Новости';
     const EVENTS = 'События';
+    const userId = 10001;
 
     const [activePanel, setActive] = useState(NEWS);
 
@@ -25,10 +26,16 @@ const Main = () => {
           </SafeAreaView>
           <View style={styleMainScreens.paper}>
               <View style={styleMainScreens.buttonsTabsWrapper}>
-                  <CustomButton title={NEWS}  styles={buttonPanelActive} onPress={() => setActive(NEWS)}/>
-                  <CustomButton title={EVENTS} styles={buttonPanelNotActive} onPress={() => setActive(EVENTS)}/>
+                  <CustomButton title={NEWS}
+                                styles={activePanel === NEWS ? buttonPanelActive : buttonPanelNotActive}
+                                onPress={() => setActive(NEWS)}/>
+                  <CustomButton title={EVENTS}
+                                styles={activePanel === EVENTS ? buttonPanelActive : buttonPanelNotActive}
+                                onPress={() => setActive(EVENTS)}/>
               </View>
-            {activePanel === NEWS ? <News /> : <Events />}
+              <View  style={styleMainScreens.wrapper}>
+                  {activePanel === NEWS ? <News id={userId}/> : <Events id={userId}/>}
+              </View>
         </View>
       </Background>
     )

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { styleAuth, buttonFill, buttonLight } from '../../styles';
-import CustomButton from '../../components/Button';
+import CustomButton from '../../components/CustomButton';
 import Input from '../../components/Input';
 
 const SignIn = ({ handleRegistrationClick, handleAuthorisation }) => {

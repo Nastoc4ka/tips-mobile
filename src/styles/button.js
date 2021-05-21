@@ -47,9 +47,9 @@ const styleButton = StyleSheet.create({
         fontWeight: '600',
     },
     panelNotActive: {
+        shadowColor: '#24A8AC',
         ...Platform.select({
             ios: {
-                shadowColor: '#24A8AC',
                 shadowOffset: {width: 0, height: 3},
                 shadowOpacity: 0.2,
             },
