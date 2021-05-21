@@ -1,9 +1,20 @@
-
+import { avatar } from '../assets/images'
 const users = [
     {
         id: 10000,
         username: 'Alex',
-        avatar: 'png',
+        avatar: avatar,
+        role: 'admin',
+        position: 'Администратор',
+        password: 'qwerty',
+        phone: '0501111111',
+        organisation: 'BlackDiamond',
+        city: 'Kyiv',
+    },
+    {
+        id: 10010,
+        username: 'Valeriy',
+        avatar: avatar,
         role: 'admin',
         position: 'Администратор',
         password: 'qwerty',
@@ -14,6 +25,7 @@ const users = [
     {
         id: 10001,
         username: 'John',
+        avatar: 'png',
         role: 'user',
         position: 'Официант',
         password: 'qwerty',
@@ -31,38 +43,119 @@ const users = [
         organisation: 'BlackDiamond',
         city: 'Sumy'
     },
+    {
+        id: 10003,
+        username: 'Alex1',
+        avatar: 'png',
+        role: 'admin',
+        position: 'Администратор',
+        password: 'qwerty',
+        phone: '0501111114',
+        organisation: 'Glovo',
+        city: 'Kyiv',
+    },
+    {
+        id: 10004,
+        username: 'John1',
+        role: 'user',
+        position: 'Официант',
+        password: 'qwerty',
+        phone: '0501111115',
+        organisation: 'Glovo',
+        city: 'Odessa'
+    },
+    {
+        id: 10005,
+        username: 'Anna1',
+        role: 'user',
+        position: 'Официант',
+        password: 'qwerty',
+        phone: '0501111116',
+        organisation: 'Glovo',
+        city: 'Sumy'
+    },
 ];
 
 const news = [
     {
         id: 100,
-        user: {
-            id: 10000,
-            username: 'Alex',
-            position: 'Администратор',
-        },
+        userId: 10000,
         label: 'Корпоратив',
         description: 'Планируется провести корпоратив',
+        date: 1621519062855,
+        important: true,
         reactions: [
             {
                 id: 1,
-                user: {
-                   userId: 10001,
-                   username: 'John',
-                    position: 'Официант',
-                },
+                userId: 10001,
                 smile: ':('
             },
             {
                 id: 2,
-                user: {
-                   userId: 10002,
-                   username: 'Anna',
-                    position: 'Официант',
-                },
+                userId: 10002,
+                smile: ':)'
+            }
+        ]
+    },
+    {
+        id: 101,
+        userId: 10010,
+        label: 'Корпоратив from Valera',
+        description: 'Планируется провести корпоратив',
+        date: 1622519065455,
+        important: true,
+        reactions: [
+            {
+                id: 1,
+                userId: 10001,
+                smile: ':('
+            }
+        ]
+    },
+    {
+        id: 102,
+        userId: 10000,
+        label: 'Корпоратив',
+        description: 'Планируется провести корпоратив',
+        date: 1621519062855,
+        important: true,
+        reactions: [
+            {
+                id: 1,
+                userId: 10001,
+                smile: ':('
+            },
+            {
+                id: 2,
+                userId: 10002,
+                smile: ':)'
+            }
+        ]
+    },
+    {
+        id: 101,
+        userId: 10003,
+        label: 'Корпоратив2',
+        description: 'Планируется другой провести корпоратив',
+        date: 1621432755117,
+        important: false,
+        reactions: [
+            {
+                id: 3,
+                userId: 10001,
+                smile: ':('
+            },
+            {
+                id: 4,
+                userId: 10002,
                 smile: ':)'
             }
         ]
     }
 ];
+
+export {
+    users,
+    news
+}
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { buttonFill, buttonLight } from '../../styles';
-import CustomButton from '../../components/Button';
+import CustomButton from '../../components/CustomButton';
 
 const SignUp = ({handleAuthorisation}) => {
     return (
