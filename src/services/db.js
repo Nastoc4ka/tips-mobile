@@ -118,7 +118,7 @@ const news = [
         label: 'Корпоратив',
         description: 'Планируется провести корпоратив',
         date: 1621519062855,
-        important: true,
+        important: false,
         reactions: [
             {
                 id: 1,

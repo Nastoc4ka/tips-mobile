@@ -1,20 +1,20 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
-import {Swipeable} from 'react-native-gesture-handler';
 import {Avatar} from 'react-native-elements';
+import {SwipeRow} from 'react-native-swipe-list-view';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { FlatList, RectButton } from 'react-native-gesture-handler';
 import {Flag_petite, Icn_arrow, Reaction_petite} from '../assets/icons';
 import {styleNewsItem} from '../styles';
 
 
 const NewsItem = ({newsItem: {avatar = null, author, label, description, dateFormated, important, reactions}}) => {
 
-    const config = {
-        velocityThreshold: 0.3,
-        directionalOffsetThreshold: 80
-    };
-
     return (
-        //<Swipeable onSwipeLeft={onSwipeLeft}>
+        //<SwipeRow style={styleNewsItem.wrapper} rightOpenValue={-100}>
+            //<TouchableOpacity >
+               // <Text>hidden</Text>
+            //</TouchableOpacity>
             <TouchableOpacity style={styleNewsItem.wrapper}>
                 <View style={styleNewsItem.avatar}>
                     <Avatar title="MD" rounded size="medium" source={avatar}/>
@@ -38,13 +38,8 @@ const NewsItem = ({newsItem: {avatar = null, author, label, description, dateFor
                     </View>
                 </View>
             </TouchableOpacity>
-        //</Swipeable>
+        // </SwipeRow>
     )
 };
-//
-// const onSwipeLeft = () => (
-//     <View>
-//         <Text>swipe left</Text>
-//     </View>
-// )
+
 export default NewsItem;

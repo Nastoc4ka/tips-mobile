@@ -63,6 +63,7 @@ const Input = ({ type, keyboardType, label, placeholder, secure = false, handleC
     }
 
     return (
+        <>
         <View style={{width: '100%'}}>
             <Text style={styleInput.text}>{label}</Text>
 
