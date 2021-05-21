@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import { styleAuth, buttonFill, buttonLight } from '../../styles';
+import { styleAuth, buttonFill, buttonLight, styleInput } from '../../styles';
 import CustomButton from '../../components/Button';
 import Input from '../../components/Input';
 
 const SignIn = ({ handleRegistrationClick, handleAuthorisation }) => {
+    const [phone, setPhone] = useState('');
+    const phoneArr = ['+', '3', '8', ' ', '(', '0', '•', '•', ')', ' ', '•', '•', '•', ' ', '•', '•', ' ', '•', '•']
+
+    const onFocusPhoneInput = () => {
+        setPhone('+38 (0');
+    }
+
     return (
         <>
             <Text style={styleAuth.header}>Привет</Text>
+
             <View style={{width: '91%', paddingBottom: 58}}>
+                <Input 
+                    type='telephoneNumber' 
+                    keyboardType='numeric' 
+                    label='Телефон' 
+                    placeholder='+38 (0••) ••• •• ••'
+                />
 
-            <View style={{width: '100%'}}>
-                <Input type='telephoneNumber' keyboardType='numeric' label='Телефон'/>
-            </View>
-
-            <View style={{width: '100%'}}>
-                <Input type='password' keyboardType='numeric' label='Пароль'/>
-            </View>
+                {/* <Input type='password' keyboardType='numeric' label='Пароль' placeholder='••••••••' secure={true}  handleFocus={onFocusPhoneInput}/> */}
             </View>
 
             <CustomButton title='Войти' styles={buttonFill} onPress={handleAuthorisation}/>

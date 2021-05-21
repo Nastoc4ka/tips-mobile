@@ -11,6 +11,6 @@ export {
     buttonPanelNotActive,
     styleAuth,
     styleBackground,
-    styleInput
+    styleInput,
     styleMainScreens,
 }

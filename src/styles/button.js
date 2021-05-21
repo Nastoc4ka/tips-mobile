@@ -32,29 +32,26 @@ const styleButton = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
     },
-
     panelAllText: {
         fontSize: 17,
         color: 'black',
     },
     panelActive: {
         color: '#FFA200',
-
-
     },
     panelActiveText: {
         color: '#FFA200',
         fontWeight: '600',
     },
     panelNotActive: {
+        shadowColor: '#24A8AC',
         ...Platform.select({
             ios: {
-                shadowColor: '#24A8AC',
                 shadowOffset: {width: 0, height: 3},
                 shadowOpacity: 0.2,
             },
             android: {
-                elevation: 4,
+                elevation: 10,
             },
         }),
     },

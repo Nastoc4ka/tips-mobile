@@ -12,13 +12,18 @@ import {
   View,
 } from 'react-native';
 import AppNavContainer from "./src/navigations";
-import { styleBackground } from './src/styles';
 
 const App = () => {
 
   return (
       <View style={{flex: 1}}>
-          <AppNavContainer />
+        <StatusBar
+          animated={true}
+          backgroundColor='#00A03E'
+          barStyle='light-content'
+          showHideTransition='fade'
+        />
+        <AppNavContainer />
       </View>
   );
 };
