@@ -1,33 +1,11 @@
-import React, { useState } from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, ScrollView} from "react-native";
-import {Avatar} from 'react-native-elements';
-import Swipeable from 'react-native-swipeable';
-import {Flag_petite, Icn_arrow, Reaction_petite} from '../assets/icons';
-import {styleNewsItem} from '../styles';
+import React from 'react';
+import { Text, TouchableOpacity, View, ScrollView } from "react-native";
+import { Avatar } from 'react-native-elements';
+import { Flag_petite, Icn_arrow, Reaction_petite } from '../assets/icons';
+import { styleNewsItem } from '../styles';
 
 
 const NewsItem = ({newsItem: {avatar = null, author, label, description, dateFormated, important, reactions = []}}) => {
-
-    const [currentlyOpenSwipeable, setCurrentlyOpenSwipeable] = useState(null);
-
-    const itemProps = {
-        onOpen: (event, gestureState, swipeable) => {
-            if (currentlyOpenSwipeable && currentlyOpenSwipeable !== swipeable) {
-                currentlyOpenSwipeable.recenter();
-            }
-
-            setCurrentlyOpenSwipeable(swipeable);
-        },
-        onClose: () => setCurrentlyOpenSwipeable(null)
-    };
-
-    const handleScroll = () => {
-
-        if (currentlyOpenSwipeable) {
-            currentlyOpenSwipeable.recenter();
-        }
-    };
-
     const leftContent = <TouchableOpacity style={styleNewsItem.wrapper}>
         <View style={styleNewsItem.avatar}>
             <Avatar title="MD" rounded size="medium" source={avatar}/>

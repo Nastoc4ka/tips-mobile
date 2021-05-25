@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,} from "react-native";
-import {SwipeListView} from 'react-native-swipe-list-view';
-import {getNews} from '../../services/serviceQueries';
-import {Avatar} from 'react-native-elements';
-import {Dot, Flag_petite, Icn_arrow, Reaction_petite} from '../../assets/icons';
-import {styleNewsItem} from '../../styles';
+import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { getNews, toggleImportantNews } from '../../services/serviceQueries';
+import { Avatar } from 'react-native-elements';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { Dot, Flag_petite, Icn_arrow, Reaction_petite, Reaction_huge, Flag_huge } from '../../assets/icons';
+import { styleNewsItem } from '../../styles';
 
-const News = ({id}) => {
+const News = ({id: userId}) => {
     const [news, setNews] = useState([]);
 
     useEffect(() => {
-        setNews(getNews(id));
+        setNews(getNews(userId));
     }, []);
 
     const closeRow = (rowMap, rowKey) => {
@@ -19,19 +19,18 @@ const News = ({id}) => {
         }
     };
 
-    const toggleImportant = (rowMap, rowKey) => {
-        closeRow(rowMap, rowKey)
+    const toggleImportant = (rowMap, rowKey, id) => {
+        toggleImportantNews(id);
+        setNews(getNews(userId));
+        return closeRow(rowMap, rowKey)
     };
 
-    const reactToNews = (rowMap, rowKey) => {
-        closeRow(rowMap, rowKey);
+    const reactToNews = (rowMap, rowKey, id) => {
+        console.log(id);
+        return closeRow(rowMap, rowKey);
     };
 
-    const VisibleItem = props => {
-        const {
-            data,
-            rowHeightAnimatedValue,
-        } = props;
+    const VisibleItem = ({data}) => {
 
         return (
             <TouchableHighlight onPress={() => console.log('pressed')}>
@@ -41,7 +40,7 @@ const News = ({id}) => {
                     </View>
                     <View style={styleNewsItem.innerWrapper}>
                         <View style={styleNewsItem.avatar}>
-                            <Avatar title="MD" rounded size={45} source={data.avatar}/>
+                            <Avatar title={data.author[0]} rounded containerStyle={{backgroundColor: 'lightgrey'}}size={45} source={data.avatar}/>
                         </View>
                         <View style={styleNewsItem.main}>
                             <Text numberOfLines={1} ellipsizeMode='tail'
@@ -71,12 +70,9 @@ const News = ({id}) => {
     };
 
     const renderItem = (data) => {
-        //const rowHeightAnimatedValue = new Animated.Value(60);
+
         return (
-            <VisibleItem
-                data={data.item}
-                //rowHeightAnimatedValue={rowHeightAnimatedValue}
-            />
+            <VisibleItem data={data.item}/>
         );
     };
 
@@ -84,28 +80,27 @@ const News = ({id}) => {
 
         return (
             <View style={styles.rowBack}>
-                <Text>left</Text>
                 <TouchableOpacity
                     style={[styles.backRightBtn, styles.backRightBtnLeft]}
                     onPress={onImportant}>
-                    <Text>Флажок</Text>
+                    <Flag_huge />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.backRightBtn, styles.backRightBtnRight]}
                     onPress={onReact}>
-                    <Text>Реакция</Text>
+                    <Reaction_huge />
                 </TouchableOpacity>
-            </View>)
+            </View>
+        )
     };
 
     const renderHiddenItem = (data, rowMap) => {
-
         return (
             <HiddenItemWithActions
                 data={data}
                 rowMap={rowMap}
-                onReact={() => reactToNews(rowMap, data.item.id)}
-                onImportant={() => toggleImportant(rowMap, data.item.id)}
+                onReact={() => reactToNews(rowMap, data.item.key, data.item.id)}
+                onImportant={() => toggleImportant(rowMap, data.item.key, data.item.id)}
             />
         );
     };
@@ -132,27 +127,6 @@ const styles = StyleSheet.create({
     container: {
         overflow: 'visible',
     },
-    rowFront: {
-        width: '100%',
-        backgroundColor: '#FFF',
-        borderRadius: 5,
-        height: 60,
-        margin: 5,
-        marginBottom: 15,
-        shadowColor: '#999',
-        shadowOffset: {width: 0, height: 1},
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 5,
-    },
-    rowFrontVisible: {
-        backgroundColor: '#FFF',
-        width: '100%',
-        borderRadius: 5,
-        height: 60,
-        padding: 10,
-        marginBottom: 15,
-    },
     rowBack: {
         alignItems: 'center',
         position: 'absolute',
@@ -174,20 +148,5 @@ const styles = StyleSheet.create({
     backRightBtnRight: {
         backgroundColor: '#0087CB',
         right: 0,
-    },
-    trash: {
-        height: 25,
-        width: 25,
-        marginRight: 7,
-    },
-    title: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        marginBottom: 5,
-        color: '#666',
-    },
-    details: {
-        fontSize: 12,
-        color: '#999',
     },
 });

@@ -1,10 +1,13 @@
 import React from 'react';
-import {Text, View} from "react-native";
+import { View } from "react-native";
+import CalendarPicker from 'react-native-calendar-picker';
+
 
 const Events =() => {
     return (
         <View>
-            <Text>Events</Text>
+            <CalendarPicker
+            />
         </View>
     );
 };

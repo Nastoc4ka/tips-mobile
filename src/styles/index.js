@@ -1,6 +1,6 @@
 import { buttonFill, buttonLight, buttonPanelActive, buttonPanelNotActive } from './button';
 import { styleAuth } from './auth';
-import { styleBackground } from './main';
+import { main } from './main';
 import { styleInput } from './input';
 import { styleMainScreens } from './mainScreens';
 import { styleNewsItem } from './newsItem';
@@ -11,7 +11,7 @@ export {
     buttonPanelActive,
     buttonPanelNotActive,
     styleAuth,
-    styleBackground,
+    main,
     styleInput,
     styleMainScreens,
     styleNewsItem

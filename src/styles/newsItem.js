@@ -2,10 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export const styleNewsItem = StyleSheet.create({
     wrapper: {
-        flex: 1,
         width: '100%',
         flexDirection: 'row',
-        //paddingLeft: 10,
         backgroundColor: '#fff',
         height: 76,
     },
@@ -36,15 +34,6 @@ export const styleNewsItem = StyleSheet.create({
     author: {
         fontWeight: '600',
         fontSize: 17,
-    },
-    label: {
-        fontWeight: '400',
-        fontSize: 13,
-    },
-    description: {
-        fontWeight: '400',
-        fontSize: 13,
-        color: 'rgba(69, 69, 69, 0.5)',
     },
     icons: {
         justifyContent: "space-between",
@@ -87,4 +76,5 @@ export const styleNewsItem = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
       },
+
 });

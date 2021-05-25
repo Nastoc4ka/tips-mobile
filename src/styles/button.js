@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styleButton = StyleSheet.create({
     all: {
-        width: '91%',
+        width: '100%',
         paddingVertical: 13,
         alignItems: 'center',
         borderRadius: 5,
