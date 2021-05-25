@@ -1,14 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,} from "react-native";
-
 import {SwipeListView} from 'react-native-swipe-list-view';
-
 import {getNews} from '../../services/serviceQueries';
-
 import {Avatar} from 'react-native-elements';
-import {Flag_petite, Icn_arrow, Reaction_petite, Dot} from '../../assets/icons';
+import {Dot, Flag_petite, Icn_arrow, Reaction_petite} from '../../assets/icons';
 import {styleNewsItem} from '../../styles';
-
 
 const News = ({id}) => {
     const [news, setNews] = useState([]);
@@ -24,12 +20,10 @@ const News = ({id}) => {
     };
 
     const toggleImportant = (rowMap, rowKey) => {
-        console.log(rowMap);
         closeRow(rowMap, rowKey)
     };
 
     const reactToNews = (rowMap, rowKey) => {
-        console.log(rowMap);
         closeRow(rowMap, rowKey);
     };
 
@@ -43,7 +37,7 @@ const News = ({id}) => {
             <TouchableHighlight onPress={() => console.log('pressed')}>
                 <View style={styleNewsItem.wrapper}>
                     <View style={styleNewsItem.isRead}>
-                        {data.isRead ? null : <Dot />}
+                        {data.isRead ? null : <Dot/>}
                     </View>
                     <View style={styleNewsItem.innerWrapper}>
                         <View style={styleNewsItem.avatar}>
@@ -71,7 +65,6 @@ const News = ({id}) => {
                             </View>
                         </View>
                     </View>
-
                 </View>
             </TouchableHighlight>
         );
@@ -79,7 +72,6 @@ const News = ({id}) => {
 
     const renderItem = (data) => {
         //const rowHeightAnimatedValue = new Animated.Value(60);
-
         return (
             <VisibleItem
                 data={data.item}
@@ -107,9 +99,6 @@ const News = ({id}) => {
     };
 
     const renderHiddenItem = (data, rowMap) => {
-        console.log('rowMap: ', rowMap);
-        //const rowActionAnimatedValue = new Animated.Value(75);
-        //const rowHeightAnimatedValue = new Animated.Value(76);
 
         return (
             <HiddenItemWithActions
@@ -123,13 +112,16 @@ const News = ({id}) => {
 
     return (
         <>
-            {news.length ? <SwipeListView style={styles.container}
-                                          data={news}
-                                          renderItem={renderItem}
-                                          renderHiddenItem={renderHiddenItem}
-                                          rightOpenValue={-100}
-                                          disableRightSwipe
-            /> : null}
+            {news.length ?
+                <SwipeListView
+                    style={styles.container}
+                    data={news}
+                    renderItem={renderItem}
+                    renderHiddenItem={renderHiddenItem}
+                    rightOpenValue={-100}
+                    disableRightSwipe
+                />
+                : null}
         </>
     );
 };
@@ -138,10 +130,7 @@ export default News;
 
 const styles = StyleSheet.create({
     container: {
-        //width: '100%',
         overflow: 'visible',
-        //position: 'absolute',
-        flex: 1,
     },
     rowFront: {
         width: '100%',
@@ -165,14 +154,9 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     rowBack: {
-        overflow: 'visible',
         alignItems: 'center',
         position: 'absolute',
         right: 0,
-        zIndex: 100,
-        //flex: 1,
-        //flexDirection: 'row',
-        //justifyContent: 'space-between',
     },
     backRightBtn: {
         alignItems: 'flex-end',
