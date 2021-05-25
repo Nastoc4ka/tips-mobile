@@ -87,6 +87,7 @@ const news = [
     {
         id: 100,
         userId: 10000,
+        isRead: true,
         label: 'Корпоратив',
         description: 'Планируется провести корпоратив',
         date: 1621519062855,
@@ -107,6 +108,7 @@ const news = [
     {
         id: 101,
         userId: 10010,
+        isRead: true,
         label: 'Корпоратив from Valera',
         description: 'Планируется провести корпоратив',
         date: 1622519065455,
@@ -116,12 +118,13 @@ const news = [
                 id: 1,
                 userId: 10001,
                 smile: ':('
-            }
+            },
         ]
     },
     {
         id: 102,
-        userId: 10000,
+        userId: 10002,
+        isRead: false,
         label: 'Корпоратив',
         description: 'Планируется провести корпоратив',
         date: 1621519062855,
@@ -140,8 +143,9 @@ const news = [
         ]
     },
     {
-        id: 101,
+        id: 103,
         userId: 10003,
+        isRead: true,
         label: 'Корпоратив2',
         description: 'Планируется другой провести корпоратив',
         date: 1621432755117,

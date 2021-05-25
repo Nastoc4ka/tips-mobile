@@ -3,22 +3,35 @@ import { StyleSheet } from 'react-native';
 export const styleNewsItem = StyleSheet.create({
     wrapper: {
         flex: 1,
+        width: '100%',
         flexDirection: 'row',
+        //paddingLeft: 10,
+        backgroundColor: '#fff',
+        height: 76,
+    },
+    innerWrapper: {
+        width: '100%',
         paddingVertical: 10,
-        marginLeft: 13,
-        paddingHorizontal: 10,
-        maxHeight: 76,
+        paddingRight: 10,
+        flex: 1,
+        flexDirection: 'row',
+        height: 76,
         borderBottomColor: 'rgba(36, 168, 172, 0.5)',
         borderBottomWidth: 1,
     },
-    avatar: {
-        width: '25%',
+    isRead: {
+        width: 23,
         justifyContent: "center",
-
+        alignItems: 'center',
+    },
+    avatar: {
+        marginRight: 13,
+        justifyContent: "center",
+        alignItems: 'center',
     },
     main: {
         justifyContent: "space-between",
-        width: '55%',
+        width: '60%',
     },
     author: {
         fontWeight: '600',
