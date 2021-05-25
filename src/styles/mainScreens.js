@@ -1,14 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export const styleMainScreens = StyleSheet.create({
-    header: {
-        width: '80%',
-        marginTop: 10,
-        height: 80,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-
-    },
     buttonsTabsWrapper: {
         position: 'absolute',
         zIndex: -11,
@@ -25,13 +17,5 @@ export const styleMainScreens = StyleSheet.create({
         fontSize: 17,
         color: 'white',
         fontWeight: '600',
-    },
-    paper: {
-        width: '89%',
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
-        backgroundColor: '#fff',
-        flex: 1,
-        alignItems: 'center',
-      },
+    }
 });

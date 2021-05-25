@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
 import {Avatar} from 'react-native-elements';
@@ -5,7 +7,7 @@ import {SwipeRow} from 'react-native-swipe-list-view';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { FlatList, RectButton } from 'react-native-gesture-handler';
 import {Flag_petite, Icn_arrow, Reaction_petite} from '../assets/icons';
-import {styleNewsItem} from '../styles';
+import {main, styleNewsItem} from '../styles';
 
 
 const NewsItem = ({newsItem: {avatar = null, author, label, description, dateFormated, important, reactions}}) => {
@@ -21,8 +23,8 @@ const NewsItem = ({newsItem: {avatar = null, author, label, description, dateFor
                 </View>
                 <View style={styleNewsItem.main}>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={styleNewsItem.author}>{author}</Text>
-                    <Text numberOfLines={1} ellipsizeMode='tail' style={styleNewsItem.label}>{label}</Text>
-                    <Text numberOfLines={1} ellipsizeMode='tail' style={styleNewsItem.description}>{description}</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail' style={main.title}>{label}</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail' style={main.subtitle}>{description}</Text>
                 </View>
                 <View style={styleNewsItem.icons}>
                     <View style={styleNewsItem.wrapperIcons}>

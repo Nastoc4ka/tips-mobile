@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import { styleAuth, buttonFill, buttonLight, styleInput } from '../../styles';
+import { styleAuth, buttonFill, buttonLight } from '../../styles';
 import CustomButton from '../../components/CustomButton';
 import Input from '../../components/Input';
 
 const SignIn = ({ handleRegistrationClick, handleAuthorisation }) => {
     const [phone, setPhone] = useState('');
-    const phoneArr = ['+', '3', '8', ' ', '(', '0', '•', '•', ')', ' ', '•', '•', '•', ' ', '•', '•', ' ', '•', '•']
 
     const onFocusPhoneInput = () => {
         setPhone('+38 (0');
@@ -14,9 +13,9 @@ const SignIn = ({ handleRegistrationClick, handleAuthorisation }) => {
 
     return (
         <>
-            <Text style={styleAuth.header}>Привет</Text>
+            <Text style={styleAuth.headerSignIn}>Привет</Text>
 
-            <View style={{width: '91%', paddingBottom: 58}}>
+            <View style={{width: '100%', paddingBottom: 58}}>
                 <Input 
                     type='telephoneNumber' 
                     keyboardType='numeric' 

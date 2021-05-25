@@ -2,7 +2,8 @@ import { avatar } from '../assets/images'
 const users = [
     {
         id: 10000,
-        username: 'Alex',
+        firstName: 'Alex',
+        lastName: 'Vlasova',
         avatar: avatar,
         role: 'admin',
         position: 'Администратор',
@@ -13,7 +14,8 @@ const users = [
     },
     {
         id: 10010,
-        username: 'Valeriy',
+        firstName: 'Valeriy',
+        lastName: 'Vlasova',
         avatar: avatar,
         role: 'admin',
         position: 'Администратор',
@@ -24,7 +26,8 @@ const users = [
     },
     {
         id: 10001,
-        username: 'John',
+        firstName: 'John',
+        lastName: 'Vlasova',
         avatar: 'png',
         role: 'user',
         position: 'Официант',
@@ -35,7 +38,8 @@ const users = [
     },
     {
         id: 10002,
-        username: 'Anna',
+        firstName: 'Anna',
+        lastName: 'Vlasova',
         role: 'user',
         position: 'Официант',
         password: 'qwerty',
@@ -45,7 +49,8 @@ const users = [
     },
     {
         id: 10003,
-        username: 'Alex1',
+        firstName: 'Alex1',
+        lastName: 'Vlasova',
         avatar: 'png',
         role: 'admin',
         position: 'Администратор',
@@ -56,7 +61,8 @@ const users = [
     },
     {
         id: 10004,
-        username: 'John1',
+        firstName: 'John1',
+        lastName: 'Vlasova',
         role: 'user',
         position: 'Официант',
         password: 'qwerty',
@@ -66,7 +72,8 @@ const users = [
     },
     {
         id: 10005,
-        username: 'Anna1',
+        firstName: 'Anna1',
+        lastName: 'Vlasova',
         role: 'user',
         position: 'Официант',
         password: 'qwerty',

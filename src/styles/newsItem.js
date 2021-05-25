@@ -24,15 +24,6 @@ export const styleNewsItem = StyleSheet.create({
         fontWeight: '600',
         fontSize: 17,
     },
-    label: {
-        fontWeight: '400',
-        fontSize: 13,
-    },
-    description: {
-        fontWeight: '400',
-        fontSize: 13,
-        color: 'rgba(69, 69, 69, 0.5)',
-    },
     icons: {
         justifyContent: "space-between",
         width: '20%',

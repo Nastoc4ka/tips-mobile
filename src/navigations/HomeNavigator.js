@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Main from "../screens/main";
 import Tips from "../screens/Tips";
-import QRcode from "../screens/QRcode";
+import QRcode from "../screens/qrCode";
 import Settings from "../screens/Settings";
 import Comments from "../screens/Comments";
 import {Icn_home, Icn_tips, Icn_settings, Icn_revievs, Icn_qrcode} from '../assets/icons';
@@ -15,7 +15,7 @@ const HomeNavigator = () => {
     return (
             <Tab.Navigator
                     screenOptions={({ route }) => ({
-                        tabBarIcon: ({ focused, color, size }) => {
+                        tabBarIcon: ({ color, size }) => {
                             if (route.name === MAIN) {
                                 return (
                                     <Icn_home

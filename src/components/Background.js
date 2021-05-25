@@ -1,12 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
-import { styleBackground } from '../styles';
+import { main } from '../styles';
 
 const Background = ({ children }) => {
     return (
-        <View style={styleBackground.container}>
+        <View style={main.container}>
             {children}
-            <View style={styleBackground.bottom}></View>
+            <View style={main.bottom}></View>
         </View>
     )
 }
