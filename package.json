@@ -26,7 +26,9 @@
     "react-native-svg": "^12.1.1",
     "react-native-svg-transformer": "^0.14.3",
     "react-native-swipe-gestures": "^1.0.5",
-    "react-native-swipe-list-view": "^3.2.7"
+    "react-native-swipe-list-view": "^3.2.7",
+    "react-native-swipeable": "^0.6.0",
+    "react-native-swipeable-row": "^0.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

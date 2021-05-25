@@ -11,6 +11,7 @@ import Flag_petite from './flag_petite.svg';
 import Icn_arrow from './icn_arrow.svg';
 import Reaction_huge from './reaction_huge.svg';
 import Reaction_petite from './reaction_petite.svg';
+import Dot from './dot.svg';
 
 export {
     Icn_home,
@@ -26,4 +27,5 @@ export {
     Flag_petite,
     Reaction_huge,
     Reaction_petite,
+    Dot,
 }

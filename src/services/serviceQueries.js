@@ -10,7 +10,6 @@ const getNews = (id) => {
         const currentUserOrganisation = users.find(user => user.id === id).organisation;
         return userNewsAuthor.organisation === currentUserOrganisation;
     });
-    console.log(newsForUser);
     return newsForUser
 };
 

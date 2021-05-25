@@ -20,6 +20,9 @@ export const styleMainScreens = StyleSheet.create({
     },
     wrapper : {
         marginTop: 35,
+        width: '100%',
+        flex: 1,
+        flexDirection: 'column',
     },
     text: {
         fontSize: 17,
