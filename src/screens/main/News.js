@@ -126,7 +126,6 @@ export default News;
 const styles = StyleSheet.create({
     container: {
         overflow: 'visible',
-<<<<<<< HEAD
     },
     rowFront: {
         width: '100%',
@@ -148,19 +147,11 @@ const styles = StyleSheet.create({
         height: 60,
         padding: 10,
         marginBottom: 15,
-=======
->>>>>>> 678659e327cf0e40871a68c958898d76d5e90a27
     },
     rowBack: {
         alignItems: 'center',
         position: 'absolute',
         right: 0,
-<<<<<<< HEAD
-        //flex: 1,
-        //flexDirection: 'row',
-        //justifyContent: 'space-between',
-=======
->>>>>>> 678659e327cf0e40871a68c958898d76d5e90a27
     },
     backRightBtn: {
         alignItems: 'flex-end',
