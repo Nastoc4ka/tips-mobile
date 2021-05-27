@@ -76,5 +76,4 @@ export const styleNewsItem = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
       },
-
 });

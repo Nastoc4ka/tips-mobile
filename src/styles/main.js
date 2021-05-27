@@ -43,6 +43,12 @@ export const main = StyleSheet.create({
       paddingHorizontal: 35,
       textAlign: 'center',
     },
+    headerTextRegistration: {
+      fontSize: 30,
+      paddingTop: 30,
+      paddingBottom: 16,
+      textAlign: 'center',
+    },
     title: {
       fontSize: 13,
     },
