@@ -127,6 +127,27 @@ const styles = StyleSheet.create({
     container: {
         overflow: 'visible',
     },
+    rowFront: {
+        width: '100%',
+        backgroundColor: '#FFF',
+        borderRadius: 5,
+        height: 60,
+        margin: 5,
+        marginBottom: 15,
+        shadowColor: '#999',
+        shadowOffset: {width: 0, height: 1},
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+    },
+    rowFrontVisible: {
+        backgroundColor: '#FFF',
+        width: '100%',
+        borderRadius: 5,
+        height: 60,
+        padding: 10,
+        marginBottom: 15,
+    },
     rowBack: {
         alignItems: 'center',
         position: 'absolute',

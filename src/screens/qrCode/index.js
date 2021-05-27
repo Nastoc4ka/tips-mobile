@@ -20,7 +20,7 @@ const QRcode = () => {
             <View style={paper}>
                 {isGenerated ? 
                     <View style={wrappers.wrapper}>
-                        <UserPreview name={user.firstName} lastName={user.lastName} avatar={user.avatar} id={user.id}/>
+                        <UserPreview firstName={user.firstName} lastName={user.lastName} avatar={user.avatar} id={user.id}/>
                         <QRCode
                             size={157}
                         />

@@ -3,12 +3,13 @@ import { Text, View, TextInput } from 'react-native';
 import {buttonFill, buttonLight, main, styleInput} from '../../styles';
 import CustomButton from '../../components/CustomButton';
 import Input from '../../components/Input';
+import { StyleSheet } from 'react-native';
 
 const SignUp = ({handleAuthorisation}) => {
     return (
         <>
             <Text style={main.headerTextRegistration}>Добро пожаловать!</Text>
-            <View style={{width: '100%', paddingBottom: 20}}>
+            <View style={{width: '100%'}}>
                 <Input
                     type='name'
                     label='Имя'
@@ -42,9 +43,18 @@ const SignUp = ({handleAuthorisation}) => {
                     maxLength={60}
                 />
             </View>
-            <CustomButton title='Готово' styles={buttonFill} onPress={handleAuthorisation}/>
+            <CustomButton title='Готово' styles={btn} onPress={handleAuthorisation}/>
         </>
     )
 };
+
+const btn = StyleSheet.create({
+    button: {
+        ...buttonFill.button,
+        marginTop: 'auto',
+        marginBottom: 'auto',
+    },
+    text: buttonFill.text
+});
 
 export default SignUp

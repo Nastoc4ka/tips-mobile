@@ -8,7 +8,6 @@ export const styleNewsItem = StyleSheet.create({
         height: 76,
     },
     innerWrapper: {
-        width: '100%',
         paddingVertical: 10,
         paddingRight: 10,
         flex: 1,

@@ -12,6 +12,8 @@ import Icn_arrow from './icn_arrow.svg';
 import Reaction_huge from './reaction_huge.svg';
 import Reaction_petite from './reaction_petite.svg';
 import Dot from './dot.svg';
+import Arrow_left from './arrow_left.svg';
+import Arrow_right from './arrow_right.svg';
 import VisibilityHide from './visibilityHide.svg';
 import VisibilityShow from './visibilityShow.svg';
 
@@ -30,7 +32,8 @@ export {
     Reaction_huge,
     Reaction_petite,
     Dot,
+    Arrow_left,
+    Arrow_right,
     VisibilityHide,
     VisibilityShow,
-
 }
