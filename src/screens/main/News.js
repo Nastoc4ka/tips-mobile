@@ -130,10 +130,7 @@ export default News;
 
 const styles = StyleSheet.create({
     container: {
-        //width: '100%',
         overflow: 'visible',
-        //position: 'absolute',
-        flex: 1,
     },
     rowFront: {
         width: '100%',
@@ -161,7 +158,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         right: 0,
-        zIndex: 100,
         //flex: 1,
         //flexDirection: 'row',
         //justifyContent: 'space-between',

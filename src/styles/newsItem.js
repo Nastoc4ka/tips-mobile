@@ -2,15 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export const styleNewsItem = StyleSheet.create({
     wrapper: {
-        flex: 1,
-        width: '100%',
         flexDirection: 'row',
-        //paddingLeft: 10,
         backgroundColor: '#fff',
         height: 76,
     },
     innerWrapper: {
-        width: '100%',
         paddingVertical: 10,
         paddingRight: 10,
         flex: 1,

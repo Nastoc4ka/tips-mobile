@@ -3,16 +3,16 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { main } from '../styles'
 
-const UserPreview = ({ name, id, avatar, lastName, admin = false }) => {
+const UserPreview = ({ firstName, id, avatar, lastName, admin = false }) => {
     return (
         <View style={styles.wrapepr}>
-            <Avatar 
-                title={`${name[0]}${lastName[0]}`}
+            <Avatar
+                title={`${firstName[0]}${lastName[0] || ''}`}
                 rounded 
                 size="medium" 
                 source={avatar}
             />
-            <Text style={styles.name}>{name} {admin ? lastName : null}</Text>
+            <Text style={styles.name}>{firstName} {admin ? lastName : null}</Text>
             <Text style={styles.lastName}>{id}</Text>
         </View>
     )
