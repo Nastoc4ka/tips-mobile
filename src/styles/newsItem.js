@@ -2,6 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export const styleNewsItem = StyleSheet.create({
     wrapper: {
+<<<<<<< HEAD
+=======
+        width: '100%',
+>>>>>>> 678659e327cf0e40871a68c958898d76d5e90a27
         flexDirection: 'row',
         backgroundColor: '#fff',
         height: 76,

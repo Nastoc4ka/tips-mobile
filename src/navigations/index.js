@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import DrawerNavigator from "./DrawerNavigator";
 import Auth from '../screens/auth';
+import HomeNavigator from "./HomeNavigator";
 
 const AppNavContainer = () => {
     const [isLoggedIn, setIsLogin] = useState(false);
@@ -12,7 +12,7 @@ const AppNavContainer = () => {
 
     return (
         <NavigationContainer>
-                {isLoggedIn ? <DrawerNavigator /> : <Auth authorisation={authorisation}/>}
+                {isLoggedIn ? <HomeNavigator /> : <Auth authorisation={authorisation}/>}
         </NavigationContainer>
     );
 };
