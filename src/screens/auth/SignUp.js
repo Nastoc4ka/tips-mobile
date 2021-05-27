@@ -8,7 +8,7 @@ const SignUp = ({handleAuthorisation}) => {
     return (
         <>
             <Text style={main.headerTextRegistration}>Добро пожаловать!</Text>
-            <View style={{width: '100%', paddingBottom: 58}}>
+            <View style={{width: '100%', paddingBottom: 20}}>
                 <Input
                     type='name'
                     label='Имя'
