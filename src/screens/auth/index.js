@@ -3,10 +3,10 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { Logo } from '../../assets/icons';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import Background from '../../components/Background'
-import { main } from '../../styles'
+import Background from '../../components/Background';
+import { main } from '../../styles';
 
-const Auth = ({ authorisation }) => {
+const Auth = () => {
     const [isRegistration, setRegistration] = useState(false);
 
     const onRegistartionBtnPress = () => {
@@ -21,7 +21,11 @@ const Auth = ({ authorisation }) => {
           />
         </SafeAreaView>
         <View style={paper}>
-          {isRegistration ? <SignUp handleAuthorisation={authorisation}/> : <SignIn handleRegistrationClick={onRegistartionBtnPress} handleAuthorisation={authorisation}/> }
+          {isRegistration ?
+              <SignUp /> :
+              <SignIn
+                  handleRegistrationClick={onRegistartionBtnPress}
+              /> }
         </View>
       </Background>
     )

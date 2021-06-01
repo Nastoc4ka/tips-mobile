@@ -3,16 +3,16 @@ const db = require("../../db");
 
 checkDuplicateUsernameOrEmail = async (req, res, next) => {
 
-    const {rows: existUsers} = await db.query('SELECT phoneNumber, phoneNumber FROM users');
-
+    const {rows: existUsers} = await db.query('SELECT phone_number, phone_number FROM users');
+console.log(existUsers);
     const userToAuth = req.body;
 
     //check if the email exist or not
-    const username = existUsers.find(user => user.phoneNumber === userToAuth.phoneNumber);
+    const phoneNumber = existUsers.find(user => user.phone_number === userToAuth.phoneNumber);
     const email = existUsers.find(user => user.phoneNumber === userToAuth.phoneNumber);
 
-    if (username) {
-        res.status(400).send({msg: "Username is already in use!"});
+    if (phoneNumber) {
+        res.status(400).send({msg: "По этому номеру телефона уже зарегистрирован пользователь!"});
         return;
     }
 

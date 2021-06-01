@@ -2,21 +2,24 @@ import React, { useState } from 'react';
 import { TextInput, Text, View } from 'react-native';
 import { styleInput } from '../styles'
 
-const Input = ({ type='none', keyboardType='default', label, placeholder, secure = false, handleChange, maxLength = 255}) => {
+const Input = ({ type='none', keyboardType='default', label, placeholder, autoCapitalize = 'none', secureTextEntry, handleChange, maxLength = 255, children}) => {
 
     return (
         <View style={{width: '100%'}}>
             <Text style={styleInput.text}>{label}</Text>
-
-            <TextInput 
+            <View style={styleInput.input}>
+            <TextInput
+                onChangeText={handleChange}
+                autoCapitalize={autoCapitalize}
                 placeholder={placeholder} 
                 placeholderTextColor='rgba(36, 168, 172, 0.4)' 
                 textContentType={type} 
                 keyboardType={keyboardType} 
-                style={styleInput.input} 
-                secureTextEntry={secure}
+                secureTextEntry={secureTextEntry}
                 maxLength={maxLength}
             />
+                {children}
+            </View>
         </View>
     )
 };

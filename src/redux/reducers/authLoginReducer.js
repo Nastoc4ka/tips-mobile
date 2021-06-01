@@ -1,7 +1,24 @@
 import {LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS, LOGOUT,} from "../actions/types";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const user = AsyncStorage.getItem("user");
+let user = null;
+
+(async () => {
+    return await AsyncStorage.getItem('userToken')
+        .then((data) => {
+            data != null ? user.userToken = data : null
+        });
+})();
+
+console.log('user: ', user);
+
+// console.log(user());
+//
+// (async () => {
+//     await AsyncStorage.removeItem('user');
+// })();
+// console.log(user());
+
 
 const initialState = user
     ? {isLoggedIn: true, user}
