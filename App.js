@@ -1,11 +1,8 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import {
-  StatusBar,
-  View,
-} from 'react-native';
+import {StatusBar, View,} from 'react-native';
 import store from './src/redux/store';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import AppNavContainer from "./src/navigations";
 
 const App = () => {

@@ -24,6 +24,7 @@ const clearMessage = () => ({
 });
 
 const registerSaga = (registrationData) => {
+console.log(registrationData);
     return {
         type: REGISTER_SAGA,
         payload: registrationData
@@ -54,10 +55,10 @@ const registerInit = () => {
     }
 };
 
-const loginSaga = (loginnData) => {
+const loginSaga = (loginData) => {
     return {
         type: LOGIN_SAGA,
-        payload: loginnData
+        payload: loginData
     }
 };
 

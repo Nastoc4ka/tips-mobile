@@ -5,15 +5,26 @@ export const styleInput = StyleSheet.create({
         width: '100%',
     },
     input: {
+        position: 'relative',
         borderColor: '#24A8AC',
         borderWidth: 1,
         borderRadius: 5,
-
         width: '100%',
         fontSize: 16,
-        paddingTop: 11,
-        paddingBottom: 11,
+        ...Platform.select({
+            ios: {
+                paddingVertical: 11,
+                paddingRight: 46,
+            },
+            android: {
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingRight: 23,
+            }
+        }),
         paddingLeft: 23,
+        
         marginBottom: 8,
         color: 'rgb(36, 168, 172)'
     },

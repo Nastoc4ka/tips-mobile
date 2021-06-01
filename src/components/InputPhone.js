@@ -4,8 +4,8 @@ import { styleInput } from '../styles'
 
 const InputPhone = ({ type='none', keyboardType='default', label, placeholder, secure = false, maxLength = 255}) => {
     const [myselection, setSelection] = useState({
-            start: 6,
-            end: 6
+            start: 0,
+            end: 0
     })
 
     const [phone, setPhone] = useState('');
@@ -45,6 +45,10 @@ const InputPhone = ({ type='none', keyboardType='default', label, placeholder, s
         })
     }
 
+    const changeSelection = ({nativeEvent: { selection }}) => {
+        if (selection.start < 5) return
+    }
+
     return (
         <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>
@@ -61,6 +65,7 @@ const InputPhone = ({ type='none', keyboardType='default', label, placeholder, s
                 selection={myselection}
                 onFocus={onFocusPhoneInput}
                 onChangeText={onChangePhoneInput}
+                onSelectionChange={changeSelection}
             />
         </View>
     )

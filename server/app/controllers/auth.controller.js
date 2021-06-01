@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 exports.signup = async (req, res) => {
-
+console.log(req.body.registrationData);
     const userData = {
         firstName: req.body.firstName,
         city: req.body.city,
@@ -25,8 +25,8 @@ exports.signup = async (req, res) => {
 };
 
 function createUser(user) {
-    const query = `INSERT INTO users (firstName, phoneNumber, password, role, city, organisation) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
-    const values = [user.firstName, user.phoneNumber, user.password, user.role, user.city, user.organisation];
+    const query = `INSERT INTO users (first_name, role, city, organisation, password) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    const values = [user.firstName, user.role, user.city, user.organisation, user.password];
     return db.query(query, values);
 }
 
