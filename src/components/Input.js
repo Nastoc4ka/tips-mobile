@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextInput, Text, View } from 'react-native';
 import { styleInput } from '../styles'
 
 const Input = ({ type='none', keyboardType='default', label, placeholder, secure = false, handleChange, maxLength = 255}) => {
 
     return (
-        <View style={{width: '100%'}}>
+        <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>
 
             <TextInput 

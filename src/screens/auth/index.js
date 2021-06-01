@@ -20,6 +20,7 @@ const Auth = ({ authorisation }) => {
             width='37%'
           />
         </SafeAreaView>
+        
         <View style={paper}>
           {isRegistration ? <SignUp handleAuthorisation={authorisation}/> : <SignIn handleRegistrationClick={onRegistartionBtnPress} handleAuthorisation={authorisation}/> }
         </View>

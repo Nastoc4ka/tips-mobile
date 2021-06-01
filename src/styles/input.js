@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 export const styleInput = StyleSheet.create({
+    wrapper: {
+        width: '100%',
+    },
     input: {
         borderColor: '#24A8AC',
         borderWidth: 1,

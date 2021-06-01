@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, View, TextInput } from 'react-native';
-import {buttonFill, buttonLight, main, styleInput} from '../../styles';
+import { Text, View } from 'react-native';
+import { buttonFill, main } from '../../styles';
 import CustomButton from '../../components/CustomButton';
 import Input from '../../components/Input';
 import { StyleSheet } from 'react-native';
+import InputPhone from '../../components/InputPhone';
 
-const SignUp = ({handleAuthorisation}) => {
+const SignUp = ({ handleAuthorisation }) => {
     return (
         <>
             <Text style={main.headerTextRegistration}>Добро пожаловать!</Text>
@@ -15,7 +16,7 @@ const SignUp = ({handleAuthorisation}) => {
                     label='Имя'
                     maxLength={40}
                 />
-                <Input
+                <InputPhone
                     type='telephoneNumber'
                     keyboardType='numeric'
                     label='Телефон'

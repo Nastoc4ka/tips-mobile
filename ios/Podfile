@@ -12,6 +12,8 @@ target 'tips_mobile' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+
   target 'tips_mobileTests' do
     inherit! :complete
     # Pods for testing

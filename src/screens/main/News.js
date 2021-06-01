@@ -26,7 +26,6 @@ const News = ({id: userId}) => {
     };
 
     const reactToNews = (rowMap, rowKey, id) => {
-        console.log(id);
         return closeRow(rowMap, rowKey);
     };
 
