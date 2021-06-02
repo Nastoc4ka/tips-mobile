@@ -2,16 +2,16 @@ const {findUserById, getUserData, saveUserData} = require('../models');
 const db = require("../../db");
 
 
-exports.userProfiles = async (req, res) => {
-    console.log(req.query.id);
-    const queryProfiles = {
-        name: 'get-profiles',
-        text: 'SELECT * FROM profiles WHERE user_id = $1',
-        values: [req.query.id],
+exports.organisations = async (req, res) => {
+    const queryOrganisations = {
+        name: 'get-organisations',
+        text: 'SELECT * FROM organisations',
     };
 
-    const {rows: profiles} = await db.query(queryProfiles);
-    res.status(200).json(profiles);
+    const {rows: organisations} = await db.query(queryOrganisations);
+
+    console.log(organisations);
+    res.status(200).json(organisations);
 };
 
 exports.dashboard = async (req, res) => {

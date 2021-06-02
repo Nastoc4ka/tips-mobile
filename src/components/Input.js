@@ -1,26 +1,33 @@
 import React from 'react';
-import { TextInput, Text, View } from 'react-native';
-import { styleInput } from '../styles'
+import {Text, TextInput, View} from 'react-native';
+import {styleInput} from '../styles'
+import ErrorMessage from "./ErrorMessage";
 
-const Input = ({ type='none', keyboardType='default', label, placeholder, autoCapitalize = 'none', secureTextEntry, handleChange, maxLength = 255, children}) => {
+const Input = ({type = 'none', value, refs = null, keyboardType = 'default', maxWidth = '100%',
+                   onFocus, label, placeholder, autoCapitalize = 'none', secureTextEntry,
+                   handleChange, maxLength = 255, message, children}) => {
 
     return (
         <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>
             <View style={styleInput.input}>
-            <TextInput
-                onChangeText={handleChange}
-                autoCapitalize={autoCapitalize}
-                placeholder={placeholder} 
-                placeholderTextColor='rgba(36, 168, 172, 0.4)' 
-                textContentType={type} 
-                keyboardType={keyboardType} 
-                secureTextEntry={secureTextEntry}
-                maxLength={maxLength}
-                style={{maxWidth: '90%'}}
-            />
+                <TextInput
+                    ref={refs}
+                    value={value}
+                    onFocus={onFocus}
+                    onChangeText={handleChange}
+                    autoCapitalize={autoCapitalize}
+                    placeholder={placeholder}
+                    placeholderTextColor='rgba(36, 168, 172, 0.4)'
+                    textContentType={type}
+                    keyboardType={keyboardType}
+                    secureTextEntry={secureTextEntry}
+                    maxLength={maxLength}
+                    style={{maxWidth}}
+                />
                 {children}
             </View>
+            <ErrorMessage message={message}/>
         </View>
     )
 };

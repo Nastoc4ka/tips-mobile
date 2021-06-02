@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
 import { TextInput, Text, View } from 'react-native';
 import { styleInput } from '../styles'
+import ErrorMessage from "./ErrorMessage";
 
-const InputPhone = ({ type='none', keyboardType='default', label, placeholder, secure = false, maxLength = 255}) => {
-    const [myselection, setSelection] = useState({
+const InputPhone = ({ label, onBlur, message, handleChange }) => {
+
+    const [selection, setSelection] = useState({
             start: 0,
             end: 0
-    })
+    });
 
     const [phone, setPhone] = useState('');
-    const phoneArr = ['+', '3', '8', ' ', '(', '0']
+    const phoneArr = ['+', '3', '8', ' ', '(', '0'];
 
     const onFocusPhoneInput = () => {
-        if (phone.length < 6) setPhone('+38 (0');
-    }
+        if (phone.length < 6) {
+            setSelection({
+                start: 6,
+                end: 6
+            });
+            setPhone('+38 (0')}
+    };
 
     const onChangePhoneInput = (value) => {
+        handleChange(value);
         const valueArr = value.split('');
 
         for (let i = 0; i < 6; i++) {
@@ -43,30 +51,26 @@ const InputPhone = ({ type='none', keyboardType='default', label, placeholder, s
             start: ints.length,
             end: ints.length
         })
-    }
-
-    const changeSelection = ({nativeEvent: { selection }}) => {
-        if (selection.start < 5) return
-    }
+    };
 
     return (
         <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>
             
-            <TextInput 
-                placeholder={placeholder} 
-                placeholderTextColor='rgba(36, 168, 172, 0.4)' 
-                textContentType={type} 
-                keyboardType={keyboardType} 
+            <TextInput
+                onBlur={onBlur}
+                maxLength={19}
+                placeholder='+38 (0••) ••• •• ••'
+                placeholderTextColor='rgba(36, 168, 172, 0.4)'
+                textContentType='telephoneNumber'
+                keyboardType='numeric'
                 style={styleInput.input} 
-                secureTextEntry={secure}
-                maxLength={maxLength}
                 value={phone}
-                selection={myselection}
+                selection={selection}
                 onFocus={onFocusPhoneInput}
                 onChangeText={onChangePhoneInput}
-                onSelectionChange={changeSelection}
             />
+            <ErrorMessage message={message}/>
         </View>
     )
 };

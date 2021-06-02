@@ -24,7 +24,6 @@ export const styleInput = StyleSheet.create({
             }
         }),
         paddingLeft: 23,
-        
         marginBottom: 8,
         color: 'rgb(36, 168, 172)'
     },
@@ -35,4 +34,4 @@ export const styleInput = StyleSheet.create({
         paddingLeft: 5,
         color: 'rgba(69, 69, 69, 1)',
     }
-})
+});

@@ -5,6 +5,8 @@ import NewsItem from './NewsItem';
 import UserPreview from './UserPreview';
 import IconInInputView from './IconInInputView';
 import InputPhone from './InputPhone'
+import ErrorMessage from './ErrorMessage'
+import SearchDropDown from './SearchDropDown'
 
 export {
     Background,
@@ -14,4 +16,6 @@ export {
     UserPreview,
     IconInInputView,
     InputPhone,
+    ErrorMessage,
+    SearchDropDown
 }

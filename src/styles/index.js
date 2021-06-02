@@ -4,6 +4,7 @@ import { main } from './main';
 import { styleInput } from './input';
 import { styleMainScreens } from './mainScreens';
 import { styleNewsItem } from './newsItem';
+import { errors } from './errors';
 
 export {
     buttonFill,
@@ -14,5 +15,6 @@ export {
     main,
     styleInput,
     styleMainScreens,
-    styleNewsItem
+    styleNewsItem,
+    errors
 }

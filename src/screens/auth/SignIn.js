@@ -103,11 +103,10 @@ const SignIn = ({handleRegistrationClick}) => {
                     type='telephoneNumber' 
                     keyboardType='numeric' 
                     label='Телефон'
-                    placeholder='+38 (0••) ••• •• ••'
-                    maxLength={19}
                 />
 
                 <Input
+                    maxWidth='90%'
                     type='password'
                     secureTextEntry={data.secureTextEntry}
                     autoCapitalize="none"

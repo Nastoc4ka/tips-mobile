@@ -12,6 +12,11 @@ import {
     REGISTER_SAGA,
     REGISTER_SUCCESS,
     SET_MESSAGE,
+    GET_ORGANISATIONS_SAGA,
+    GET_ORGANISATIONS_FAIL,
+    GET_ORGANISATIONS_SUCCESS,
+    GET_ORGANISATIONS_LOADING,
+
 } from "./types"
 
 const setMessage = (message) => ({
@@ -24,10 +29,35 @@ const clearMessage = () => ({
 });
 
 const registerSaga = (registrationData) => {
-console.log(registrationData);
     return {
         type: REGISTER_SAGA,
         payload: registrationData
+    }
+};
+
+const getOrganisationsSaga = () => {
+    return {
+        type: GET_ORGANISATIONS_SAGA,
+    }
+};
+
+const getOrganisationsSuccess = (organisations) => {
+    return {
+        type: GET_ORGANISATIONS_SUCCESS,
+        payload: organisations
+
+    }
+};
+
+const getOrganisationsLoading = () => {
+    return {
+        type: GET_ORGANISATIONS_LOADING,
+    }
+};
+
+const getOrganisationsFail = () => {
+    return {
+        type: GET_ORGANISATIONS_FAIL,
     }
 };
 
@@ -109,4 +139,9 @@ export {
     registerFail,
     setMessage,
     clearMessage,
+
+    getOrganisationsFail,
+    getOrganisationsLoading,
+    getOrganisationsSuccess,
+    getOrganisationsSaga
 };
