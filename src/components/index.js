@@ -5,7 +5,9 @@ import NewsItem from './NewsItem';
 import UserPreview from './UserPreview';
 import IconInInputView from './IconInInputView';
 import InputPhone from './InputPhone';
-import Blur from './Blur'
+import Blur from './Blur';
+import ErrorMessage from './ErrorMessage';
+import SearchDropDown from './SearchDropDown';
 
 export {
     Background,
@@ -15,5 +17,7 @@ export {
     UserPreview,
     IconInInputView,
     InputPhone,
-    Blur
+    Blur,
+    ErrorMessage,
+    SearchDropDown,
 }

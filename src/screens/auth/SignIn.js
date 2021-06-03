@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { hideBlur, showBlur } from '../../redux/actions';
 import { Portal } from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
-const containsLetters = /^.*[a-z]{1,}[A-Z]{1,}[0-9]{1,}.*{8,}$/;
+// const containsLetters = /^.*[a-z]{1,}[A-Z]{1,}[0-9]{1,}.*{8,}$/;
 
 const SignIn = ({handleRegistrationClick}) => {
     const dispatch = useDispatch();
@@ -107,7 +107,7 @@ const SignIn = ({handleRegistrationClick}) => {
     };
 
     const handleChange = (text) => {
-        console.log(containsLetters.test(text))
+        // console.log(containsLetters.test(text))
     }
 
     return (
@@ -119,6 +119,7 @@ const SignIn = ({handleRegistrationClick}) => {
                 />
 
                 <Input
+                    maxWidth='90%'
                     type='password'
                     secureTextEntry={data.secureTextEntry}
                     autoCapitalize="none"

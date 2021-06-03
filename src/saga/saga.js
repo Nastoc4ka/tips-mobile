@@ -1,4 +1,3 @@
-import React from 'react'
 import {call, put, takeEvery} from 'redux-saga/effects';
 import {
     hideBlur,
@@ -12,21 +11,35 @@ import {
     setMessage,
     showBlur,
     showLoading,
+    getOrganisationsFail,
+    getOrganisationsSuccess,
 } from '../redux/actions';
-import {authService} from '../services';
+import {authService, organisationsService} from '../services';
+import {UnauthorizedError, OrganisationsError} from "../errors";
 
 import {
     LOGIN_SAGA,
     LOGOUT_SAGA,
-    REGISTER_SAGA
+    REGISTER_SAGA,
+    GET_ORGANISATIONS_SAGA
 } from "../redux/actions/types";
-import AuthModal from '../components/modals/AuthModal';
 
 export function* sagaWatcher() {
     yield takeEvery(LOGIN_SAGA, loginSaga);
+    yield takeEvery(GET_ORGANISATIONS_SAGA, fetchOrganisationsSaga);
     yield takeEvery(REGISTER_SAGA, registerSaga);
     yield takeEvery(LOGOUT_SAGA, logoutSaga);
 
+}
+
+function* fetchOrganisationsSaga() {
+    try {
+        yield put(getOrganisationsLoading());
+        const payload = yield call(() => organisationsService.getOrganisations());
+        yield put(getOrganisationsSuccess(payload));
+    } catch (error) {
+        yield put(getOrganisationsFail(error));
+    }
 }
 
 function* loginSaga(action) {

@@ -1,32 +1,43 @@
-import {REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS} from "../actions/types";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const user = AsyncStorage.getItem("user");
+import {
+    GET_ORGANISATIONS_FAIL,
+    GET_ORGANISATIONS_SUCCESS,
+    REGISTER_FAIL,
+    REGISTER_SUCCESS
+} from "../actions/types";
 
 const initialState = {
+    organisations: [],
+    errorOrganisations: null,
+
     registeredSuccessful: false,
-    loading: false,
+    error: null,
 };
 
 const authRegisterReducer = (state = initialState, action) => {
     switch (action.type) {
-        case REGISTER_LOADING:
+        case GET_ORGANISATIONS_SUCCESS:
             return {
                 ...state,
-                loading: true,
-                registeredSuccessful: false,
+                organisations: action.payload,
+                errorOrganisations: null,
+            };
+        case GET_ORGANISATIONS_FAIL:
+            return {
+                ...state,
+                organisations: [],
+                errorOrganisations: action.payload,
             };
         case REGISTER_FAIL:
             return {
                 ...state,
-                loading: false,
+                error: action.payload,
                 registeredSuccessful: false,
             };
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                loading: false,
                 registeredSuccessful: true,
+                error: null,
             };
         default:
             return state;

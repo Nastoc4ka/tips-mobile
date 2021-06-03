@@ -17,6 +17,7 @@ export const styleInput = StyleSheet.create({
                 paddingRight: 46,
             },
             android: {
+                paddingVertical: 5,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -24,7 +25,6 @@ export const styleInput = StyleSheet.create({
             }
         }),
         paddingLeft: 23,
-        
         marginBottom: 8,
         color: 'rgb(36, 168, 172)'
     },
@@ -35,4 +35,4 @@ export const styleInput = StyleSheet.create({
         paddingLeft: 5,
         color: 'rgba(69, 69, 69, 1)',
     }
-})
+});

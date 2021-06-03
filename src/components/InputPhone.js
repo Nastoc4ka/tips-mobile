@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { TextInput, Text, View } from 'react-native';
 import { styleInput } from '../styles'
+import ErrorMessage from "./ErrorMessage";
 
-const InputPhone = ({ type='none', label }) => {
+const InputPhone = ({ label, onBlur, message, handleChange }) => {
     const [selection, setSelection] = useState({
             start: 0,
             end: 0
-    })
+    });
 
     const [phone, setPhone] = useState('');
-    const phoneArr = ['+', '3', '8', ' ', '(', '0']
+    const phoneArr = ['+', '3', '8', ' ', '(', '0'];
 
     const onFocusPhoneInput = () => {
         if (phone.length < 6) {
@@ -22,6 +23,7 @@ const InputPhone = ({ type='none', label }) => {
     }
 
     const onChangePhoneInput = (value) => {
+        handleChange(value);
         const valueArr = value.split('');
 
         for (let i = 0; i < 6; i++) {
@@ -49,24 +51,26 @@ const InputPhone = ({ type='none', label }) => {
             start: ints.length,
             end: ints.length
         })
-    }
+    };
 
     return (
         <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>
             
-            <TextInput 
-                placeholder='+38 (0••) ••• •• ••' 
-                placeholderTextColor='rgba(36, 168, 172, 0.4)' 
-                type='telephoneNumber'  
-                keyboardType='numeric'
-                style={styleInput.input}
+            <TextInput
+                onBlur={onBlur}
                 maxLength={19}
+                placeholder='+38 (0••) ••• •• ••'
+                placeholderTextColor='rgba(36, 168, 172, 0.4)'
+                textContentType='telephoneNumber'
+                keyboardType='numeric'
+                style={styleInput.input} 
                 value={phone}
                 selection={selection}
                 onFocus={onFocusPhoneInput}
                 onChangeText={onChangePhoneInput}
             />
+            <ErrorMessage message={message}/>
         </View>
     )
 };

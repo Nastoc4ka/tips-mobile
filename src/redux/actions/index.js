@@ -6,7 +6,6 @@ import {
     LOGOUT,
     LOGOUT_SAGA,
     REGISTER_FAIL,
-    REGISTER_INIT,
     REGISTER_SAGA,
     REGISTER_SUCCESS,
     SET_MESSAGE,
@@ -14,6 +13,10 @@ import {
     HIDE_BLUR,
     SHOW_LOADING,
     HIDE_LOADING,
+    GET_ORGANISATIONS_SAGA,
+    GET_ORGANISATIONS_FAIL,
+    GET_ORGANISATIONS_SUCCESS,
+
 } from "./types"
 
 const setMessage = (message) => ({
@@ -31,6 +34,27 @@ const registerSaga = (registrationData) => {
         payload: registrationData
     }
 };
+
+const getOrganisationsSaga = () => {
+    return {
+        type: GET_ORGANISATIONS_SAGA,
+    }
+};
+
+const getOrganisationsSuccess = (organisations) => {
+    return {
+        type: GET_ORGANISATIONS_SUCCESS,
+        payload: organisations
+
+    }
+};
+
+const getOrganisationsFail = () => {
+    return {
+        type: GET_ORGANISATIONS_FAIL,
+    }
+};
+
 
 const registerSuccess = () => {
     return {
@@ -115,4 +139,7 @@ export {
     hideBlur,
     showLoading,
     hideLoading,
+    getOrganisationsFail,
+    getOrganisationsSuccess,
+    getOrganisationsSaga
 };
