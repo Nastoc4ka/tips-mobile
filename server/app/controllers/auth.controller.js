@@ -9,8 +9,8 @@ exports.signup = async (req, res) => {
 console.log(req.body.registrationData);
     const userData = {
         firstName: req.body.firstName,
-        city: req.body.city,
-        organisation: req.body.organisation,
+        lastName: req.body.lastName,
+        organisationId: req.body.organisationId,
         phoneNumber: req.body.phoneNumber,
         password: bcrypt.hashSync(req.body.password, 8),
         role: 'employee',
@@ -25,8 +25,8 @@ console.log(req.body.registrationData);
 };
 
 function createUser(user) {
-    const query = `INSERT INTO users (first_name, role, city, organisation, password) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-    const values = [user.firstName, user.role, user.city, user.organisation, user.password];
+    const query = `INSERT INTO users (first_name, last_name, role, organisation_id, password, phone_number) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+    const values = [user.firstName, user.lastName, user.role, user.organisationId, user.password, user.phoneNumber];
     return db.query(query, values);
 }
 

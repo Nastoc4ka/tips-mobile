@@ -11,7 +11,7 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const {organisations} = useSelector(state => state.authRegisterReducer);
     const organisationInputRef = useRef(null);
-
+const [onRegister, setOnRegister] = useState(false);
     const [filtered, setFiltered] = useState(organisations);
     const [searching, setSearching] = useState(false);
     const [focus, setFocus] = useState(false);
@@ -41,10 +41,14 @@ const SignUp = () => {
             organisation: text,
             organisationId: '',
         });
+        setErrors({
+            ...errors,
+            organisation: '',
+        });
         if (text.trim().length > 2) {
             setSearching(true);
             const tempList = organisations.filter(item => {
-                const itemToCheck = String(`${item.name} (${item.address})`).toLowerCase();
+                const itemToCheck = String(`${item.name} ${item.address}`).toLowerCase();
                 const newString = String(text.toLowerCase());
                 if (itemToCheck.startsWith(newString)) {
                     return item
@@ -69,33 +73,26 @@ const SignUp = () => {
         !val.trim() && setErrors({...errors, [key]: 'Имя и Фамилия должны быть заполнены'});
     };
 
-    const passwordInputChange = (password) => {
-        if (password.trim()) {
-            setData({
-                ...data,
-                password,
-            });
-        } else {
-            setData({
-                ...data,
-                password,
-            });
-        }
+    const passwordHandleChange = (password) => {
+        setData({
+            ...data,
+            password,
+        });
+        setErrors({
+            ...errors,
+            password: '',
+        });
     };
 
-    const confirmPasswordInputChange = (confirm_password) => {
-        if (confirm_password.trim()) {
-            setData({
-                ...data,
-                confirm_password,
-            });
-        } else {
-            setData({
-                ...data,
-                confirm_password,
-                check_textInputChange: false
-            });
-        }
+    const confirmPasswordHandleChange = (confirm_password) => {
+        setData({
+            ...data,
+            confirm_password,
+        });
+        setErrors({
+            ...errors,
+            confirm_password: '',
+        });
     };
 
     const updateSecureTextEntry = (key) => {
@@ -105,7 +102,7 @@ const SignUp = () => {
         });
     };
 
-    const validatePhoneNumber = ({nativeEvent: {text}}) => {
+    const validatePhoneNumber = (text) => {
         if (text.length < 19) {
             setErrors({
                 ...errors,
@@ -119,8 +116,12 @@ const SignUp = () => {
         }
     };
 
-    const validatePhoneNumberCorrect = (value) => {
-        if (value.length === 19) {
+    const validatePhoneNumberCorrect = (phoneNumber) => {
+        setData({
+            ...data,
+            phoneNumber,
+        });
+        if (phoneNumber.length === 19) {
             setErrors({
                 ...errors,
                 phoneNumber: '',
@@ -140,9 +141,33 @@ const SignUp = () => {
 
     };
 
+    useEffect(() => {
+        const currentErrors = Object.entries(errors).filter(([key, value]) => value.length > 0);
+        console.log('errors', currentErrors);
+        if(!currentErrors.length && onRegister) {
+            console.log('data', data);
+            const {firstName, lastName, organisationId, password, phoneNumber} = data;
+            dispatch(registerSaga({firstName, lastName, organisationId, password, phoneNumber}));
+        } else {
+            setOnRegister(false)
+        }
+
+    }, [errors, onRegister]);
+
     const handleAuthorization = () => {
-        const {firstName, lastName, organisationId, password, phoneNumber} = data;
-        dispatch(registerSaga({firstName, lastName, organisationId, password, phoneNumber}));
+        validatePhoneNumber(data.phoneNumber);
+        const checkFields = Object.entries(data).filter(([key, value]) => {
+            return key === 'organisationId' ? false : value.length === 0
+        });
+        if (checkFields.length) {
+             checkFields.map(([key, value]) => {
+                setErrors((errors) => ({...errors, [key]: 'поле должно быть заполнено'}))
+            })
+        }
+        if (data.password !== data.confirm_password) {
+            setErrors((errors) => ({...errors, confirm_password: 'Пароль-подтверждение не совпадают'}))
+        }
+        setOnRegister(true);
     };
 
     const cleanSearchOrganisation = () => {
@@ -182,7 +207,7 @@ const SignUp = () => {
                 <InputPhone
                     label='Телефон'
                     handleChange={validatePhoneNumberCorrect}
-                    onBlur={validatePhoneNumber}
+                    onBlur={({nativeEvent: {text}}) => validatePhoneNumber(text)}
                     message={errors.phoneNumber}
                 />
                 <View style={focus ? organisationInput.container : null}>
@@ -200,7 +225,7 @@ const SignUp = () => {
                     >
                         <TouchableOpacity onPress={() => onSearch('')}>
                             <IconInInputView>
-                                {focus ? <Text style={closeBtn.text}>x</Text> : null}
+                                {focus && data.organisation ? <Text style={closeBtn.text}>x</Text> : null}
                             </IconInInputView>
                         </TouchableOpacity>
                     </Input>
@@ -213,6 +238,7 @@ const SignUp = () => {
                 <Input
                     type='password'
                     maxWidth='90%'
+                    handleChange={passwordHandleChange}
                     secureTextEntry={data.secureTextEntry}
                     autoCapitalize="none"
                     label='Пароль'
@@ -235,7 +261,7 @@ const SignUp = () => {
                     placeholder='•••••••••'
                     message={errors.confirm_password}
                     value={data.confirm_password}
-                    handleChange={confirmPasswordInputChange}
+                    handleChange={confirmPasswordHandleChange}
                 >
                     <TouchableOpacity onPress={() => updateSecureTextEntry('confirm_secureTextEntry')}>
                         <IconInInputView>
