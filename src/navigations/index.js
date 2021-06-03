@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
 import { useSelector } from 'react-redux'
 import {NavigationContainer} from '@react-navigation/native';
 import Auth from '../screens/auth';
 import HomeNavigator from "./HomeNavigator";
 import { AuthContext } from '../context/AuthContext';
+import AuthModal from '../components/modals/AuthModal';
+import ModalWrapper from '../components/modals/ModalWrapper';
+import { Host } from 'react-native-portalize';
 
 const AppNavContainer = ({navigation}) => {
-    const isLoggedIn = useSelector((state) => state.authLoginReducer.isLoggedIn);
-    const loading = useSelector((state) => state.authLoginReducer.loading);
+    const { isLoggedIn }  = useSelector((state) => state.authLoginReducer);
 
     // useEffect(() => {
     //     setTimeout(() => setIsLoading(false), 1000)
@@ -19,7 +22,7 @@ const AppNavContainer = ({navigation}) => {
     //     userToken: null,
     // };
 
-    const authContext = React.useMemo(() => ({
+    const authContext = useMemo(() => ({
         signIn: async (foundUser) => {
             // setUserToken('fgkj');
             // setIsLoading(false);
@@ -53,13 +56,13 @@ const AppNavContainer = ({navigation}) => {
         }
     }), []);
 
-    if(loading) return <View><Text>loading...</Text></View>;
-
     return (
         <AuthContext.Provider value={authContext}>
-            <NavigationContainer>
-                {isLoggedIn ? <HomeNavigator/> : <Auth />}
-            </NavigationContainer>
+            <Host>
+                <NavigationContainer>
+                    {isLoggedIn ? <HomeNavigator/> : <Auth />}
+                </NavigationContainer>
+            </Host>
         </AuthContext.Provider>
     );
 };

@@ -17,7 +17,7 @@ const Input = ({ type='none', keyboardType='default', label, placeholder, autoCa
                 keyboardType={keyboardType} 
                 secureTextEntry={secureTextEntry}
                 maxLength={maxLength}
-                style={{maxWidth: '90%'}}
+                style={{width: '90%'}}
             />
                 {children}
             </View>

@@ -1,12 +1,11 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import {StatusBar, View,} from 'react-native';
-import store from './src/redux/store';
-import {Provider} from 'react-redux';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { Provider } from 'react-redux';
 import AppNavContainer from "./src/navigations";
+import store from './src/redux/store';
 
 const App = () => {
-
     return (
         <Provider store={store}>
             <View style={{flex: 1}}>
@@ -16,7 +15,7 @@ const App = () => {
                     barStyle='light-content'
                     showHideTransition='fade'
                 />
-                <AppNavContainer/>
+                <AppNavContainer />
             </View>
         </Provider>
     );

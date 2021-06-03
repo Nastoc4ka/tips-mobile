@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { TextInput, Text, View } from 'react-native';
 import { styleInput } from '../styles'
 
-const InputPhone = ({ type='none', keyboardType='default', label, placeholder, secure = false, maxLength = 255}) => {
-    const [myselection, setSelection] = useState({
+const InputPhone = ({ type='none', label }) => {
+    const [selection, setSelection] = useState({
             start: 0,
             end: 0
     })
@@ -12,7 +12,13 @@ const InputPhone = ({ type='none', keyboardType='default', label, placeholder, s
     const phoneArr = ['+', '3', '8', ' ', '(', '0']
 
     const onFocusPhoneInput = () => {
-        if (phone.length < 6) setPhone('+38 (0');
+        if (phone.length < 6) {
+            setPhone('+38 (0');
+            setSelection({
+                start: 6,
+                end: 6
+            })
+        }
     }
 
     const onChangePhoneInput = (value) => {
@@ -45,27 +51,21 @@ const InputPhone = ({ type='none', keyboardType='default', label, placeholder, s
         })
     }
 
-    const changeSelection = ({nativeEvent: { selection }}) => {
-        if (selection.start < 5) return
-    }
-
     return (
         <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>
             
             <TextInput 
-                placeholder={placeholder} 
+                placeholder='+38 (0••) ••• •• ••' 
                 placeholderTextColor='rgba(36, 168, 172, 0.4)' 
-                textContentType={type} 
-                keyboardType={keyboardType} 
-                style={styleInput.input} 
-                secureTextEntry={secure}
-                maxLength={maxLength}
+                type='telephoneNumber'  
+                keyboardType='numeric'
+                style={styleInput.input}
+                maxLength={19}
                 value={phone}
-                selection={myselection}
+                selection={selection}
                 onFocus={onFocusPhoneInput}
                 onChangeText={onChangePhoneInput}
-                onSelectionChange={changeSelection}
             />
         </View>
     )

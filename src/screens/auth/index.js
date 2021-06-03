@@ -8,7 +8,7 @@ import { main } from '../../styles';
 
 const Auth = () => {
     const [isRegistration, setRegistration] = useState(false);
-
+    
     const onRegistartionBtnPress = () => {
         setRegistration(true)
     };

@@ -10,8 +10,6 @@ let user = null;
         });
 })();
 
-console.log('user: ', user);
-
 // console.log(user());
 //
 // (async () => {
@@ -20,9 +18,12 @@ console.log('user: ', user);
 // console.log(user());
 
 
-const initialState = user
-    ? {isLoggedIn: true, user}
-    : {isLoggedIn: false, user: null};
+const initialState = {
+    user,
+    isLoggedIn: user ? true : false,
+    loading: false,
+    blur: false
+}
 
 const authLoginReducer = (state = initialState, action) => {
     const {type, payload} = action;

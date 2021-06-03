@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Text, View, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { buttonFill, buttonLight, main, styleInput } from '../../styles';
 import { CustomButton, Input, InputPhone, IconInInputView } from '../../components';
 import { VisibilityHide, VisibilityShow } from '../../assets/icons';
 import { registerSaga } from '../../redux/actions'
+import { hideBlur, showBlur } from '../../redux/actions';
+import { Portal } from 'react-native-portalize';
+import AuthModal from '../../components/modals/AuthModal';
 
 const SignUp = () => {
     const dispatch = useDispatch();
+    const [isModalVisible, setModalVisibility] = useState(false)
     const user = useSelector(state => state.authLoginReducer);
-    console.log(user);
-    const [data, setData] = React.useState({
+    const [data, setData] = useState({
         firstName: '',
+        lastName: '',
         password: '',
         city: '',
         organisation: '',
@@ -22,17 +26,36 @@ const SignUp = () => {
         confirm_secureTextEntry: true,
     });
 
-    const nameInputChange = (name) => {
-        console.log(name);
-        if(name.trim()) {
+    const handleCloseModal = () => {
+        dispatch(hideBlur())
+        setModalVisibility(!isModalVisible)
+    }
+
+    const firstNameInputChange = (firstName) => {
+        if(firstName.trim()) {
             setData({
                 ...data,
-                firstName: name,
+                firstName: firstName,
             });
         } else {
             setData({
                 ...data,
-                firstName: name,
+                firstName: firstName,
+                check_textInputChange: false
+            });
+        }
+    };
+
+    const lastNameInputChange = (lastName) => {
+        if(lastName.trim()) {
+            setData({
+                ...data,
+                lastName: lastName,
+            });
+        } else {
+            setData({
+                ...data,
+                lastName: lastName,
                 check_textInputChange: false
             });
         }
@@ -54,7 +77,6 @@ const SignUp = () => {
     };
 
     const passwordInputChange = (password) => {
-        console.log(password);
         if(password.trim()) {
             setData({
                 ...data,
@@ -69,24 +91,7 @@ const SignUp = () => {
         }
     };
 
-    const cityInputChange = (city) => {
-        console.log(city);
-        if(city.trim()) {
-            setData({
-                ...data,
-                city: city,
-            });
-        } else {
-            setData({
-                ...data,
-                city: city,
-                check_textInputChange: false
-            });
-        }
-    };
-
     const organisationInputChange = (organisation) => {
-        console.log(organisation);
         if(organisation.trim()) {
             setData({
                 ...data,
@@ -102,7 +107,6 @@ const SignUp = () => {
     };
 
     const confirmPasswordInputChange = (confirm_password) => {
-        console.log(confirm_password);
         if(confirm_password.trim()) {
             setData({
                 ...data,
@@ -131,7 +135,7 @@ const SignUp = () => {
         });
     };
 
-    const handleAuthorisation = () => {
+    const handleAuthorization = () => {
         const {firstName, organisation, password, city, phoneNumber} = data;
         dispatch(registerSaga({firstName, organisation, password, city, phoneNumber}));
     };
@@ -143,10 +147,17 @@ const SignUp = () => {
                 <Input
                     autoCapitalize='words'
                     type='name'
-                    name='name'
                     label='Имя'
                     maxLength={40}
-                    handleChange={nameInputChange}
+                    handleChange={firstNameInputChange}
+                />
+
+                <Input
+                    autoCapitalize='words'
+                    type='name'
+                    label='Фамилия'
+                    maxLength={40}
+                    handleChange={lastNameInputChange}
                 />
 
                 <InputPhone
@@ -157,13 +168,6 @@ const SignUp = () => {
                     handleChange={phoneInputChange}
                 />
 
-                <Input
-                    type='addressCity'
-                    label='Город'
-                    maxLength={40}
-                    handleChange={cityInputChange}
-
-                />
                 <Input
                     label='Заведение'
                     maxLength={60}
@@ -198,16 +202,21 @@ const SignUp = () => {
                     </TouchableOpacity>
                 </Input>
             </ScrollView>
-            <CustomButton title='Готово' styles={btn} onPress={handleAuthorisation}/>
+
+            <CustomButton title='Готово' styles={button} onPress={handleAuthorization}/>
+
+            <Portal>
+                <AuthModal handleCloseModal={handleCloseModal} isVisible={isModalVisible} message='Дякуємо за реєстрацію!'/>
+            </Portal>
         </>
     )
 };
 
-const btn = StyleSheet.create({
+const button = StyleSheet.create({
     button: {
         ...buttonFill.button,
-        marginTop: 'auto',
-        marginBottom: 'auto',
+        marginTop: 10,
+        marginBottom: 20
     },
     text: buttonFill.text
 });

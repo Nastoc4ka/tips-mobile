@@ -2,10 +2,17 @@ import React, { useState, useContext } from 'react';
 import { styleAuth, buttonFill, buttonLight } from '../../styles';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Input, IconInInputView, CustomButton, InputPhone } from '../../components';
-import {VisibilityHide, VisibilityShow} from '../../assets/icons';
+import { VisibilityHide, VisibilityShow } from '../../assets/icons';
 import { AuthContext } from '../../context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { hideBlur, showBlur } from '../../redux/actions';
+import { Portal } from 'react-native-portalize';
+import AuthModal from '../../components/modals/AuthModal';
+const containsLetters = /^.*[a-z]{1,}[A-Z]{1,}[0-9]{1,}.*{8,}$/;
 
 const SignIn = ({handleRegistrationClick}) => {
+    const dispatch = useDispatch();
+    const [isModalVisible, setModalVisibility] = useState(false)
     const [data, setData] = useState({
         phoneNumber: '',
         password: '',
@@ -15,6 +22,10 @@ const SignIn = ({handleRegistrationClick}) => {
         isValidPassword: true,
     });
 
+    const handleCloseModal = () => {
+        setModalVisibility(false)
+        setTimeout(() => dispatch(hideBlur()), 400) 
+    }
 
     const { signIn } = useContext(AuthContext);
 
@@ -53,7 +64,6 @@ const SignIn = ({handleRegistrationClick}) => {
     };
 
     const updateSecureTextEntry = () => {
-        console.log('press');
         setData((dataPrev) => ({
             ...dataPrev, secureTextEntry: !dataPrev.secureTextEntry
         }));
@@ -74,37 +84,38 @@ const SignIn = ({handleRegistrationClick}) => {
     };
 
     const loginHandle = (phoneNumber, password) => {
+        dispatch(showBlur());
+        setModalVisibility(true);
+        // const foundUser = Users.filter(item => {
+        //     return userName == item.username && password == item.password;
+        // });
 
-        const foundUser = Users.filter(item => {
-            return userName == item.username && password == item.password;
-        });
+        // if (data.username.length == 0 || data.password.length == 0) {
+        //     Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
+        //         {text: 'Okay'}
+        //     ]);
+        //     return;
+        // }
 
-        if (data.username.length == 0 || data.password.length == 0) {
-            Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
-                {text: 'Okay'}
-            ]);
-            return;
-        }
-
-        if (foundUser.length == 0) {
-            Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-                {text: 'Okay'}
-            ]);
-            return;
-        }
-        signIn(foundUser);
+        // if (foundUser.length == 0) {
+        //     Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+        //         {text: 'Okay'}
+        //     ]);
+        //     return;
+        // }
+        // signIn(foundUser);
     };
+
+    const handleChange = (text) => {
+        console.log(containsLetters.test(text))
+    }
 
     return (
         <>
             <Text style={styleAuth.headerSignIn}>Привет</Text>
             <View style={{width: '100%', paddingBottom: 58}}>
                 <InputPhone 
-                    type='telephoneNumber' 
-                    keyboardType='numeric' 
                     label='Телефон'
-                    placeholder='+38 (0••) ••• •• ••'
-                    maxLength={19}
                 />
 
                 <Input
@@ -114,6 +125,7 @@ const SignIn = ({handleRegistrationClick}) => {
                     label='Пароль'
                     placeholder='•••••••••'
                     maxLength={60}
+                    handleChange={handleChange}
                 >
                     <TouchableOpacity onPress={updateSecureTextEntry}>
                         <IconInInputView>
@@ -138,6 +150,10 @@ const SignIn = ({handleRegistrationClick}) => {
                 title='Регистрация'
                 styles={buttonLight}
             />
+
+            <Portal>
+                <AuthModal handleCloseModal={handleCloseModal} isVisible={isModalVisible} message='Ваш аккаунт ще не верифіковано!'/>
+            </Portal>
         </>
     )
 };
@@ -157,3 +173,4 @@ const styles = StyleSheet.create({
   });
 
 export default SignIn
+
