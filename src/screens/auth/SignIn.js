@@ -5,7 +5,7 @@ import { Input, IconInInputView, CustomButton, InputPhone } from '../../componen
 import { VisibilityHide, VisibilityShow } from '../../assets/icons';
 import { AuthContext } from '../../context/AuthContext';
 import { useDispatch } from 'react-redux';
-import { hideBlur, showBlur } from '../../redux/actions';
+import { hideBlur, showBlur, registrationScreenShow, loginScreenShow } from '../../redux/actions';
 import { Portal } from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
 // const containsLetters = /^.*[a-z]{1,}[A-Z]{1,}[0-9]{1,}.*{8,}$/;
@@ -26,8 +26,6 @@ const SignIn = ({handleRegistrationClick}) => {
         setModalVisibility(false);
         setTimeout(() => dispatch(hideBlur()), 400) 
     };
-
-    const { signIn } = useContext(AuthContext);
 
     const phoneInputChange = (val) => {
         if (val.trim().length >= 4) {
