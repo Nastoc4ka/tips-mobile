@@ -27,12 +27,6 @@ const authRegisterReducer = (state = initialState, action) => {
                 organisations: [],
                 errorOrganisations: action.payload,
             };
-        case REGISTER_FAIL:
-            return {
-                ...state,
-                error: action.payload,
-                registeredSuccessful: false,
-            };
         case REGISTER_SUCCESS:
             return {
                 ...state,

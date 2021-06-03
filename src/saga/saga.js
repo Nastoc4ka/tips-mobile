@@ -34,7 +34,6 @@ export function* sagaWatcher() {
 
 function* fetchOrganisationsSaga() {
     try {
-        yield put(getOrganisationsLoading());
         const payload = yield call(() => organisationsService.getOrganisations());
         yield put(getOrganisationsSuccess(payload));
     } catch (error) {
@@ -76,7 +75,7 @@ function* registerSaga(action) {
         yield put(registerSuccess(payload));
         yield put(hideLoading());
     } catch (error) {
-        yield put(registerFail());
+        //yield put(registerFail());
         yield put(hideLoading());
         yield put(hideBlur());
         yield put(setMessage(error.msg));

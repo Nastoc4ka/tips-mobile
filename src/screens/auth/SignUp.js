@@ -11,8 +11,9 @@ import AuthModal from '../../components/modals/AuthModal';
 const SignUp = () => {
 
     const dispatch = useDispatch();
-    const [isModalVisible, setModalVisibility] = useState(false)
+    const [isModalVisible, setModalVisibility] = useState(false);
     const {organisations} = useSelector(state => state.authRegisterReducer);
+    const {message} = useSelector(state => state.messageReducer);
     const organisationInputRef = useRef(null);
     const [onRegister, setOnRegister] = useState(false);
     const [filtered, setFiltered] = useState(organisations);
@@ -39,9 +40,21 @@ const SignUp = () => {
     });
 
     const handleCloseModal = () => {
-        dispatch(hideBlur())
+        dispatch(hideBlur());
         setModalVisibility(!isModalVisible)
-    }
+    };
+
+    const nameInputChange = (val, key) => {
+        setData({
+            ...data,
+            [key]: val,
+        });
+        setErrors({
+            ...errors,
+            [key]: '',
+        });
+        !val.trim() && setErrors({...errors, [key]: 'Имя и Фамилия должны быть заполнены'});
+    };
 
     const onSearch = (text) => {
         setData({
