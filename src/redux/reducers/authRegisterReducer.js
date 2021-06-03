@@ -10,7 +10,6 @@ const initialState = {
     errorOrganisations: null,
 
     registeredSuccessful: false,
-    error: null,
 };
 
 const authRegisterReducer = (state = initialState, action) => {

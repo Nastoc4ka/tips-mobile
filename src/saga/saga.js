@@ -71,8 +71,8 @@ function* registerSaga(action) {
     try {
         yield put(showBlur());
         yield put(showLoading());
-        const payload = yield call(() => authService.register(action.payload));
-        yield put(registerSuccess(payload));
+        yield call(() => authService.register(action.payload));
+        yield put(registerSuccess());
         yield put(hideLoading());
     } catch (error) {
         //yield put(registerFail());

@@ -12,7 +12,7 @@ import AuthModal from '../../components/modals/AuthModal';
 
 const SignIn = ({handleRegistrationClick}) => {
     const dispatch = useDispatch();
-    const [isModalVisible, setModalVisibility] = useState(false)
+    const [isModalVisible, setModalVisibility] = useState(false);
     const [data, setData] = useState({
         phoneNumber: '',
         password: '',
@@ -23,9 +23,9 @@ const SignIn = ({handleRegistrationClick}) => {
     });
 
     const handleCloseModal = () => {
-        setModalVisibility(false)
+        setModalVisibility(false);
         setTimeout(() => dispatch(hideBlur()), 400) 
-    }
+    };
 
     const { signIn } = useContext(AuthContext);
 
@@ -108,7 +108,7 @@ const SignIn = ({handleRegistrationClick}) => {
 
     const handleChange = (text) => {
         // console.log(containsLetters.test(text))
-    }
+    };
 
     return (
         <>
