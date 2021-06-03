@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 exports.signup = async (req, res) => {
-console.log(req.body.registrationData);
+
     const userData = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -15,10 +15,9 @@ console.log(req.body.registrationData);
         password: bcrypt.hashSync(req.body.password, 8),
         role: 'employee',
     };
-    console.log(userData);
-    const newPerson = await createUser(userData).catch((e) => {
 
-        console.log(e.stack);
+    const newPerson = await createUser(userData).catch((e) => {
+        res.status(500).send({error: true, msg: "user wasn't written in DB"})
     });
 
     res.status(201).send({success: true, msg: 'User data added successfully'})
