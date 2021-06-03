@@ -12,7 +12,7 @@ const SignUp = () => {
 
     const dispatch = useDispatch();
     const [isModalVisible, setModalVisibility] = useState(false);
-    const {organisations} = useSelector(state => state.authRegisterReducer);
+    const {organisations, registeredSuccessful} = useSelector(state => state.authRegisterReducer);
     const {message} = useSelector(state => state.messageReducer);
     const organisationInputRef = useRef(null);
     const [onRegister, setOnRegister] = useState(false);
@@ -187,6 +187,10 @@ const SignUp = () => {
     useEffect(() => {
         dispatch(getOrganisationsSaga());
     }, []);
+    
+    useEffect(() => {
+        if (registeredSuccessful) setModalVisibility(true)
+    }, [registeredSuccessful])
 
     return (
         <>
