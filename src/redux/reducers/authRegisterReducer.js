@@ -2,15 +2,14 @@ import {
     GET_ORGANISATIONS_FAIL,
     GET_ORGANISATIONS_SUCCESS,
     REGISTER_FAIL,
+    REGISTER_INIT,
     REGISTER_SUCCESS
 } from "../actions/types";
 
 const initialState = {
     organisations: [],
     errorOrganisations: null,
-
     registeredSuccessful: false,
-    error: null,
 };
 
 const authRegisterReducer = (state = initialState, action) => {
@@ -31,8 +30,10 @@ const authRegisterReducer = (state = initialState, action) => {
             return {
                 ...state,
                 registeredSuccessful: true,
-                error: null,
             };
+
+            case REGISTER_INIT:
+            return initialState;
         default:
             return state;
     }

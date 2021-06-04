@@ -1,15 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {buttonFill, main} from '../../styles';
-import {CustomButton, IconInInputView, Input, InputPhone, SearchDropDown} from '../../components';
-import { VisibilityHide, VisibilityShow } from '../../assets/icons';
-import { registerSaga, getOrganisationsSaga, hideBlur, showBlur } from '../../redux/actions'
-import { Portal } from 'react-native-portalize';
+import {CustomButton, ErrorMessage, IconInInputView, Input, InputPhone, SearchDropDown} from '../../components';
+import {VisibilityHide, VisibilityShow} from '../../assets/icons';
+import {getOrganisationsSaga, hideBlur, loginScreenShow, clearMessage, registerInit, registerSaga} from '../../redux/actions'
+import {Portal} from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
 
 const SignUp = () => {
-
     const dispatch = useDispatch();
     const [isModalVisible, setModalVisibility] = useState(false);
     const {organisations, registeredSuccessful} = useSelector(state => state.authRegisterReducer);
@@ -42,7 +41,10 @@ const SignUp = () => {
 
     const handleCloseModal = () => {
         dispatch(hideBlur());
-        setModalVisibility(!isModalVisible)
+        setModalVisibility(false);
+        dispatch(registerInit());
+        dispatch(clearMessage());
+        dispatch(loginScreenShow());
     };
 
     const nameInputChange = (val, key) => {
@@ -138,7 +140,7 @@ const SignUp = () => {
             });
         }
     };
-
+    console.log(message);
     const chooseOrganisation = (id, name) => {
         setData({
             ...data,
@@ -153,8 +155,8 @@ const SignUp = () => {
 
     useEffect(() => {
         const currentErrors = Object.entries(errors).filter(([key, value]) => value.length > 0);
-   
-        if(!currentErrors.length && onRegister) {
+
+        if (!currentErrors.length && onRegister) {
             const {firstName, lastName, organisationId, password, phoneNumber} = data;
             dispatch(registerSaga({firstName, lastName, organisationId, password, phoneNumber}));
         } else {
@@ -169,7 +171,7 @@ const SignUp = () => {
             return key === 'organisationId' ? false : value.length === 0
         });
         if (checkFields.length) {
-             checkFields.map(([key, value]) => {
+            checkFields.map(([key, value]) => {
                 setErrors((errors) => ({...errors, [key]: 'поле должно быть заполнено'}))
             })
         }
@@ -188,11 +190,17 @@ const SignUp = () => {
     useEffect(() => {
         dispatch(getOrganisationsSaga());
     }, []);
-    
+
     useEffect(() => {
         if (registeredSuccessful) setModalVisibility(true)
-    }, [registeredSuccessful])
+    }, [registeredSuccessful]);
 
+    if (message) {
+        return <View style={organisationInput.container}>
+            <ErrorMessage styles={errorMessageLarge} message={message}/>
+            <CustomButton title='Войти в аккаунт' styles={button} onPress={handleCloseModal}/>
+        </View>
+    }
     return (
         <>
             <Text style={main.headerTextRegistration}>Добро пожаловать!</Text>
@@ -266,7 +274,7 @@ const SignUp = () => {
                         </IconInInputView>
                     </TouchableOpacity>
                 </Input>
-                
+
                 <Input
                     maxWidth='90%'
                     type='password'
@@ -289,7 +297,10 @@ const SignUp = () => {
             <CustomButton title='Готово' styles={button} onPress={handleAuthorization}/>
 
             <Portal>
-                <AuthModal handleCloseModal={handleCloseModal} isVisible={isModalVisible} message='Дякуємо за реєстрацію!'/>
+                <AuthModal
+                    handleCloseModal={handleCloseModal}
+                    isVisible={isModalVisible}
+                    message='Дякуємо за реєстрацію!'/>
             </Portal>
         </>
     )
@@ -299,7 +310,15 @@ const button = StyleSheet.create({
     button: {
         ...buttonFill.button,
         marginTop: 10,
-        marginBottom: 20
+        marginBottom: 30,
+        ...Platform.select({
+            ios: {
+                marginBottom: 45,
+            },
+            android: {
+                marginBottom: 20,
+            }
+        }),
     },
     text: {
         ...buttonFill.text
@@ -327,6 +346,18 @@ const closeBtn = StyleSheet.create({
         fontWeight: '800',
         fontSize: 20,
         justifyContent: 'center'
+    }
+});
+
+const errorMessageLarge = StyleSheet.create({
+    wrapper: {
+        justifyContent:'flex-end',
+        alignItems:'center',
+
+    },
+    text: {
+        fontSize: 20,
+        marginBottom: 20
     }
 });
 

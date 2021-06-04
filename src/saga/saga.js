@@ -75,7 +75,6 @@ function* registerSaga(action) {
         yield put(registerSuccess());
         yield put(hideLoading());
     } catch (error) {
-        //yield put(registerFail());
         yield put(hideLoading());
         yield put(hideBlur());
         yield put(setMessage(error.msg));

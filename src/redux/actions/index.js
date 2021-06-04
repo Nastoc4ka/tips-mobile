@@ -8,6 +8,7 @@ import {
     REGISTER_FAIL,
     REGISTER_SAGA,
     REGISTER_SUCCESS,
+    REGISTER_INIT,
     SET_MESSAGE,
     SHOW_BLUR,
     HIDE_BLUR,
@@ -16,8 +17,21 @@ import {
     GET_ORGANISATIONS_SAGA,
     GET_ORGANISATIONS_FAIL,
     GET_ORGANISATIONS_SUCCESS,
-
+    LOGIN_SCREEN_SHOW,
+    REGISTRATION_SCREEN_SHOW,
 } from "./types"
+
+const loginScreenShow = () => {
+    return {
+        type: LOGIN_SCREEN_SHOW
+    }
+};
+
+const registrationScreenShow = () => {
+    return {
+        type: REGISTRATION_SCREEN_SHOW
+    }
+};
 
 const setMessage = (message) => ({
     type: SET_MESSAGE,
@@ -59,6 +73,12 @@ const getOrganisationsFail = () => {
 const registerSuccess = () => {
     return {
         type: REGISTER_SUCCESS
+    }
+};
+
+const registerInit = () => {
+    return {
+        type: REGISTER_INIT
     }
 };
 
@@ -104,25 +124,25 @@ const showBlur = () => {
     return {
         type: SHOW_BLUR,
     }
-}
+};
 
 const hideBlur = () => {
     return {
         type: HIDE_BLUR,
     }
-}
+};
 
 const showLoading = () => {
     return {
         type: SHOW_LOADING,
     }
-}
+};
 
 const hideLoading = () => {
     return {
         type: HIDE_LOADING,
     }
-}
+};
 
 export {
     loginSaga,
@@ -133,6 +153,7 @@ export {
     registerSaga,
     registerSuccess,
     registerFail,
+    registerInit,
     setMessage,
     clearMessage,
     showBlur,
@@ -141,5 +162,7 @@ export {
     hideLoading,
     getOrganisationsFail,
     getOrganisationsSuccess,
-    getOrganisationsSaga
+    getOrganisationsSaga,
+    registrationScreenShow,
+    loginScreenShow,
 };
