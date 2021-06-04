@@ -13,6 +13,7 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const [isModalVisible, setModalVisibility] = useState(false);
     const {organisations, registeredSuccessful} = useSelector(state => state.authRegisterReducer);
+    console.log(organisations)
     const {message} = useSelector(state => state.messageReducer);
     const organisationInputRef = useRef(null);
     const [onRegister, setOnRegister] = useState(false);
@@ -219,7 +220,7 @@ const SignUp = () => {
                 <InputPhone
                     label='Телефон'
                     handleChange={validatePhoneNumberCorrect}
-                    onBlur={({nativeEvent: {text}}) => validatePhoneNumber(text)}
+                    handleBlur={validatePhoneNumber}
                     message={errors.phoneNumber}
                 />
                 <View style={focus ? organisationInput.container : null}>

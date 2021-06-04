@@ -5,7 +5,10 @@ import authHeader from "./authHeader";
 const getOrganisations = () => {
     return client.get(`/organisations`)
         .then(({data}) => data)
-        .catch(catchError(OrganisationsError));
+        .catch((e) => {
+            console.log(e);
+            catchError(OrganisationsError)
+        });
 };
 
 export default {

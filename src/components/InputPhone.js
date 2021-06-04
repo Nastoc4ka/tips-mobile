@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { TextInput, Text, View } from 'react-native';
 import { styleInput } from '../styles'
 import ErrorMessage from "./ErrorMessage";
 
-const InputPhone = ({ label, onBlur, message, handleChange }) => {
+const InputPhone = ({ label, handleBlur, message, handleChange }) => {
     const [selection, setSelection] = useState({
             start: 0,
             end: 0
@@ -11,6 +11,10 @@ const InputPhone = ({ label, onBlur, message, handleChange }) => {
 
     const [phone, setPhone] = useState('');
     const phoneArr = ['+', '3', '8', ' ', '(', '0'];
+
+    const onBlur = () => {
+        handleBlur(phone)
+    }
 
     const onFocusPhoneInput = () => {
         if (phone.length < 6) {
