@@ -1,64 +1,71 @@
-import React, { useState, useContext } from 'react';
-import { styleAuth, buttonFill, buttonLight } from '../../styles';
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
-import { Input, IconInInputView, CustomButton, InputPhone } from '../../components';
-import { VisibilityHide, VisibilityShow } from '../../assets/icons';
-import { AuthContext } from '../../context/AuthContext';
-import { useDispatch } from 'react-redux';
-import { hideBlur, showBlur, registrationScreenShow, loginScreenShow } from '../../redux/actions';
-import { Portal } from 'react-native-portalize';
+import React, {useEffect, useState} from 'react';
+import {buttonFill, buttonLight, styleAuth} from '../../styles';
+import {useDispatch, useSelector} from 'react-redux';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {CustomButton, IconInInputView, Input} from '../../components';
+import {VisibilityHide, VisibilityShow} from '../../assets/icons';
+import {clearMessage, hideBlur, loginSaga} from '../../redux/actions';
+import {Portal} from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
-// const containsLetters = /^.*[a-z]{1,}[A-Z]{1,}[0-9]{1,}.*{8,}$/;
+import InputPhone from "../../components/InputPhone";
 
 const SignIn = ({handleRegistrationClick}) => {
     const dispatch = useDispatch();
-    const [isModalVisible, setModalVisibility] = useState(false);
+    const {message} = useSelector(state => state.systemReducer);
+    const [onLogin, setOnLogin] = useState(false);
+
     const [data, setData] = useState({
         phoneNumber: '',
         password: '',
-        check_textInputChange: false,
-        secureTextEntry: true,
-        isValidUser: true,
-        isValidPassword: true,
+    });
+    const [errors, setErrors] = useState({
+        phoneNumber: '',
+        password: '',
     });
 
     const handleCloseModal = () => {
-        setModalVisibility(false);
-        setTimeout(() => dispatch(hideBlur()), 400) 
+        dispatch(clearMessage());
+        setTimeout(() => dispatch(hideBlur()), 400)
     };
 
-    const phoneInputChange = (val) => {
-        if (val.trim().length >= 4) {
-            setData({
-                ...data,
-                username: val,
-                check_textInputChange: true,
-                isValidUser: true
+    const validatePhoneNumber = (text) => {
+        if (text.length < 19) {
+            setErrors({
+                ...errors,
+                phoneNumber: 'некорректный номер',
             });
         } else {
-            setData({
-                ...data,
-                username: val,
-                check_textInputChange: false,
-                isValidUser: false
+            setErrors({
+                ...errors,
+                phoneNumber: '',
+            });
+        }
+    };
+    console.log('errors', errors);
+    console.log('data', data);
+
+    const validatePhoneNumberCorrect = (phoneNumber) => {
+        setData({
+            ...data,
+            phoneNumber,
+        });
+        if (phoneNumber.length === 19) {
+            setErrors({
+                ...errors,
+                phoneNumber: '',
             });
         }
     };
 
-    const handlePasswordChange = (val) => {
-        if (val.trim().length >= 8) {
-            setData({
-                ...data,
-                password: val,
-                isValidPassword: true
-            });
-        } else {
-            setData({
-                ...data,
-                password: val,
-                isValidPassword: false
-            });
-        }
+    const passwordHandleChange = (password) => {
+        setData({
+            ...data,
+            password,
+        });
+        setErrors({
+            ...errors,
+            password: '',
+        });
     };
 
     const updateSecureTextEntry = () => {
@@ -67,55 +74,38 @@ const SignIn = ({handleRegistrationClick}) => {
         }));
     };
 
-    const handleValidUser = (val) => {
-        if (val.trim().length >= 4) {
-            setData({
-                ...data,
-                isValidUser: true
-            });
-        } else {
-            setData({
-                ...data,
-                isValidUser: false
-            });
+    const handleLogin = () => {
+        validatePhoneNumber(data.phoneNumber);
+        const checkFields = Object.entries(data).filter(([key, value]) => value.length === 0);
+        if (checkFields.length) {
+            checkFields.map(([key]) => {
+                setErrors((errors) => ({...errors, [key]: 'поле должно быть заполнено'}))
+            })
         }
+        setOnLogin(true);
+
     };
 
-    const loginHandle = (phoneNumber, password) => {
-        dispatch(showBlur());
-        setModalVisibility(true);
-        // const foundUser = Users.filter(item => {
-        //     return userName == item.username && password == item.password;
-        // });
+    useEffect(() => {
+        const currentErrors = Object.entries(errors).filter(([key, value]) => value.length > 0);
 
-        // if (data.username.length == 0 || data.password.length == 0) {
-        //     Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
-        //         {text: 'Okay'}
-        //     ]);
-        //     return;
-        // }
+        if (!currentErrors.length && onLogin) {
+            dispatch(loginSaga(data));
+        } else {
+            setOnLogin(false)
+        }
 
-        // if (foundUser.length == 0) {
-        //     Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-        //         {text: 'Okay'}
-        //     ]);
-        //     return;
-        // }
-        // signIn(foundUser);
-    };
+    }, [errors, onLogin]);
 
-    const handleChange = (text) => {
-        // console.log(containsLetters.test(text))
-    };
-
-    return (
-        <>
+    return (<>
             <Text style={styleAuth.headerSignIn}>Привет</Text>
             <View style={{width: '100%', paddingBottom: 58}}>
-                <InputPhone 
+                <InputPhone
                     label='Телефон'
+                    handleChange={validatePhoneNumberCorrect}
+                    onBlur={({nativeEvent: {text}}) => validatePhoneNumber(text)}
+                    message={errors.phoneNumber}
                 />
-
                 <Input
                     maxWidth='90%'
                     type='password'
@@ -124,7 +114,8 @@ const SignIn = ({handleRegistrationClick}) => {
                     label='Пароль'
                     placeholder='•••••••••'
                     maxLength={60}
-                    handleChange={handleChange}
+                    handleChange={passwordHandleChange}
+                    message={errors.password}
                 >
                     <TouchableOpacity onPress={updateSecureTextEntry}>
                         <IconInInputView>
@@ -135,9 +126,7 @@ const SignIn = ({handleRegistrationClick}) => {
             </View>
 
             <CustomButton
-                onPress={() => {
-                    loginHandle(data.username, data.password)
-                }}
+                onPress={handleLogin}
                 title='Войти'
                 styles={buttonFill}
             />
@@ -150,26 +139,27 @@ const SignIn = ({handleRegistrationClick}) => {
                 styles={buttonLight}
             />
 
-            <Portal>
-                <AuthModal handleCloseModal={handleCloseModal} isVisible={isModalVisible} message='Ваш аккаунт ще не верифіковано!'/>
-            </Portal>
+            {message ? <Portal>
+                <AuthModal
+                    handleCloseModal={handleCloseModal}
+                    message={message}/>
+            </Portal> : null}
         </>
     )
 };
 
 const styles = StyleSheet.create({
     container: {
-      justifyContent: "center",
-      alignItems: "center"
+        justifyContent: "center",
+        alignItems: "center"
     },
     absolute: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0
     }
-  });
+});
 
 export default SignIn
-

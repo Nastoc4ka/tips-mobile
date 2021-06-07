@@ -1,7 +1,6 @@
 import {
     GET_ORGANISATIONS_FAIL,
     GET_ORGANISATIONS_SUCCESS,
-    REGISTER_FAIL,
     REGISTER_INIT,
     REGISTER_SUCCESS
 } from "../actions/types";

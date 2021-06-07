@@ -4,9 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 let user = null;
 
 (async () => {
-    return await AsyncStorage.getItem('userToken')
+    return await AsyncStorage.getItem('user')
         .then((data) => {
-            data != null ? user.userToken = data : null
+            data != null ? user = JSON.parse(data) : null
         });
 })();
 
@@ -29,28 +29,20 @@ const authLoginReducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {
-        case LOGIN_LOADING:
-            return {
-                ...state,
-                loading: true,
-            };
         case LOGIN_SUCCESS:
             return {
                 isLoggedIn: true,
                 user: payload,
-                loading: false
             };
         case LOGIN_FAIL:
             return {
                 isLoggedIn: false,
                 user: null,
-                loading: false
             };
         case LOGOUT:
             return {
                 isLoggedIn: false,
                 user: null,
-                loading: false
             };
         default:
             return state;

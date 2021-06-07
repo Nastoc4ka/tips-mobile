@@ -1,13 +1,14 @@
-import { 
-    SHOW_BLUR, 
-    HIDE_BLUR, 
-    SHOW_LOADING, 
-    HIDE_LOADING 
+import {
+    SHOW_BLUR,
+    HIDE_BLUR,
+    SHOW_LOADING,
+    HIDE_LOADING, CLEAR_MESSAGE, SET_MESSAGE
 } from "../actions/types";
 
 const initialState = {
     blur: false,
-    loading: false
+    loading: false,
+    message: '',
 };
 
 const systemReducer = (state = initialState, action) => {
@@ -31,6 +32,18 @@ const systemReducer = (state = initialState, action) => {
             return { 
                 ...state,
                 loading: false
+            };
+        case SET_MESSAGE:
+            return {
+                ...state,
+                message: action.payload,
+                blur: true
+            };
+        case CLEAR_MESSAGE:
+            return {
+                ...state,
+                message: '',
+                blur: false
             };
         default:
             return state;

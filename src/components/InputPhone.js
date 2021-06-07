@@ -20,7 +20,7 @@ const InputPhone = ({ label, onBlur, message, handleChange }) => {
                 end: 6
             })
         }
-    }
+    };
 
     const onChangePhoneInput = (value) => {
         handleChange(value);
@@ -52,7 +52,7 @@ const InputPhone = ({ label, onBlur, message, handleChange }) => {
             end: ints.length
         })
     };
-
+console.log(message);
     return (
         <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>

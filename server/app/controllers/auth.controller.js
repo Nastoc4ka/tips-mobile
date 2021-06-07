@@ -17,10 +17,17 @@ exports.signup = async (req, res) => {
     };
 
     const newPerson = await createUser(userData).catch((e) => {
-        res.status(500).send({error: true, msg: "user wasn't written in DB"})
+        const msg = {
+            title: "Произошла ощибка",
+            text: "Пользователь не заренистрирован, обратитесь к автору"
+        };
+        res.status(500).send({error: true, msg})
     });
-
-    res.status(201).send({success: true, msg: 'User data added successfully'})
+    const msg = {
+        title: "Регистрация прошла успешно!",
+        text: "Ожидайте смс-подтверждение от администратора."
+    };
+    res.status(201).send({success: true, msg})
 };
 
 function createUser(user) {
@@ -39,29 +46,36 @@ exports.signin = async (req, res) => {
         values: [userToAuth.phoneNumber],
     };
 
-    const {rows} = await db.query(queryUser);
-    const user = rows[0];
-
-    //check if the email exist or not
-    if (!user) {
-        return res.status(404).send({error: true, msg: 'User not found'})
-    }
+    const {rows: [user]} = await db.query(queryUser);
 
     const passwordIsValid = bcrypt.compareSync(
         userToAuth.password,
         user.password
     );
 
-    if (!passwordIsValid) {
-        return res.status(401).send({
-            error: true,
-            token: null,
-            msg: "Invalid Password!"
-        });
+    if (!user || !passwordIsValid) {
+        return res.status(404).send({error: true, msg: 'номер телефона или пароль указаны неверно'})
+    }
+
+    if (!user.varified) {
+        const msg = {
+            title: "Регистрация еще не подтверждена.",
+            text: "Ожидайте смс от администратора."
+        };
+        return res.status(404).send({error: true, msg})
     }
 
     const accessToken = jwt.sign({id: user.id}, config.secret, {
         expiresIn: 60 * 60 * 24 * 30 // 30 day
     });
-    res.send({success: true, role: user.role, id: user.id, name: user.firstName, accessToken});
+
+    userDataAsyncStorage = {
+        success: true,
+        role: user.role,
+        id: user.id,
+        name: `${user.firstName} ${user.lastName}`,
+        accessToken,
+    };
+
+    res.send(userDataAsyncStorage);
 };

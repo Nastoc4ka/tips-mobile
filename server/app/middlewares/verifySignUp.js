@@ -9,9 +9,12 @@ console.log(existUsers);
 
     //check if the phone number exist or not
     const phoneNumber = existUsers.find(user => user.phone_number === userToAuth.phoneNumber);
-
+    const msg = {
+        title: "По этому номеру телефона уже зарегистрирован пользователь!",
+        text: ""
+    };
     if (phoneNumber) {
-        res.status(400).send({msg: "По этому номеру телефона уже зарегистрирован пользователь!"});
+        res.status(400).send({msg});
         return;
     }
 

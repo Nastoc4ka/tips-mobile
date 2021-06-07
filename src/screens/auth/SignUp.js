@@ -2,17 +2,23 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {buttonFill, main} from '../../styles';
-import {CustomButton, ErrorMessage, IconInInputView, Input, InputPhone, SearchDropDown} from '../../components';
+import {CustomButton, IconInInputView, Input, InputPhone, SearchDropDown} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
-import {getOrganisationsSaga, hideBlur, loginScreenShow, clearMessage, registerInit, registerSaga} from '../../redux/actions'
+import {
+    clearMessage,
+    getOrganisationsSaga,
+    hideBlur,
+    loginScreenShow,
+    registerInit,
+    registerSaga
+} from '../../redux/actions'
 import {Portal} from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
 
 const SignUp = () => {
     const dispatch = useDispatch();
-    const [isModalVisible, setModalVisibility] = useState(false);
-    const {organisations, registeredSuccessful} = useSelector(state => state.authRegisterReducer);
-    const {message} = useSelector(state => state.messageReducer);
+    const {organisations} = useSelector(state => state.authRegisterReducer);
+    const {message} = useSelector(state => state.systemReducer);
     const organisationInputRef = useRef(null);
     const [onRegister, setOnRegister] = useState(false);
     const [filtered, setFiltered] = useState(organisations);
@@ -40,7 +46,6 @@ const SignUp = () => {
 
     const handleCloseModal = () => {
         dispatch(hideBlur());
-        setModalVisibility(false);
         dispatch(registerInit());
         dispatch(clearMessage());
         dispatch(loginScreenShow());
@@ -190,16 +195,6 @@ const SignUp = () => {
         dispatch(getOrganisationsSaga());
     }, []);
 
-    useEffect(() => {
-        if (registeredSuccessful) setModalVisibility(true)
-    }, [registeredSuccessful]);
-
-    if (message) {
-        return <View style={organisationInput.container}>
-            <ErrorMessage styles={errorMessageLarge} message={message}/>
-            <CustomButton title='Войти в аккаунт' styles={button} onPress={handleCloseModal}/>
-        </View>
-    }
     return (
         <>
             <Text style={main.headerTextRegistration}>Добро пожаловать!</Text>
@@ -295,12 +290,11 @@ const SignUp = () => {
 
             <CustomButton title='Готово' styles={button} onPress={handleAuthorization}/>
 
-            <Portal>
+            {message ? <Portal>
                 <AuthModal
                     handleCloseModal={handleCloseModal}
-                    isVisible={isModalVisible}
-                    message='Дякуємо за реєстрацію!'/>
-            </Portal>
+                    message={message} />
+            </Portal> : null}
         </>
     )
 };
@@ -345,18 +339,6 @@ const closeBtn = StyleSheet.create({
         fontWeight: '800',
         fontSize: 20,
         justifyContent: 'center'
-    }
-});
-
-const errorMessageLarge = StyleSheet.create({
-    wrapper: {
-        justifyContent:'flex-end',
-        alignItems:'center',
-
-    },
-    text: {
-        fontSize: 20,
-        marginBottom: 20
     }
 });
 

@@ -3,12 +3,13 @@ import { Text, View, StyleSheet } from 'react-native';
 import { TouchableHighlight } from 'react-native';
 import ModalWrapper from './ModalWrapper';
 
-const AuthModal = ({ message, handleCloseModal, isVisible }) => {
+const AuthModal = ({ message, handleCloseModal }) => {
+    console.log(message);
   return (
-    <ModalWrapper onBackdropPress={handleCloseModal} isVisible={isVisible}>
+    <ModalWrapper onBackdropPress={handleCloseModal}>
       <View style={styles.messageWrapper}>            
-        <Text style={styles.messageTitle}>{message}</Text>
-        <Text style={styles.message}>Очікуйте SMS-підтвердження від вашого адміністратора.</Text>
+        <Text style={styles.messageTitle}>{message.title}</Text>
+        <Text style={styles.message}>{message.text}</Text>
       </View>  
 
       <TouchableHighlight 
@@ -20,7 +21,7 @@ const AuthModal = ({ message, handleCloseModal, isVisible }) => {
       </TouchableHighlight>
     </ModalWrapper>
   )
-}
+};
 
 const styles = StyleSheet.create({
     content: {

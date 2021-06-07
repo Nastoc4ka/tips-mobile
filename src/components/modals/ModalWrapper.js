@@ -2,10 +2,10 @@ import React, { useRef, useState } from 'react';
 import Modal from 'react-native-modal';
 import { View, StyleSheet } from 'react-native';
 
-const ModalWrapper = ({ children, onBackdropPress, isVisible  }) => {
+const ModalWrapper = ({ children, onBackdropPress }) => {
     return (
         <Modal 
-            isVisible={isVisible}
+            isVisible
             backdropOpacity={0}
             onBackdropPress={onBackdropPress}
         >
@@ -14,7 +14,7 @@ const ModalWrapper = ({ children, onBackdropPress, isVisible  }) => {
             </View>
         </Modal>
     )
-}
+};
 
 const styles = StyleSheet.create({
     content: {
