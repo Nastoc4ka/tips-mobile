@@ -5,8 +5,11 @@ import ErrorMessage from "./ErrorMessage";
 
 const Input = ({type = 'none', value, refs = null, keyboardType = 'default', maxWidth = '100%',
                    onFocus, label, placeholder, autoCapitalize = 'none', secureTextEntry,
-                   handleChange, maxLength = 255, message, children}) => {
-
+                   handleChange, maxLength = 255, message, children, handleBlur = null}) => {
+    
+    const onBlur = (e) => {
+        console.log(e)
+    }
     return (
         <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>
@@ -24,6 +27,7 @@ const Input = ({type = 'none', value, refs = null, keyboardType = 'default', max
                     secureTextEntry={secureTextEntry}
                     maxLength={maxLength}
                     style={{maxWidth, paddingVertical: 0}}
+                    onBlur={onBlur}
                 />
                 {children}
             </View>

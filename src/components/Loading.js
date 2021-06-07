@@ -1,4 +1,6 @@
 import React from 'react';
+import {StyleSheet, ActivityIndicator} from 'react-native';
+import { useSelector } from 'react-redux';
 
 const Loading = () => {
     const loading = useSelector((state) => state.systemReducer.loading);

@@ -23,9 +23,10 @@ const Auth = () => {
         </SafeAreaView>
         
         <View style={paper}>
-          {loginOrRegistrationShow ?
-              <SignIn handleRegistrationClick={onRegistrationBtnPress}/> :
-              <SignUp />}
+          { loginOrRegistrationShow 
+            ? <SignIn handleRegistrationClick={onRegistrationBtnPress}/> 
+            : <SignUp />
+          }
         </View>
       </Background>
     )

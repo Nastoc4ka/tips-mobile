@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Platform, Keyboard } from 'react-native';
 import { View, KeyboardAvoidingView } from 'react-native';
 import { main } from '../styles';
-import { Blur } from '../components';
+import { Blur, Loading } from '../components';
 
 const Background = ({ children }) => {
 
@@ -12,6 +12,7 @@ const Background = ({ children }) => {
             {children}
             <View style={main.bottom}></View>
             <Blur />
+            <Loading />
         </View>
     )
 }

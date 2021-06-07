@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">tips_mobile</string>
+    <string name="google_app_id">your google app id</string>
 </resources>

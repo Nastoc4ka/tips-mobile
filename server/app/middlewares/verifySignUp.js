@@ -4,7 +4,6 @@ const db = require("../../db");
 checkDuplicatePhoneNumber = async (req, res, next) => {
 
     const {rows: existUsers} = await db.query('SELECT phone_number, phone_number FROM users');
-console.log(existUsers);
     const userToAuth = req.body;
 
     //check if the phone number exist or not

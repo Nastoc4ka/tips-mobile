@@ -8,11 +8,12 @@ import {getOrganisationsSaga, hideBlur, loginScreenShow, clearMessage, registerI
 import {Portal} from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
 
+const reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
+
 const SignUp = () => {
     const dispatch = useDispatch();
     const [isModalVisible, setModalVisibility] = useState(false);
     const {organisations, registeredSuccessful} = useSelector(state => state.authRegisterReducer);
-    console.log(organisations)
     const {message} = useSelector(state => state.messageReducer);
     const organisationInputRef = useRef(null);
     const [onRegister, setOnRegister] = useState(false);
@@ -90,10 +91,7 @@ const SignUp = () => {
             ...data,
             password,
         });
-        setErrors({
-            ...errors,
-            password: '',
-        });
+        validatePassword(password)
     };
 
     const confirmPasswordHandleChange = (confirm_password) => {
@@ -140,7 +138,21 @@ const SignUp = () => {
             });
         }
     };
-    console.log(message);
+
+    const validatePassword = (password) => {
+        if (!reg.test(password)) {
+            setErrors({
+                ...errors,
+                password: 'Пароль должен содержать хотя бы одну заглавную и строчную латинскую букву, одну цифру и быть не меньше 8 символов.',
+            })
+        } else {
+            setErrors({
+                ...errors,
+                password: '',
+            })
+        }
+    }
+    
     const chooseOrganisation = (id, name) => {
         setData({
             ...data,
@@ -153,12 +165,20 @@ const SignUp = () => {
 
     };
 
+    // const sendSms = (phone) => {
+    //     fetch(`https://api.turbosms.ua/message/send.json?recipients[0]=${phone}&sms[sender]=BRAND&sms[text]=Ваш+аккаунт+верифицирован!&token=94a8b281bc3740a5316d66824c830126ff2c585a`)
+    //     .then(res => res.json())
+    //     .then(res => console.log("res", res))
+    // }
+
     useEffect(() => {
         const currentErrors = Object.entries(errors).filter(([key, value]) => value.length > 0);
+        let phone = data.phoneNumber.split("").filter(el => !isNaN(el) && el != " ").join("")
 
         if (!currentErrors.length && onRegister) {
             const {firstName, lastName, organisationId, password, phoneNumber} = data;
             dispatch(registerSaga({firstName, lastName, organisationId, password, phoneNumber}));
+            // sendSms(phone)
         } else {
             setOnRegister(false)
         }
@@ -185,8 +205,8 @@ const SignUp = () => {
         onSearch('');
         setFocus(false);
         organisationInputRef.current.blur();
-
     };
+
     useEffect(() => {
         dispatch(getOrganisationsSaga());
     }, []);
@@ -201,6 +221,7 @@ const SignUp = () => {
             <CustomButton title='Войти в аккаунт' styles={button} onPress={handleCloseModal}/>
         </View>
     }
+
     return (
         <>
             <Text style={main.headerTextRegistration}>Добро пожаловать!</Text>
@@ -232,9 +253,13 @@ const SignUp = () => {
                     message={errors.phoneNumber}
                 />
                 <View style={focus ? organisationInput.container : null}>
-                    {focus ? <TouchableOpacity style={closeBtn.btn} onPress={cleanSearchOrganisation}>
-                        <Text style={closeBtn.text}>x</Text>
-                    </TouchableOpacity> : null}
+                    {focus 
+                        ? <TouchableOpacity style={closeBtn.btn} onPress={cleanSearchOrganisation}>
+                            <Text style={closeBtn.text}>x</Text>
+                        </TouchableOpacity> 
+                        : null
+                    }
+                    
                     <Input
                         label='Заведение'
                         onFocus={() => setFocus(true)}
@@ -250,11 +275,14 @@ const SignUp = () => {
                             </IconInInputView>
                         </TouchableOpacity>
                     </Input>
-                    {searching ?
-                        <SearchDropDown
+
+                    {searching 
+                        ? <SearchDropDown
                             onPress={(id, name) => chooseOrganisation(id, name)}
-                            dataSource={filtered}/> :
-                        null}
+                            dataSource={filtered}
+                        /> 
+                        : null
+                    }
                 </View>
 
                 <Input
@@ -267,6 +295,7 @@ const SignUp = () => {
                     value={data.password}
                     message={errors.password}
                     placeholder='•••••••••'
+                    handleBlur={validatePassword}
                 >
                     <TouchableOpacity onPress={() => updateSecureTextEntry('secureTextEntry')}>
                         <IconInInputView>
@@ -329,7 +358,7 @@ const organisationInput = StyleSheet.create({
     container: {
         position: 'absolute',
         width: '100%',
-        height: 500,
+        height: '100%',
         backgroundColor: '#fff',
         zIndex: 1,
         top: 0

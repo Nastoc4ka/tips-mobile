@@ -10,9 +10,6 @@ exports.organisations = async (req, res) => {
 
     const {rows: organisations} = await db.query(queryOrganisations);
 
-    console.log(organisations);
-    console.log('organisations');
-
     res.status(200).json(organisations);
 };
 
