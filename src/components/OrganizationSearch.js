@@ -12,7 +12,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
     const [organization, setOrganization] = useState({
         name: '',
         id: ''
-    })
+    });
 
     const closeSearchOrganization = () => {
         if (!organization.id) {
@@ -56,9 +56,6 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
         setFocus(false);
         organizationInputRef.current.blur();
     }
-
-    console.log('organization', organization)
-
     return (
         <View style={focus ? styles.container : null}>
                     {focus 

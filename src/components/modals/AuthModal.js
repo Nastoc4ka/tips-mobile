@@ -4,7 +4,6 @@ import { TouchableHighlight } from 'react-native';
 import ModalWrapper from './ModalWrapper';
 
 const AuthModal = ({ message, handleCloseModal }) => {
-    console.log(message);
   return (
     <ModalWrapper onBackdropPress={handleCloseModal}>
       <View style={styles.messageWrapper}>            

@@ -14,7 +14,7 @@ const InputPhone = ({ label, handleBlur, message, handleChange }) => {
 
     const onBlur = () => {
         handleBlur(phone)
-    }
+    };
 
     const onFocusPhoneInput = () => {
         if (phone.length < 6) {
@@ -56,7 +56,6 @@ const InputPhone = ({ label, handleBlur, message, handleChange }) => {
             end: ints.length
         })
     };
-console.log(message);
     return (
         <View style={styleInput.wrapper}>
             <Text style={styleInput.text}>{label}</Text>

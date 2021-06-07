@@ -6,7 +6,6 @@ const login = (loginData) => {
     return client.post("/auth/signin", loginData)
         .then(async (response) => {
             const jsonValue = JSON.stringify(response.data);
-            console.log(response.data);
             await AsyncStorage.setItem('user', jsonValue);
             return response.data;
         })

@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {buttonFill, main} from '../../styles';
 import {CustomButton, IconInInputView, Input, InputPhone, OrganizationSearch} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
@@ -32,7 +32,6 @@ const SignUp = () => {
         secureTextEntry: true,
         confirm_secureTextEntry: true,
     });
-
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
@@ -144,7 +143,7 @@ const SignUp = () => {
 
     useEffect(() => {
         const currentErrors = Object.entries(errors).filter(([key, value]) => value.length > 0);
-        let phone = data.phoneNumber.split("").filter(el => !isNaN(el) && el != " ").join("")
+        //let phone = data.phoneNumber.split("").filter(el => !isNaN(el) && el != " ").join("")
 
         if (!currentErrors.length && onRegister) {
             const {firstName, lastName, organizationId, password, phoneNumber} = data;
@@ -175,8 +174,6 @@ const SignUp = () => {
     useEffect(() => {
         dispatch(getOrganisationsSaga());
     }, []);
-
-    console.log('org id', data.organizationId)
 
     return (
         <>

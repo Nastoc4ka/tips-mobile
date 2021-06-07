@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const baseURL = 'http://10.100.3.147:8080/api';
-
+const baseURL = 'http://localhost:8080/api';
+//localhost
+//10.100.3.147
 const client = axios.create({
     baseURL
 });

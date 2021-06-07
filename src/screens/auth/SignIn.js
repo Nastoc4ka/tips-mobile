@@ -89,9 +89,9 @@ const SignIn = ({handleRegistrationClick}) => {
 
         if (!currentErrors.length && onLogin) {
             dispatch(loginSaga(data));
-        } else {
-            setOnLogin(false)
         }
+
+        setOnLogin(false)
 
     }, [errors, onLogin]);
 
@@ -101,7 +101,7 @@ const SignIn = ({handleRegistrationClick}) => {
                 <InputPhone
                     label='Телефон'
                     handleChange={validatePhoneNumberCorrect}
-                    onBlur={({nativeEvent: {text}}) => validatePhoneNumber(text)}
+                    handleBlur={validatePhoneNumber}
                     message={errors.phoneNumber}
                 />
                 <Input

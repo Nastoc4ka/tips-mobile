@@ -20,10 +20,7 @@ let user = null;
 
 const initialState = {
     user,
-    isLoggedIn: user ? true : false,
-    loading: false,
-    blur: false
-}
+};
 
 const authLoginReducer = (state = initialState, action) => {
     const {type, payload} = action;
@@ -31,17 +28,14 @@ const authLoginReducer = (state = initialState, action) => {
     switch (type) {
         case LOGIN_SUCCESS:
             return {
-                isLoggedIn: true,
                 user: payload,
             };
         case LOGIN_FAIL:
             return {
-                isLoggedIn: false,
                 user: null,
             };
         case LOGOUT:
             return {
-                isLoggedIn: false,
                 user: null,
             };
         default:

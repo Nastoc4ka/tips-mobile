@@ -37,12 +37,11 @@ function createUser(user) {
 }
 
 exports.signin = async (req, res) => {
-
     const userToAuth = req.body;
 
     const queryUser = {
         name: 'fetch-user',
-        text: 'SELECT * FROM users WHERE phoneNumber = $1',
+        text: 'SELECT * FROM users WHERE phone_number = $1',
         values: [userToAuth.phoneNumber],
     };
 
@@ -54,10 +53,14 @@ exports.signin = async (req, res) => {
     );
 
     if (!user || !passwordIsValid) {
-        return res.status(404).send({error: true, msg: 'номер телефона или пароль указаны неверно'})
+        const msg = {
+            title: "номер телефона или пароль указаны неверно.",
+            text: ""
+        };
+        return res.status(404).send({error: true, msg})
     }
 
-    if (!user.varified) {
+    if (!user.verified) {
         const msg = {
             title: "Регистрация еще не подтверждена.",
             text: "Ожидайте смс от администратора."
@@ -73,7 +76,7 @@ exports.signin = async (req, res) => {
         success: true,
         role: user.role,
         id: user.id,
-        name: `${user.firstName} ${user.lastName}`,
+        name: `${user.first_name} ${user.last_name}`,
         accessToken,
     };
 
