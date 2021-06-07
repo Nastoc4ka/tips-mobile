@@ -46,23 +46,20 @@ function* loginSaga(action) {
         yield put(showBlur());
         yield put(showLoading());
         const payload = yield call(() => authService.login(action.payload));
-        yield put(hideLoading())
-        yield put(hideBlur())
+        yield put(hideLoading());
+        yield put(hideBlur());
         yield put(loginSuccess(payload))
     } catch (error) {
-        yield put(hideLoading())
-        yield put(loginFail());
+        yield put(hideLoading());
         yield put(setMessage(error.msg));
     }
 }
 
 function* logoutSaga() {
     try {
-        yield put(loginLoading());
         yield call(() => authService.logout());
         yield put(logout())
     } catch (error) {
-        //yield put(logoutFail());
         yield put(setMessage(error.msg));
     }
 }
@@ -71,9 +68,11 @@ function* registerSaga(action) {
     try {
         yield put(showBlur());
         yield put(showLoading());
-        yield call(() => authService.register(action.payload));
+        const isRegistered = yield call(() => authService.register(action.payload));
         yield put(registerSuccess());
         yield put(hideLoading());
+        console.log('isRegistered', isRegistered);
+        yield put(setMessage(isRegistered.msg));
     } catch (error) {
         yield put(hideLoading());
         yield put(hideBlur());

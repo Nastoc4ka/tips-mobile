@@ -2,9 +2,16 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {buttonFill, main} from '../../styles';
-import {CustomButton, ErrorMessage, IconInInputView, Input, InputPhone, SearchDropDown} from '../../components';
+import {CustomButton, IconInInputView, Input, InputPhone, OrganizationSearch} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
-import {getOrganisationsSaga, hideBlur, loginScreenShow, clearMessage, registerInit, registerSaga} from '../../redux/actions'
+import {
+    clearMessage,
+    getOrganisationsSaga,
+    hideBlur,
+    loginScreenShow,
+    registerInit,
+    registerSaga
+} from '../../redux/actions'
 import {Portal} from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
 
@@ -12,37 +19,31 @@ const reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
 
 const SignUp = () => {
     const dispatch = useDispatch();
-    const [isModalVisible, setModalVisibility] = useState(false);
-    const {organisations, registeredSuccessful} = useSelector(state => state.authRegisterReducer);
-    const {message} = useSelector(state => state.messageReducer);
-    const organisationInputRef = useRef(null);
+    const {message} = useSelector(state => state.systemReducer);
     const [onRegister, setOnRegister] = useState(false);
-    const [filtered, setFiltered] = useState(organisations);
-    const [searching, setSearching] = useState(false);
-    const [focus, setFocus] = useState(false);
     const [data, setData] = useState({
         firstName: '',
         lastName: '',
         password: '',
-        organisation: '',
-        organisationId: '',
+        organization: '',
+        organizationId: '',
         phoneNumber: '',
         confirm_password: '',
         secureTextEntry: true,
         confirm_secureTextEntry: true,
     });
+
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
         password: '',
-        organisation: '',
+        organization: '',
         phoneNumber: '',
         confirm_password: '',
     });
 
     const handleCloseModal = () => {
         dispatch(hideBlur());
-        setModalVisibility(false);
         dispatch(registerInit());
         dispatch(clearMessage());
         dispatch(loginScreenShow());
@@ -58,32 +59,6 @@ const SignUp = () => {
             [key]: '',
         });
         !val.trim() && setErrors({...errors, [key]: 'Имя и Фамилия должны быть заполнены'});
-    };
-
-    const onSearch = (text) => {
-        setData({
-            ...data,
-            organisation: text,
-            organisationId: '',
-        });
-        setErrors({
-            ...errors,
-            organisation: '',
-        });
-        if (text.trim().length > 2) {
-            setSearching(true);
-            const tempList = organisations.filter(item => {
-                const itemToCheck = String(`${item.name} ${item.address}`).toLowerCase();
-                const newString = String(text.toLowerCase());
-                if (itemToCheck.startsWith(newString)) {
-                    return item
-                }
-            });
-            setFiltered(tempList)
-        } else {
-            setSearching(false);
-            setFiltered(organisations)
-        }
     };
 
     const passwordHandleChange = (password) => {
@@ -153,19 +128,15 @@ const SignUp = () => {
         }
     }
     
-    const chooseOrganisation = (id, name) => {
+    const setOrganizationInData = (id, name) => {
         setData({
             ...data,
-            organisation: name,
-            organisationId: id,
+            organization: name,
+            organizationId: id,
         });
-        setSearching(false);
-        setFocus(false);
-        organisationInputRef.current.blur();
-
     };
 
-    // const sendSms = (phone) => {
+    // const sendSMS = (phone) => {
     //     fetch(`https://api.turbosms.ua/message/send.json?recipients[0]=${phone}&sms[sender]=BRAND&sms[text]=Ваш+аккаунт+верифицирован!&token=94a8b281bc3740a5316d66824c830126ff2c585a`)
     //     .then(res => res.json())
     //     .then(res => console.log("res", res))
@@ -176,9 +147,9 @@ const SignUp = () => {
         let phone = data.phoneNumber.split("").filter(el => !isNaN(el) && el != " ").join("")
 
         if (!currentErrors.length && onRegister) {
-            const {firstName, lastName, organisationId, password, phoneNumber} = data;
-            dispatch(registerSaga({firstName, lastName, organisationId, password, phoneNumber}));
-            // sendSms(phone)
+            const {firstName, lastName, organizationId, password, phoneNumber} = data;
+            dispatch(registerSaga({firstName, lastName, organizationId, password, phoneNumber}));
+            // sendSMS(phone)
         } else {
             setOnRegister(false)
         }
@@ -188,7 +159,7 @@ const SignUp = () => {
     const handleAuthorization = () => {
         validatePhoneNumber(data.phoneNumber);
         const checkFields = Object.entries(data).filter(([key, value]) => {
-            return key === 'organisationId' ? false : value.length === 0
+            return key === 'organizationId' ? false : value.length === 0
         });
         if (checkFields.length) {
             checkFields.map(([key, value]) => {
@@ -201,26 +172,11 @@ const SignUp = () => {
         setOnRegister(true);
     };
 
-    const cleanSearchOrganisation = () => {
-        onSearch('');
-        setFocus(false);
-        organisationInputRef.current.blur();
-    };
-
     useEffect(() => {
         dispatch(getOrganisationsSaga());
     }, []);
 
-    useEffect(() => {
-        if (registeredSuccessful) setModalVisibility(true)
-    }, [registeredSuccessful]);
-
-    if (message) {
-        return <View style={organisationInput.container}>
-            <ErrorMessage styles={errorMessageLarge} message={message}/>
-            <CustomButton title='Войти в аккаунт' styles={button} onPress={handleCloseModal}/>
-        </View>
-    }
+    console.log('org id', data.organizationId)
 
     return (
         <>
@@ -252,38 +208,11 @@ const SignUp = () => {
                     handleBlur={validatePhoneNumber}
                     message={errors.phoneNumber}
                 />
-                <View style={focus ? organisationInput.container : null}>
-                    {focus 
-                        ? <TouchableOpacity style={closeBtn.btn} onPress={cleanSearchOrganisation}>
-                            <Text style={closeBtn.text}>x</Text>
-                        </TouchableOpacity> 
-                        : null
-                    }
-                    
-                    <Input
-                        label='Заведение'
-                        onFocus={() => setFocus(true)}
-                        refs={organisationInputRef}
-                        value={data.organisation}
-                        maxLength={60}
-                        message={errors.organisation}
-                        handleChange={onSearch}
-                    >
-                        <TouchableOpacity onPress={() => onSearch('')}>
-                            <IconInInputView>
-                                {focus && data.organisation ? <Text style={closeBtn.text}>x</Text> : null}
-                            </IconInInputView>
-                        </TouchableOpacity>
-                    </Input>
-
-                    {searching 
-                        ? <SearchDropDown
-                            onPress={(id, name) => chooseOrganisation(id, name)}
-                            dataSource={filtered}
-                        /> 
-                        : null
-                    }
-                </View>
+                
+                <OrganizationSearch
+                    error={errors.organization} 
+                    setOrganizationInData={setOrganizationInData}
+                />
 
                 <Input
                     type='password'
@@ -325,12 +254,11 @@ const SignUp = () => {
 
             <CustomButton title='Готово' styles={button} onPress={handleAuthorization}/>
 
-            <Portal>
+            {message ? <Portal>
                 <AuthModal
                     handleCloseModal={handleCloseModal}
-                    isVisible={isModalVisible}
-                    message='Дякуємо за реєстрацію!'/>
-            </Portal>
+                    message={message} />
+            </Portal> : null}
         </>
     )
 };
@@ -351,42 +279,6 @@ const button = StyleSheet.create({
     },
     text: {
         ...buttonFill.text
-    }
-});
-
-const organisationInput = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#fff',
-        zIndex: 1,
-        top: 0
-    },
-});
-
-const closeBtn = StyleSheet.create({
-    btn: {
-        marginLeft: 5,
-        marginBottom: 5,
-    },
-    text: {
-        color: 'grey',
-        fontWeight: '800',
-        fontSize: 20,
-        justifyContent: 'center'
-    }
-});
-
-const errorMessageLarge = StyleSheet.create({
-    wrapper: {
-        justifyContent:'flex-end',
-        alignItems:'center',
-
-    },
-    text: {
-        fontSize: 20,
-        marginBottom: 20
     }
 });
 

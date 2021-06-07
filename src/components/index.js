@@ -8,7 +8,8 @@ import InputPhone from './InputPhone';
 import Blur from './Blur';
 import ErrorMessage from './ErrorMessage';
 import SearchDropDown from './SearchDropDown';
-import Loading from './Loading'
+import Loading from './Loading';
+import OrganizationSearch from './OrganizationSearch';
 
 export {
     Background,
@@ -21,5 +22,6 @@ export {
     Blur,
     ErrorMessage,
     SearchDropDown,
-    Loading
+    Loading,
+    OrganizationSearch
 }

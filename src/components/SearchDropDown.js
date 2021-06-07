@@ -12,7 +12,7 @@ export default SearchDropDown = ({dataSource, onPress}) => {
                             <TouchableOpacity
                                 key={item.id}
                                 onPress={() => onPress(item.id, organisationAndAddress)}
-                                style={styles.itemView}>
+                            >
                                 <Text style={styles.organisationText}>{item.name}</Text>
                                 <Text style={styles.addressText}>{item.address}</Text>
                             </TouchableOpacity>
@@ -33,9 +33,6 @@ const styles = StyleSheet.create({
     container: {
         marginLeft: 10,
         flex: 1,
-    },
-    itemView: {
-        //marginTop: 12,
     },
     organisationText: {
         marginTop: 10,
