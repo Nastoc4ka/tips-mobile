@@ -5,7 +5,7 @@ import ErrorMessage from "./ErrorMessage";
 
 const Input = ({type = 'none', value, refs = null, keyboardType = 'default', maxWidth = '100%',
                    onFocus, label, placeholder, autoCapitalize = 'none', secureTextEntry,
-                   handleChange, maxLength = 255, message, children, handleBlur = null}) => {
+                   handleChange, maxLength = 255, message, children}) => {
     
     return (
         <View style={styleInput.wrapper}>

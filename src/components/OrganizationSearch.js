@@ -1,9 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+    getOrganisationsSaga
+} from '../redux/actions';
 import {Input, SearchDropDown, IconInInputView} from './index'
 
 const OrganizationSearch = ({error, setOrganizationInData}) => {
+    const dispatch = useDispatch();
     const {organisations} = useSelector(state => state.authRegisterReducer);
     const organizationInputRef = useRef(null);
     const [searching, setSearching] = useState(false);
@@ -16,7 +20,10 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
 
     const closeSearchOrganization = () => {
         if (!organization.id) {
-            setOrganization('');
+            setOrganization({
+                name: '',
+                id: ''
+            });
             setOrganizationInData('', '')
         }
         setFocus(false);
@@ -30,6 +37,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
             name: text,
             id: ''
         });
+
         if (text.trim().length > 2) {
             setSearching(true);
             const tempList = organisations.filter(item => {
@@ -42,7 +50,8 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
             setFiltered(tempList);
         } else {
             setSearching(false);
-            setFiltered(organisations);
+            console.log(organisations, "org");
+            // setFiltered(organisations);
         }
     }
 
@@ -56,42 +65,47 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
         setFocus(false);
         organizationInputRef.current.blur();
     }
+
+    useEffect(() => {
+        dispatch(getOrganisationsSaga());
+    }, []);
+
     return (
         <View style={focus ? styles.container : null}>
-                    {focus 
-                        ? <TouchableOpacity style={styles.btn} onPress={closeSearchOrganization}>
-                            <Text style={styles.text}>x</Text>
-                        </TouchableOpacity> 
-                        : null
-                    }
-                    
-                    <Input
-                        label='Заведение'
-                        onFocus={() => setFocus(true)}
-                        refs={organizationInputRef}
-                        value={organization.name}
-                        maxLength={60}
-                        message={error}
-                        handleChange={handleSearch}
-                    >
-                        <TouchableOpacity onPress={() => setOrganization({
-                            name: '',
-                            id: ''
-                        })}>
-                            <IconInInputView>
-                                {focus && organisations ? <Text style={styles.text}>x</Text> : null}
-                            </IconInInputView>
-                        </TouchableOpacity>
-                    </Input>
+            {focus 
+                ? <TouchableOpacity style={styles.btn} onPress={closeSearchOrganization}>
+                    <Text style={styles.text}>x</Text>
+                </TouchableOpacity> 
+                : null
+            }
+            
+            <Input
+                label='Заведение'
+                onFocus={() => setFocus(true)}
+                refs={organizationInputRef}
+                value={organization.name}
+                maxLength={60}
+                message={error}
+                handleChange={handleSearch}
+            >
+                <TouchableOpacity onPress={() => setOrganization({
+                    name: '',
+                    id: ''
+                })}>
+                    <IconInInputView>
+                        {focus && organisations ? <Text style={styles.text}>x</Text> : null}
+                    </IconInInputView>
+                </TouchableOpacity>
+            </Input>
 
-                    {searching 
-                        ? <SearchDropDown
-                            onPress={(id, nameAndAddress) => handleChoosingOrganization(id, nameAndAddress)}
-                            dataSource={filtered}
-                        /> 
-                        : null
-                    }
-                </View>
+            {searching 
+                ? <SearchDropDown
+                    onPress={(id, nameAndAddress) => handleChoosingOrganization(id, nameAndAddress)}
+                    dataSource={filtered}
+                /> 
+                : null
+            }
+        </View>
 
     )
 }

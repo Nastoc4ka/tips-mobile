@@ -19,6 +19,7 @@ import {
     GET_ORGANISATIONS_SUCCESS,
     LOGIN_SCREEN_SHOW,
     REGISTRATION_SCREEN_SHOW,
+    SET_AUTHENTICATION,
 } from "./types"
 
 const loginScreenShow = () => {
@@ -144,6 +145,12 @@ const hideLoading = () => {
     }
 };
 
+const setAuthentication = () => {
+    return {
+        type: SET_AUTHENTICATION,
+    }
+}
+
 export {
     loginSaga,
     loginSuccess,
@@ -165,4 +172,5 @@ export {
     getOrganisationsSaga,
     registrationScreenShow,
     loginScreenShow,
+    setAuthentication,
 };
