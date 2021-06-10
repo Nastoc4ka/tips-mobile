@@ -58,6 +58,5 @@ buck-out/
 *.jsbundle
 
 # CocoaPods
-Pods
-/tips_mobile/ios/Pods/
-
+Pods/
+/ios/Pods/
