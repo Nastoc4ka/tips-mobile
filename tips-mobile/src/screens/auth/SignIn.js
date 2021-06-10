@@ -81,7 +81,6 @@ const SignIn = ({handleRegistrationClick}) => {
             })
         }
         setOnLogin(true);
-
     };
 
     useEffect(() => {
@@ -92,7 +91,6 @@ const SignIn = ({handleRegistrationClick}) => {
         }
 
         setOnLogin(false)
-
     }, [errors, onLogin]);
 
     return (<>
