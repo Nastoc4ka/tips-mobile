@@ -5,6 +5,7 @@ import Icn_tips from './icn_tips.svg';
 import Icn_home from './icn_home.svg';
 import Logo from './logo.svg';
 import Back from './back.svg';
+import BackArrowBlack from './backArrowBlack.svg';
 import Icn_filters from './icn_filters.svg';
 import Flag_huge from './flag_huge.svg';
 import Flag_petite from './flag_petite.svg';
@@ -36,4 +37,5 @@ export {
     Arrow_right,
     VisibilityHide,
     VisibilityShow,
+    BackArrowBlack,
 }
