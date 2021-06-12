@@ -12,7 +12,7 @@ const AppNavContainer = () => {
 
     return (
         <Host>
-            { authenticated
+            { true
                 ?
                 <NavigationContainer>
                     {user?.success ? <HomeNavigator/> : <Auth/>}

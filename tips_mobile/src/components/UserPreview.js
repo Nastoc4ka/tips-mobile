@@ -16,7 +16,7 @@ const UserPreview = ({ firstName, id, avatar, lastName, admin = false }) => {
             <Text style={styles.lastName}>{id}</Text>
         </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     wrapepr: {
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
     },
     name: {...main.title, textAlign: 'center'},
     lastName: {...main.subtitle, textAlign: 'center'}
-})
+});
 
 export default UserPreview;
