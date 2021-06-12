@@ -44,5 +44,4 @@ target 'tips_mobile' do
       end
     end
   end
-
 end

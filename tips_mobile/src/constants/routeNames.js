@@ -5,3 +5,7 @@ export const QR_CODE = 'QR код';
 export const SETTINGS = 'Настройки';
 export const REGISTER = 'Регистрация';
 export const LOGIN = 'Войти';
+export const PERSONAL_DATA = 'Персональные данные';
+export const  SECURITY = 'Безопасность';
+export const  NOTIFICATIONS = 'Уведомления';
+export const  SETTINGS_NAVIGATOR = 'Настройки';
