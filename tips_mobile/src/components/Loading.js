@@ -8,7 +8,7 @@ const Loading = () => {
     return loading
         ? <ActivityIndicator size='large' color='#00A03E' style={styles.loading} />
         : null
-}
+};
 
 const styles = StyleSheet.create({
     loading: {

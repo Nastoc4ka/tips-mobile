@@ -7,6 +7,6 @@ const CustomButton = ({ title, styles, onPress }) => {
             <Text style={styles.text}>{title}</Text>
         </TouchableOpacity>
     )
-}
+};
 
 export default CustomButton;
