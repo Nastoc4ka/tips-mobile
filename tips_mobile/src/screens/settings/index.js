@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {StyleSheet} from "react-native";
 import PersonalData from "./PersonalData";
@@ -14,78 +14,47 @@ const SettingsNavigator = () => {
     const onSavePersonalData = () => {
         console.log('saved');
     };
-console.log('here');
+
+    const getTitleFromScene = ({descriptor: {options: {headerTitle, title}}, route: {name}}) => {
+        return headerTitle || title || name;
+    };
+
+    const createHeader = ({scene, previous, navigation}) => {
+        const title = getTitleFromScene(scene);
+        const myHeader = useMemo(() => <SettingsTopPanel
+            title={title}
+            leftButton={
+                <BackButton onPress={navigation.goBack}/>
+            }
+            rightButton={title === PERSONAL_DATA ? <CustomButton
+                title={'Готово'}
+                styles={settingsButton}
+                onPress={onSavePersonalData}
+            /> : null}
+            style={styleSettingsTopPanel}
+        />, [title]);
+
+        return (
+            myHeader
+        );
+    };
+
+
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            headerMode={"screen"}
+            screenOptions={{
+                header: createHeader
+            }}
+        >
             <Stack.Screen
                 name={SETTINGS}
                 component={Settings}
-                // screenOptions={{ title: SETTINGS,
-                //     headerLeft: ({navigation}) => (
-                //         <BackButton onPress={() => navigation.goBack(null)}/>
-                //     )
-                options={{
-                    headerMode: 'float',
-                    header: ({scene, previous, navigation}) => {
-                    const title= scene.route.name;
-                    console.log('title', title);
-                        return (
-                            <SettingsTopPanel
-                                title={title}
-                                leftButton={
-                                    <BackButton onPress={navigation.goBack}/>
-                                }
-                                style={styleSettingsTopPanel}
-                            />
-                        );
-                    }
-                }}
             />
             <Stack.Screen
                 name={PERSONAL_DATA}
                 component={PersonalData}
-                // screenOptions={{ title: PERSONAL_DATA,
-                //     headerRight: () => (
-                //         <CustomButton
-                //             onPress={onSavePersonalData}
-                //             title='Готово'
-                //             styles={settingsButton}
-                //         />),
-                //     headerLeft: ({navigation}) => (
-                //                       <BackButton onPress={navigation.goBack}/>
-                //     )
-                options={{
-                    headerMode: 'float',
-                    header: ({scene, previous, navigation}) => {
-                        return (
-                            <SettingsTopPanel
-                                title={PERSONAL_DATA}
-                                leftButton={
-                                    <BackButton onPress={navigation.goBack}/>
-                                }
-                                rightButton={
-                                    <CustomButton
-                                        title={'Готово'}
-                                        styles={settingsButton}
-                                        onPress={onSavePersonalData}
-                                    />
-                                }
-                                style={styleSettingsTopPanel}
-                            />
-                        );
-                    }
-                }}
             />
-            {/*<Stack.Screen*/}
-            {/*name={NOTIFICATIONS}*/}
-            {/*component={PersonalData}*/}
-            {/*options={{ title: 'PERSONAL_DATA1' }}*/}
-            {/*/>*/}
-            {/*<Stack.Screen*/}
-            {/*name={SECURITY}*/}
-            {/*component={PersonalData}*/}
-            {/*options={{ title: 'PERSONAL_DATA2' }}*/}
-            {/*/>*/}
         </Stack.Navigator>
     );
 };
