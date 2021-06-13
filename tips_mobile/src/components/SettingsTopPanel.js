@@ -9,9 +9,6 @@ const FocusAwareStatusBar = (props) => {
 };
 
 const SettingsTopPanel = ({title, rightButton = null, leftButton, onPress = null, style}) => {
-    console.log(title);
-    console.log(leftButton);
-    console.log(true);
     return (<>
         <FocusAwareStatusBar
             barStyle="dark-content"
