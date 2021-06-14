@@ -16,12 +16,12 @@ const Settings = () => {
             <View style={styleSettingsScreens.container}>
                 <View style={styleSettingsScreens.avatar}>
                     <Avatar
-                        title={user.name[0]}
+                        title={user.firstName[0]}
                         rounded
                         containerStyle={{backgroundColor: 'lightgrey'}}
                         size={67}
                         source={user.avatar}/>
-                    <Text style={styleSettingsScreens.avatarLabelName}>{user.name}</Text>
+                    <Text style={styleSettingsScreens.avatarLabelName}>{user.firstName}</Text>
                     <Text style={styleSettingsScreens.avatarLabelId}>{user.id}</Text>
                 </View>
                 <CustomButton

@@ -8,9 +8,13 @@ const client = axios.create({
 });
 
 const catchError = (errorType) => (err) => {
-    if (err.response && err.response.data && err.response.data.msg) {
+    if (err.response?.data?.msg) {
         throw new errorType(err.response.data.msg);
     }
+    const msg = {
+        title: "Ошибка сервера",
+        text: ""
+    };
     throw new errorType('Something went wrong... please contact vendor');
 };
 
