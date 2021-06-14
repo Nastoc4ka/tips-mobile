@@ -1,10 +1,11 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Avatar} from "react-native-elements";
 import {useSelector} from "react-redux";
-import { CustomButton } from '../../components';
-import {PERSONAL_DATA} from "../../constants/routeNames";
+import {CustomButton} from '../../components';
+import {SettingsBtnIcon} from '../../assets/icons';
+import {PERSONAL_DATA, SECURITY, NOTIFICATIONS} from "../../constants/routeNames";
 
 const Settings = () => {
     const {user} = useSelector(state => state.authLoginReducer);
@@ -24,8 +25,21 @@ const Settings = () => {
                     <Text style={styleSettingsScreens.avatarLabelId}>{user.id}</Text>
                 </View>
                 <CustomButton
-                    title='Персональные данные'
+                    leftIcon={<SettingsBtnIcon/>}
+                    title={PERSONAL_DATA}
                     onPress={() => navigation.navigate(PERSONAL_DATA)}
+                    styles={settingsButton}
+                />
+                <CustomButton
+                    leftIcon={<SettingsBtnIcon/>}
+                    title={SECURITY}
+                    onPress={() => navigation.navigate(SECURITY)}
+                    styles={settingsButton}
+                />
+                <CustomButton
+                    leftIcon={<SettingsBtnIcon/>}
+                    title={NOTIFICATIONS}
+                    onPress={() => navigation.navigate(NOTIFICATIONS)}
                     styles={settingsButton}
                 />
             </View>
@@ -36,8 +50,22 @@ const Settings = () => {
 export default Settings
 
 const settingsButton = StyleSheet.create({
-    button: {},
-    text: {}
+    button: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: 14,
+        paddingRight: 16,
+        height: 45,
+        backgroundColor: '#FFFFFF',
+        borderBottomColor: 'rgba(36, 168, 172, 0.5)',
+        borderBottomWidth: 1,
+
+    },
+    text: {
+        marginLeft: 15,
+        fontSize: 17,
+    }
 });
 
 const styleSettingsScreens = StyleSheet.create({
@@ -48,17 +76,15 @@ const styleSettingsScreens = StyleSheet.create({
         backgroundColor: 'rgba(249, 249, 249, 0.9)'
     },
     container: {
-        flex: 1,
         width: '100%',
         alignItems: 'center',
-        position: 'relative',
         backgroundColor: '#E5E5E5'
     },
     avatar: {
-        flex: 1,
         width: '100%',
         height: 135,
         paddingTop: 34,
+        marginBottom: 15,
         alignItems: 'center',
     },
     avatarLabelName: {

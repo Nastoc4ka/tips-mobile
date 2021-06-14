@@ -2,9 +2,11 @@ import React, {useMemo} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {StyleSheet} from "react-native";
 import PersonalData from "./PersonalData";
+import Security from "./Security";
+import Notifications from "./Notifications";
 
 import Settings from "./Settings";
-import {PERSONAL_DATA, SETTINGS} from "../../constants/routeNames";
+import {PERSONAL_DATA, SETTINGS, NOTIFICATIONS, SECURITY} from "../../constants/routeNames";
 import {BackButton, CustomButton, SettingsTopPanel} from "../../components";
 
 const SettingsNavigator = () => {
@@ -54,6 +56,14 @@ const SettingsNavigator = () => {
             <Stack.Screen
                 name={PERSONAL_DATA}
                 component={PersonalData}
+            />
+            <Stack.Screen
+                name={SECURITY}
+                component={Security}
+            />
+            <Stack.Screen
+                name={NOTIFICATIONS}
+                component={Notifications}
             />
         </Stack.Navigator>
     );

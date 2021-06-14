@@ -17,6 +17,7 @@ import Arrow_left from './arrow_left.svg';
 import Arrow_right from './arrow_right.svg';
 import VisibilityHide from './visibilityHide.svg';
 import VisibilityShow from './visibilityShow.svg';
+import SettingsBtnIcon from './SettingsBtnIcon.svg';
 
 export {
     Icn_home,
@@ -38,4 +39,5 @@ export {
     VisibilityHide,
     VisibilityShow,
     BackArrowBlack,
+    SettingsBtnIcon,
 }
