@@ -15,7 +15,7 @@ const catchError = (errorType) => (err) => {
         title: "Ошибка сервера",
         text: ""
     };
-    throw new errorType('Something went wrong... please contact vendor');
+    throw new errorType(msg);
 };
 
 export {
