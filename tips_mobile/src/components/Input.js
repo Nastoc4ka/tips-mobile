@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, TextInput, View} from 'react-native';
 import {styleInput} from '../styles'
 import ErrorMessage from "./ErrorMessage";
 
-const Input = ({type = 'none', value, refs = null, keyboardType = 'default', maxWidth = '100%',
+const Input = ({type = 'none', style, value, refs = null, keyboardType = 'default', maxWidth = '100%',
                    onFocus, label, placeholder, autoCapitalize = 'none', secureTextEntry,
                    handleChange, maxLength = 255, message, children}) => {
-    
+
+    const [styleCurrentInput, setStyleCurrentInput] = useState(styleInput);
+
+    useEffect(() => {
+        style ? setStyleCurrentInput(style) : styleInput;
+    }, []);
     return (
-        <View style={styleInput.wrapper}>
-            <Text style={styleInput.text}>{label}</Text>
-            <View style={styleInput.input}>
+        <View style={styleCurrentInput.wrapper}>
+            <Text style={styleCurrentInput.text}>{label}</Text>
+            <View style={styleCurrentInput.input}>
                 <TextInput
                     ref={refs}
                     value={value}

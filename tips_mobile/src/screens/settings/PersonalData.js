@@ -1,24 +1,86 @@
-import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from "react-native";
-import {Avatar} from "react-native-elements";
+import React, {useState} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useSelector} from "react-redux";
+import {InputPhone, Input} from "../../components";
 
 const PersonalData = () => {
     const {user} = useSelector(state => state.authLoginReducer);
+    const [data, setUserData] = useState(user);
+    const [errors, setErrors] = useState({
+        firstName: '',
+        phoneNumber: '',
+        birthdate: '',
+    });
+
+    const validatePhoneNumberCorrect = (phoneNumber) => {
+        setUserData({
+            ...data,
+            phoneNumber,
+        });
+        if (phoneNumber.length === 19) {
+            setErrors({
+                ...errors,
+                phoneNumber: '',
+            });
+        }
+    };
+
+    const validatePhoneNumber = (text) => {
+        if (text.length < 19) {
+            setErrors({
+                ...errors,
+                phoneNumber: 'некорректный номер',
+            });
+        } else {
+            setErrors({
+                ...errors,
+                phoneNumber: '',
+            });
+        }
+    };
+
+    const nameInputChange = (val, key) => {
+        setUserData({
+            ...data,
+            [key]: val,
+        });
+        setErrors({
+            ...errors,
+            [key]: '',
+        });
+        !val.trim() && setErrors({...errors, [key]: 'Имя должны быть заполнены'});
+    };
 
     return (
         <View style={styleSettingsScreens.topPanel}>
             <View style={styleSettingsScreens.container}>
-                <View style={styleSettingsScreens.avatar}>
-                    <Avatar
-                        title={user.name[0]}
-                        rounded
-                        containerStyle={{backgroundColor: 'lightgrey'}}
-                        size={67}
-                        source={user.avatar}/>
-                    <Text style={styleSettingsScreens.avatarLabelName}>{user.name}</Text>
-                    <Text style={styleSettingsScreens.avatarLabelId}>{user.id}</Text>
-                </View>
+                <TouchableOpacity style={styleSettingsScreens.avatar}>
+                    {data.avatar ?
+                        <Image style={styleSettingsScreens.image} source={data.avatar}/> :
+                        <View>
+                            <Text style={styleSettingsScreens.textAvatar}>{data.firstName[0]}</Text>
+                        </View>}
+                    <Text style={styleSettingsScreens.textPhoto}>Фото</Text>
+                </TouchableOpacity>
+                <Input
+                    autoCapitalize='words'
+                    type='name'
+                    style={styleSettingsInput}
+                    name='firstName'
+                    label='Имя'
+                    maxLength={40}
+                    message={errors.firstName}
+                    value={data.firstName}
+                    handleChange={(text) => nameInputChange(text, 'firstName')}
+                />
+                <InputPhone
+                    value={data.phoneNumber}
+                    label='Телефон'
+                    message={errors.phoneNumber}
+                    style={styleSettingsInput}
+                    handleChange={validatePhoneNumberCorrect}
+                    handleBlur={validatePhoneNumber}
+                />
 
             </View>
         </View>
@@ -27,76 +89,87 @@ const PersonalData = () => {
 
 export default PersonalData
 
+const styleSettingsInput = StyleSheet.create({
+    wrapper: {
+        width: '100%',
+        marginBottom: 35,
+    },
+    text: {
+        marginBottom: 12,
+        fontSize: 13,
+        marginLeft: 14,
+        color: '#454545',
+    },
+    input: {
+        width: '100%',
+        paddingLeft: 14,
+        backgroundColor: '#FFFFFF',
+        borderBottomColor: 'rgba(36, 168, 172, 0.5)',
+        borderBottomWidth: 1,
+        borderTopColor: 'rgba(36, 168, 172, 0.5)',
+        borderTopWidth: 1,
+        ...Platform.select({
+            ios: {
+                paddingVertical: 11,
+                paddingRight: 46,
+            },
+            android: {
+                paddingVertical: 5,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingRight: 23,
+            }
+        }),
+    }
+});
+
 const styleSettingsScreens = StyleSheet.create({
     topPanel: {
         flex: 1,
         alignItems: 'center',
-        position: 'relative',
         backgroundColor: 'rgba(249, 249, 249, 0.9)'
     },
     container: {
         flex: 1,
         width: '100%',
         alignItems: 'center',
-        position: 'relative',
         backgroundColor: '#E5E5E5'
     },
     avatar: {
-        flex: 1,
-        width: '100%',
-        height: 135,
-        paddingTop: 34,
+        marginTop: 34,
+        borderRadius: 67 / 2,
+        width: 67,
+        height: 67,
+        overflow: 'hidden',
+        justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'lightgrey',
     },
-    avatarLabelName: {
-        marginTop: 4,
-        color: '#454545',
-        fontSize: 12,
-    },
-    avatarLabelId: {
-        color: 'grey',
-        fontSize: 13,
-    },
-    paper: {
-        width: '89%',
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
-        backgroundColor: '#fff',
-        flex: 1,
-        alignItems: 'center',
-    },
-    bottom: {
+    photo: {
         position: 'absolute',
-        zIndex: -1,
+        backgroundColor: 'white',
         bottom: 0,
-        flex: 1,
-        width: 0,
-        height: '36%',
-        borderTopColor: 'transparent',
-        borderTopWidth: Dimensions.get('window').width / 4,
-        borderRightColor: 'transparent',
-        borderRightWidth: 0,
-        borderLeftColor: '#017C31',
-        borderLeftWidth: Dimensions.get('window').width
+        width: 60,
+        alignItems: 'center',
     },
-    buttonsTabsWrapper: {
-        position: 'absolute',
-        zIndex: -11,
-        marginTop: -33,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '80%',
-
+    image: {
+        width: 70,
+        height: 70,
     },
-    wrapper: {
-        marginTop: 35,
-        width: '100%',
-        flex: 1,
-        flexDirection: 'column',
-    },
-    text: {
-        fontSize: 17,
+    textAvatar: {
         color: 'white',
+        fontSize: 20,
         fontWeight: '600',
+    },
+    textPhoto: {
+        color: 'grey',
+        backgroundColor: 'white',
+        position: 'absolute',
+        lineHeight: 15,
+        bottom: 0,
+        width: 60,
+        textAlign: 'center',
+        fontSize: 8,
     }
 });
