@@ -1,6 +1,6 @@
 import {LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS, LOGOUT,} from "../actions/types";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {avatar} from '../../assets/images';
 let user = null;
 
 (async () => {
@@ -9,13 +9,22 @@ let user = null;
             data != null ? user = JSON.parse(data) : null
         });
 })();
-user = {
-    success: true,
-    role: 'employee',
-    accessToken: '$2a$08$H0rh/sgkktRXWl6ntzGxkucqQnWd0TrjLhSz1fBDVjrFbDe3DCYzy',
-    id: 1,
-    name: 'Анастасія Білицька',
-};
+
+// user = {
+//     success: true,
+//     role: 'employee',
+//     accessToken: '$2a$08$H0rh/sgkktRXWl6ntzGxkucqQnWd0TrjLhSz1fBDVjrFbDe3DCYzy',
+//     organisation: 'Пузата хата',
+//     position: 'Официант',
+//     id: 1,
+//     birthdate: '',
+//     phoneNumber: '+38 (050) 526 06 09',
+//     avatar: avatar,
+//     firstName: 'Анастасія',
+//     lastName: 'Білицька',
+// };
+
+
 // console.log(user());
 //
 // (async () => {

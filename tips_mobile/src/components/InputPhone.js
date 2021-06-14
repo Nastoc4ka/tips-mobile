@@ -1,15 +1,17 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextInput, Text, View } from 'react-native';
 import { styleInput } from '../styles'
 import ErrorMessage from "./ErrorMessage";
 
-const InputPhone = ({ label, handleBlur, message, handleChange }) => {
+const InputPhone = ({ label, handleBlur, message, handleChange, value = null,  style = null }) => {
     const [selection, setSelection] = useState({
             start: 0,
             end: 0
     });
-
+console.log(style);
     const [phone, setPhone] = useState('');
+    const [styleCurrentInput, setStyleCurrentInput] = useState(styleInput);
+
     const phoneArr = ['+', '3', '8', ' ', '(', '0'];
 
     const onBlur = () => {
@@ -56,9 +58,15 @@ const InputPhone = ({ label, handleBlur, message, handleChange }) => {
             end: ints.length
         })
     };
+
+    useEffect(() => {
+        value ? setPhone(value) : null;
+        style ? setStyleCurrentInput(style) : styleInput;
+    }, []);
+
     return (
-        <View style={styleInput.wrapper}>
-            <Text style={styleInput.text}>{label}</Text>
+        <View style={styleCurrentInput.wrapper}>
+            <Text style={styleCurrentInput.text}>{label}</Text>
             
             <TextInput
                 onBlur={onBlur}
@@ -67,7 +75,7 @@ const InputPhone = ({ label, handleBlur, message, handleChange }) => {
                 placeholderTextColor='rgba(36, 168, 172, 0.4)'
                 textContentType='telephoneNumber'
                 keyboardType='numeric'
-                style={styleInput.input} 
+                style={styleCurrentInput.input}
                 value={phone}
                 selection={selection}
                 onFocus={onFocusPhoneInput}
