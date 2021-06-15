@@ -1,9 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-    getOrganisationsSaga
-} from '../redux/actions';
+import { getOrganisationsSaga } from '../redux/actions';
 import {Input, SearchDropDown, IconInInputView} from './index'
 
 const OrganizationSearch = ({error, setOrganizationInData}) => {
@@ -27,12 +25,12 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
             setOrganizationInData('', '')
         }
         setFocus(false);
-        setSearching(false)
+        setSearching(false);
         organizationInputRef.current.blur();
     };
 
     const handleSearch = (text) => {
-        setOrganizationInData('', '')
+        setOrganizationInData('', '');
         setOrganization({
             name: text,
             id: ''
@@ -53,7 +51,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
             console.log(organisations, "org");
             // setFiltered(organisations);
         }
-    }
+    };
 
     const handleChoosingOrganization = (id, nameAndAddress) => {
         setOrganizationInData(id, nameAndAddress);
@@ -64,7 +62,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
         setSearching(false);
         setFocus(false);
         organizationInputRef.current.blur();
-    }
+    };
 
     useEffect(() => {
         dispatch(getOrganisationsSaga());
@@ -108,7 +106,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
         </View>
 
     )
-}
+};
 
 const styles = StyleSheet.create({
     container: {

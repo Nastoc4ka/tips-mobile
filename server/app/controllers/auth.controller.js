@@ -76,7 +76,11 @@ exports.signin = async (req, res) => {
         success: true,
         role: user.role,
         id: user.id,
-        name: `${user.first_name} ${user.last_name}`,
+        phoneNumber: user.phone_number,
+        position: user.position,
+        organisation: user.organisation,
+        firstName: user.first_name,
+        lastName: user.last_name,
         accessToken,
     };
 

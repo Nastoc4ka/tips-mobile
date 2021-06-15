@@ -10,6 +10,8 @@ import ErrorMessage from './ErrorMessage';
 import SearchDropDown from './SearchDropDown';
 import Loading from './Loading';
 import OrganizationSearch from './OrganizationSearch';
+import SettingsTopPanel from './SettingsTopPanel';
+import BackButton from './BackButton';
 
 export {
     Background,
@@ -23,5 +25,7 @@ export {
     ErrorMessage,
     SearchDropDown,
     Loading,
-    OrganizationSearch
+    OrganizationSearch,
+    SettingsTopPanel,
+    BackButton
 }

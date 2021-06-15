@@ -6,7 +6,7 @@ import { Back, Icn_filters }  from '../../assets/icons';
 import Background from '../../components/Background';
 import { main, styleMainScreens } from '../../styles';
 import { buttonPanelActive, buttonPanelNotActive } from '../../styles';
-import CustomButton from '../../components/CustomButton';
+import {CustomButton} from '../../components';
 
 const Main = () => {
   const NEWS = 'Новости';

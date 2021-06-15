@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "iphone",
+<<<<<<< HEAD
       "size" : "29x29",
       "scale" : "2x"
     },
@@ -36,3 +37,54 @@
     "author" : "xcode"
   }
 }
+=======
+      "scale" : "2x",
+      "size" : "20x20"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "20x20"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "29x29"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "29x29"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "40x40"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "40x40"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "60x60"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "60x60"
+    },
+    {
+      "idiom" : "ios-marketing",
+      "scale" : "1x",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
+>>>>>>> b12204cba15a1c4c7ac95d8f601e74dd5898cf5b

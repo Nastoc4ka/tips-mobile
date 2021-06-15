@@ -5,6 +5,7 @@ import Icn_tips from './icn_tips.svg';
 import Icn_home from './icn_home.svg';
 import Logo from './logo.svg';
 import Back from './back.svg';
+import BackArrowBlack from './backArrowBlack.svg';
 import Icn_filters from './icn_filters.svg';
 import Flag_huge from './flag_huge.svg';
 import Flag_petite from './flag_petite.svg';
@@ -16,6 +17,7 @@ import Arrow_left from './arrow_left.svg';
 import Arrow_right from './arrow_right.svg';
 import VisibilityHide from './visibilityHide.svg';
 import VisibilityShow from './visibilityShow.svg';
+import SettingsBtnIcon from './SettingsBtnIcon.svg';
 
 export {
     Icn_home,
@@ -36,4 +38,6 @@ export {
     Arrow_right,
     VisibilityHide,
     VisibilityShow,
+    BackArrowBlack,
+    SettingsBtnIcon,
 }

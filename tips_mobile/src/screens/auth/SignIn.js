@@ -17,6 +17,7 @@ const SignIn = ({handleRegistrationClick}) => {
     const [data, setData] = useState({
         phoneNumber: '',
         password: '',
+        secureTextEntry: true,
     });
     const [errors, setErrors] = useState({
         phoneNumber: '',
