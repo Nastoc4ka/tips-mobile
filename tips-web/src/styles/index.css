@@ -8,8 +8,20 @@ html {
   font-size: calc(1vw + 5.6px);
 }
 
+@media (max-width: 800px) {
+  html {
+    font-size: calc(2vw + 5.6px);
+  }
+}
+
 body {
   font-size: 5vw;
+}
+
+@media (max-width: 800px) {
+  body {
+    font-size: 10vw;
+  }
 }
 
 * {
@@ -19,31 +31,22 @@ body {
           box-sizing: border-box;
 }
 
-#root .MuiTypography-h1 {
-  font-size: 1.5em;
+.logo {
+  width: 25%;
+  height: auto;
 }
 
-#root .MuiLink-underlineHover {
-  color: #454545;
-  cursor: pointer;
-  margin-top: 1.4rem;
-}
-
-.login {
+.block {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 100vh;
-  width: 100vw;
-}
-
-.login__block {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  -webkit-box-flex: 5;
+      -ms-flex: 5;
+          flex: 5;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -53,17 +56,11 @@ body {
   height: 100%;
 }
 
-.login__logo {
-  background-color: #00a03e;
-}
-
-.login__form {
+.block__content {
+  width: 50%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -74,7 +71,55 @@ body {
   text-align: center;
 }
 
-.login__form_wrapper {
-  width: 50%;
+@media (max-width: 800px) {
+  .block__content {
+    width: 65%;
+  }
+}
+
+#root .MuiTypography-h1 {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+#root .MuiLink-underlineHover {
+  color: #454545;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+@media (max-width: 800px) {
+  .login {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+.login__form {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.login__logo {
+  background-color: #00a03e;
+}
+
+@media (max-width: 800px) {
+  .login__logo {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+  }
 }
 /*# sourceMappingURL=index.css.map */

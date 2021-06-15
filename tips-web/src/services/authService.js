@@ -3,11 +3,9 @@ import {catchError, client} from './client';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const login = (loginData) => {
-    console.log(loginData)
     return client.post("/auth/signin", loginData)
         .then(async (response) => {
-            console.log(response, "ok")
-            const jsonValue = response.data;
+            const jsonValue = JSON.stringify(response.data);
             localStorage.setItem('user', jsonValue);
             return response.data;
         })

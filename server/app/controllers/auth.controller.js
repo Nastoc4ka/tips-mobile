@@ -47,7 +47,6 @@ exports.signin = async (req, res) => {
 
 
     const {rows: [user]} = await db.query(queryUser);
-    console.log(bcrypt.hashSync(userToAuth.password, 8), user.password)
     const passwordIsValid = bcrypt.compareSync(
         userToAuth.password,
         user.password

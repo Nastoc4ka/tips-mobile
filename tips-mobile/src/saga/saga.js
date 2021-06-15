@@ -26,13 +26,13 @@ import {
 
 export function* sagaWatcher() {
     yield takeEvery(LOGIN_SAGA, loginSaga);
-    yield takeEvery(GET_ORGANISATIONS_SAGA, fetchOrganisationsSaga);
+    yield takeEvery(GET_ORGANISATIONS_SAGA, fetchOrganizationsSaga);
     yield takeEvery(REGISTER_SAGA, registerSaga);
     yield takeEvery(LOGOUT_SAGA, logoutSaga);
 
 }
 
-function* fetchOrganisationsSaga() {
+function* fetchOrganizationsSaga() {
     try {
         const payload = yield call(() => organisationsService.getOrganisations());
         yield put(getOrganisationsSuccess(payload));

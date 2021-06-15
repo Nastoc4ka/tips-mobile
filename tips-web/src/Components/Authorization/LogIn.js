@@ -1,18 +1,27 @@
 import React from 'react';
-import { Logo } from '../../assets/icons';
+import {Typography} from '@material-ui/core';
+import {useDispatch} from 'react-redux';
+import { useHistory } from 'react-router';
+import { loginSaga } from '../../redux/actions';
 import Form from './Form';
 
 const LogIn = () => {
-    return (
-        <div className='login'>
-            <div className='login__block login__logo'>
-                <Logo />                
-            </div>
+    const dispatch = useDispatch();
+    const history = useHistory();
 
-            <div className='login__block'>
-                <Form />
-            </div>
-        </div>
+    const login = (data) => {
+        dispatch(loginSaga(data));
+        history.push('/organizations');
+    }
+
+    return (
+        <>
+            <Typography variant="h1" component="h2" gutterBottom>
+                Привет
+            </Typography>
+
+            <Form handleLogin={login}/>
+        </>
     )
 }
 

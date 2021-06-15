@@ -1,7 +1,7 @@
 import authService from './authService';
-import organisationsService from './organisationsService';
+import organizationsService from './organizationsService';
 
 export {
     authService,
-    organisationsService,
+    organizationsService,
 }
