@@ -1,4 +1,4 @@
-const avatar = require('./avatar.jpg');
+const avatar = './avatar.jpg';
 export {
     avatar,
 }

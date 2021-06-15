@@ -1,15 +1,15 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from "react-native";
-
+import {BackgroundSettings} from "../../components";
 import {useSelector} from "react-redux";
 
 const Notifications = () => {
     const {user} = useSelector(state => state.authLoginReducer);
 
     return (
-        <View style={styleSettingsScreens.topPanel}>
+        <BackgroundSettings>
             <Text>Notifications</Text>
-        </View>
+        </BackgroundSettings>
     );
 };
 

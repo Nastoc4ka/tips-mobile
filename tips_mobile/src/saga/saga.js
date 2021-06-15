@@ -14,22 +14,39 @@ import {
     getOrganisationsFail,
     getOrganisationsSuccess,
 } from '../redux/actions';
-import {authService, organisationsService} from '../services';
-import {UnauthorizedError, OrganisationsError} from "../errors";
+import {authService, organisationsService, updateUserDataService} from '../services';
 
 import {
     LOGIN_SAGA,
     LOGOUT_SAGA,
     REGISTER_SAGA,
-    GET_ORGANISATIONS_SAGA
+    GET_ORGANISATIONS_SAGA,
+    UPDATE_USER_SAGA,
+
 } from "../redux/actions/types";
 
 export function* sagaWatcher() {
     yield takeEvery(LOGIN_SAGA, loginSaga);
     yield takeEvery(GET_ORGANISATIONS_SAGA, fetchOrganizationsSaga);
     yield takeEvery(REGISTER_SAGA, registerSaga);
+    yield takeEvery(UPDATE_USER_SAGA, updateUserSaga);
     yield takeEvery(LOGOUT_SAGA, logoutSaga);
 
+}
+
+function* updateUserSaga(action) {
+    try {
+        yield put(showBlur());
+        yield put(showLoading());
+        const updatedUser = yield call(() => updateUserDataService(action.payload));
+        yield put(loginSuccess(updatedUser.userData));
+        yield put(hideLoading());
+        yield put(setMessage(updatedUser.msg));
+    } catch (error) {
+        yield put(hideLoading());
+        yield put(hideBlur());
+        yield put(setMessage(error.msg));
+    }
 }
 
 function* fetchOrganizationsSaga() {
@@ -71,15 +88,10 @@ function* registerSaga(action) {
         const isRegistered = yield call(() => authService.register(action.payload));
         yield put(registerSuccess());
         yield put(hideLoading());
-        console.log('isRegistered', isRegistered);
         yield put(setMessage(isRegistered.msg));
     } catch (error) {
         yield put(hideLoading());
         yield put(hideBlur());
         yield put(setMessage(error.msg));
     }
-}
-
-function delay(ms) {
-    return new Promise(resolve => setTimeout(() => resolve(true), ms))
 }

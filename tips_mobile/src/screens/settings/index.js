@@ -4,17 +4,18 @@ import {StyleSheet} from "react-native";
 import PersonalData from "./PersonalData";
 import Security from "./Security";
 import Notifications from "./Notifications";
-
+import {useDispatch} from 'react-redux';
 import Settings from "./Settings";
 import {PERSONAL_DATA, SETTINGS, NOTIFICATIONS, SECURITY} from "../../constants/routeNames";
 import {BackButton, CustomButton, SettingsTopPanel} from "../../components";
+import {sendDataActive} from "../../redux/actions";
 
 const SettingsNavigator = () => {
-
+const dispatch = useDispatch();
     const Stack = createStackNavigator();
 
     const onSavePersonalData = () => {
-        console.log('saved');
+        dispatch(sendDataActive());
     };
 
     const getTitleFromScene = ({descriptor: {options: {headerTitle, title}}, route: {name}}) => {
@@ -25,9 +26,7 @@ const SettingsNavigator = () => {
         const title = getTitleFromScene(scene);
         const myHeader = useMemo(() => <SettingsTopPanel
             title={title}
-            leftButton={
-                <BackButton onPress={navigation.goBack}/>
-            }
+            leftButton={<BackButton onPress={navigation.goBack}/>}
             rightButton={title === PERSONAL_DATA ? <CustomButton
                 title={'Готово'}
                 styles={settingsButton}
@@ -40,7 +39,6 @@ const SettingsNavigator = () => {
             myHeader
         );
     };
-
 
     return (
         <Stack.Navigator

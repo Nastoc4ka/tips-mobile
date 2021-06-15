@@ -20,6 +20,9 @@ import {
     LOGIN_SCREEN_SHOW,
     REGISTRATION_SCREEN_SHOW,
     SET_AUTHENTICATION,
+    SEND_DATA_DISABLE,
+    SEND_DATA_ACTIVE,
+    UPDATE_USER_SAGA
 } from "./types"
 
 const loginScreenShow = () => {
@@ -31,6 +34,25 @@ const loginScreenShow = () => {
 const registrationScreenShow = () => {
     return {
         type: REGISTRATION_SCREEN_SHOW
+    }
+};
+
+const sendDataDisable = () => {
+    return {
+        type: SEND_DATA_DISABLE
+    }
+};
+
+const sendDataActive = () => {
+    return {
+        type: SEND_DATA_ACTIVE
+    }
+};
+
+const updateUserSaga = (updateUser) => {
+    return {
+        type: UPDATE_USER_SAGA,
+        payload: updateUser
     }
 };
 
@@ -149,7 +171,7 @@ const setAuthentication = () => {
     return {
         type: SET_AUTHENTICATION,
     }
-}
+};
 
 export {
     loginSaga,
@@ -173,4 +195,8 @@ export {
     registrationScreenShow,
     loginScreenShow,
     setAuthentication,
+    sendDataActive,
+    sendDataDisable,
+    updateUserSaga,
+
 };

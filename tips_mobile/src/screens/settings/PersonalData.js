@@ -1,23 +1,72 @@
-import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {useSelector} from "react-redux";
-import {InputPhone, Input} from "../../components";
+import React, {useEffect, useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {AuthModal, BackgroundSettings, Input, InputPhone, UploadImageModal} from "../../components";
+import {Portal} from 'react-native-portalize';
+import {clearMessage, hideBlur, sendDataDisable, showBlur, updateUserSaga} from "../../redux/actions";
+import AvatarWrapper from "./AvatarWrapper";
+import PositionAndOrganization from "./PositionAndOrganization";
 
-const PersonalData = () => {
+const PHONE_NUMBER_LENGTH = 19;
+const DATE_REG_EXP = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/;
+
+const isNumberLengthCorrect = (phoneNumber) => phoneNumber.length === PHONE_NUMBER_LENGTH;
+
+
+const PersonalData = ({navigation}) => {
+    const dispatch = useDispatch();
     const {user} = useSelector(state => state.authLoginReducer);
-    const [data, setUserData] = useState(user);
+    const {sendData} = useSelector(state => state.systemReducer);
+    const {message} = useSelector(state => state.systemReducer);
+    const [data, setData] = useState(user);
+    const [choosePhoto, setChoosePhoto] = useState(false);
     const [errors, setErrors] = useState({
         firstName: '',
         phoneNumber: '',
         birthdate: '',
     });
 
+    const displayInputError = (validatorFunc) => (data) => {
+        setErrors({...errors, ...validatorFunc(data)});
+    };
+
+    const validateBirthDate = (value) => {
+        const dateCheck = value.trim();
+        if (dateCheck && !(DATE_REG_EXP.test(dateCheck))) {
+            return {birthdate: 'формат: 20.05.2000'};
+        }
+        return {birthdate: ''}
+    };
+
+    const validatePhoneNumber = (inputNumber) => {
+        const phoneNumber = isNumberLengthCorrect(inputNumber) ? '' : 'некорректный номер';
+        return {phoneNumber}
+    };
+
+    const validateName = (name) => {
+        const isInvalid = !name.trim();
+        const firstName = isInvalid ? 'Имя должны быть заполнены' : '';
+        return {firstName};
+    };
+
+    const handleCloseModal = () => {
+        dispatch(clearMessage());
+        dispatch(hideBlur());
+        setChoosePhoto(false);
+        navigation.goBack();
+    };
+
+    const pickAvatar = () => {
+        setChoosePhoto(true);
+        dispatch(showBlur());
+    };
+
     const validatePhoneNumberCorrect = (phoneNumber) => {
-        setUserData({
+        setData({
             ...data,
             phoneNumber,
         });
-        if (phoneNumber.length === 19) {
+        if (isNumberLengthCorrect(phoneNumber)) {
             setErrors({
                 ...errors,
                 phoneNumber: '',
@@ -25,22 +74,8 @@ const PersonalData = () => {
         }
     };
 
-    const validatePhoneNumber = (text) => {
-        if (text.length < 19) {
-            setErrors({
-                ...errors,
-                phoneNumber: 'некорректный номер',
-            });
-        } else {
-            setErrors({
-                ...errors,
-                phoneNumber: '',
-            });
-        }
-    };
-
-    const nameInputChange = (val, key) => {
-        setUserData({
+    const onChange = (val, key) => {
+        setData({
             ...data,
             [key]: val,
         });
@@ -48,42 +83,83 @@ const PersonalData = () => {
             ...errors,
             [key]: '',
         });
-        !val.trim() && setErrors({...errors, [key]: 'Имя должны быть заполнены'});
+        displayInputError(validateName)(data.firstName);
     };
 
-    return (
-        <View style={styleSettingsScreens.topPanel}>
-            <View style={styleSettingsScreens.container}>
-                <TouchableOpacity style={styleSettingsScreens.avatar}>
-                    {data.avatar ?
-                        <Image style={styleSettingsScreens.image} source={data.avatar}/> :
-                        <View>
-                            <Text style={styleSettingsScreens.textAvatar}>{data.firstName[0]}</Text>
-                        </View>}
-                    <Text style={styleSettingsScreens.textPhoto}>Фото</Text>
-                </TouchableOpacity>
-                <Input
-                    autoCapitalize='words'
-                    type='name'
-                    style={styleSettingsInput}
-                    name='firstName'
-                    label='Имя'
-                    maxLength={40}
-                    message={errors.firstName}
-                    value={data.firstName}
-                    handleChange={(text) => nameInputChange(text, 'firstName')}
-                />
-                <InputPhone
-                    value={data.phoneNumber}
-                    label='Телефон'
-                    message={errors.phoneNumber}
-                    style={styleSettingsInput}
-                    handleChange={validatePhoneNumberCorrect}
-                    handleBlur={validatePhoneNumber}
-                />
+    const validateForm = (dataToValidate) => {
+        return {
+            ...validateName(dataToValidate.firstName),
+            ...validateBirthDate(dataToValidate.birthdate),
+            ...validatePhoneNumber(dataToValidate.phoneNumber)
+        };
+    };
 
-            </View>
-        </View>
+    useEffect(() => {
+        if (sendData) {
+            dispatch(sendDataDisable());
+            const formErrors = validateForm(data);
+            const errorArray = Object.entries(formErrors).filter(([key, value]) => value.length > 0);
+            if (errorArray.length) {
+                setErrors(formErrors);
+            } else {
+                dispatch(updateUserSaga(data));
+            }
+        }
+    }, [sendData]);
+
+    return (
+        <BackgroundSettings>
+            <AvatarWrapper
+                source={data.avatar}
+                onPress={pickAvatar}
+                textAvatar={data.firstName[0]}
+            />
+            <Input
+                autoCapitalize='words'
+                type='name'
+                style={styleSettingsInput}
+                name='firstName'
+                label='Имя'
+                maxLength={40}
+                message={errors.firstName}
+                value={data.firstName}
+                handleBlur={displayInputError(validateName)}
+                handleChange={(text) => onChange(text, 'firstName')}
+            />
+            <InputPhone
+                value={data.phoneNumber}
+                label='Телефон'
+                message={errors.phoneNumber}
+                style={styleSettingsInput}
+                handleChange={validatePhoneNumberCorrect}
+                handleBlur={displayInputError(validatePhoneNumber)}
+            />
+            <Input
+                placeholder='формат: 23.01.1900'
+                autoCapitalize='words'
+                style={styleSettingsInput}
+                name='birthdate'
+                label='Дата рождения'
+                handleBlur={displayInputError(validateBirthDate)}
+                maxLength={40}
+                message={errors.birthdate}
+                value={data.birthdate}
+                handleChange={(text) => onChange(text, 'birthdate')}
+            />
+            <PositionAndOrganization position={data.position} organization={data.organisation.name}/>
+            {choosePhoto ? <Portal>
+                <UploadImageModal
+                    setData={setData}
+                    handleCloseModal={handleCloseModal}
+                />
+            </Portal> : null}
+            {message ? <Portal>
+                <AuthModal
+                    message={message}
+                    handleCloseModal={handleCloseModal}
+                />
+            </Portal> : null}
+        </BackgroundSettings>
     );
 };
 
@@ -121,55 +197,5 @@ const styleSettingsInput = StyleSheet.create({
                 paddingRight: 23,
             }
         }),
-    }
-});
-
-const styleSettingsScreens = StyleSheet.create({
-    topPanel: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: 'rgba(249, 249, 249, 0.9)'
-    },
-    container: {
-        flex: 1,
-        width: '100%',
-        alignItems: 'center',
-        backgroundColor: '#E5E5E5'
-    },
-    avatar: {
-        marginTop: 34,
-        borderRadius: 67 / 2,
-        width: 67,
-        height: 67,
-        overflow: 'hidden',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'lightgrey',
-    },
-    photo: {
-        position: 'absolute',
-        backgroundColor: 'white',
-        bottom: 0,
-        width: 60,
-        alignItems: 'center',
-    },
-    image: {
-        width: 70,
-        height: 70,
-    },
-    textAvatar: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: '600',
-    },
-    textPhoto: {
-        color: 'grey',
-        backgroundColor: 'white',
-        position: 'absolute',
-        lineHeight: 15,
-        bottom: 0,
-        width: 60,
-        textAlign: 'center',
-        fontSize: 8,
     }
 });

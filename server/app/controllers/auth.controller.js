@@ -1,7 +1,6 @@
 const config = require("../config/auth.config");
 const db = require("../../db");
 const {getUserData, saveUserData} = require("../models");
-
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -45,8 +44,17 @@ exports.signin = async (req, res) => {
         values: [userToAuth.phoneNumber],
     };
 
-
     const {rows: [user]} = await db.query(queryUser);
+    console.log(user);
+
+    const queryOrganisation = {
+        name: 'fetch-organisation',
+        text: 'SELECT * FROM organisations WHERE id = $1',
+        values: [user.organisation_id],
+    };
+
+    const {rows: [organisation]} = await db.query(queryOrganisation);
+
     const passwordIsValid = bcrypt.compareSync(
         userToAuth.password,
         user.password
@@ -71,18 +79,19 @@ exports.signin = async (req, res) => {
     const accessToken = jwt.sign({id: user.id}, config.secret, {
         expiresIn: 60 * 60 * 24 * 30 // 30 day
     });
-
-    userDataAsyncStorage = {
+    const userDataAsyncStorage = {
         success: true,
         role: user.role,
         id: user.id,
+        birthdate: user.birthdate,
         phoneNumber: user.phone_number,
         position: user.position,
-        organisation: user.organisation,
+        organisation: organisation,
         firstName: user.first_name,
         lastName: user.last_name,
+        avatar: user.avatar,
         accessToken,
     };
-
-    res.send(userDataAsyncStorage);
+console.log('userDataAsyncStorage', userDataAsyncStorage);
+    res.status(200).send(userDataAsyncStorage);
 };

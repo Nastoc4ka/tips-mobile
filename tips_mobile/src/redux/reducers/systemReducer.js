@@ -2,7 +2,7 @@ import {
     SHOW_BLUR,
     HIDE_BLUR,
     SHOW_LOADING,
-    HIDE_LOADING, CLEAR_MESSAGE, SET_MESSAGE, SET_AUTHENTICATION
+    HIDE_LOADING, CLEAR_MESSAGE, SET_MESSAGE, SET_AUTHENTICATION, SEND_DATA_DISABLE, SEND_DATA_ACTIVE
 } from "../actions/types";
 
 const initialState = {
@@ -10,19 +10,30 @@ const initialState = {
     loading: false,
     authenticated: false,
     message: '',
+    sendData: false,
 };
 
 const systemReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SHOW_BLUR:
+        case SEND_DATA_ACTIVE:
             return { 
                 ...state,
-                blur: true 
+                sendData: true
+            };
+        case SEND_DATA_DISABLE:
+            return { 
+                ...state,
+                sendData: false
+            };
+            case SHOW_BLUR:
+            return {
+                ...state,
+                blur: true
             };
         case HIDE_BLUR:
-            return { 
+            return {
                 ...state,
-                blur: false 
+                blur: false
             };
         case SHOW_LOADING:
             return { 
@@ -50,7 +61,7 @@ const systemReducer = (state = initialState, action) => {
             return {
                 ...state,
                 authenticated: true
-            }
+            };
         default:
             return state;
     }
