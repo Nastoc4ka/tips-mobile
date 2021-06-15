@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {buttonFill, main} from '../../styles';
-import {CustomButton, IconInInputView, Input, InputPhone, OrganizationSearch} from '../../components';
+import {CustomButton, IconInInputView, Input, InputPhone, OrganizationSearch, AuthModal} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
 import {
     clearMessage,
@@ -13,7 +13,6 @@ import {
     registerSaga
 } from '../../redux/actions'
 import {Portal} from 'react-native-portalize';
-import AuthModal from '../../components/modals/AuthModal';
 
 const reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
 
@@ -125,7 +124,7 @@ const SignUp = () => {
                 password: '',
             })
         }
-    }
+    };
     
     const setOrganizationInData = (id, name) => {
         setData({

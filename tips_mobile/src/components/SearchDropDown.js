@@ -44,15 +44,9 @@ const styles = StyleSheet.create({
     },
     noResultView: {
         alignSelf: 'center',
-        // height: 100,
         width: '100%',
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // alignContent: 'center'
     },
     noResultText: {
         fontSize: 12,
-        //color: 'white'
-    },
-
+    }
 });

@@ -4,10 +4,14 @@ import {styleInput} from '../styles'
 import ErrorMessage from "./ErrorMessage";
 
 const Input = ({type = 'none', style, value, refs = null, keyboardType = 'default', maxWidth = '100%',
-                   onFocus, label, placeholder, autoCapitalize = 'none', secureTextEntry,
+                   onFocus, label, handleBlur = null, placeholder, autoCapitalize = 'none', secureTextEntry,
                    handleChange, maxLength = 255, message, children}) => {
 
     const [styleCurrentInput, setStyleCurrentInput] = useState(styleInput);
+
+    const onBlur = () => {
+        handleBlur && handleBlur(value)
+    };
 
     useEffect(() => {
         style ? setStyleCurrentInput(style) : styleInput;
@@ -18,6 +22,7 @@ const Input = ({type = 'none', style, value, refs = null, keyboardType = 'defaul
             <View style={styleCurrentInput.input}>
                 <TextInput
                     ref={refs}
+                    onBlur={onBlur}
                     value={value}
                     onFocus={onFocus}
                     onChangeText={handleChange}

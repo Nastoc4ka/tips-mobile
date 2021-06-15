@@ -48,8 +48,6 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
             setFiltered(tempList);
         } else {
             setSearching(false);
-            console.log(organisations, "org");
-            // setFiltered(organisations);
         }
     };
 
@@ -104,7 +102,6 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
                 : null
             }
         </View>
-
     )
 };
 
