@@ -1,85 +1,84 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
-import {Avatar} from "react-native-elements";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import {logoutSaga} from "../../redux/actions";
 import {BackgroundSettings, CustomButton} from '../../components';
+import { styleSettingsScreen, styleSettingsButton } from "../../styles";
 import {SettingsBtnIcon} from '../../assets/icons';
 import {NOTIFICATIONS, PERSONAL_DATA, SECURITY} from "../../constants/routeNames";
+import AvatarWrapper from "./AvatarWrapper";
 
 const Settings = () => {
     const {user} = useSelector(state => state.authLoginReducer);
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    const logout = () => {
+        dispatch(logoutSaga())
+    };
 
     return (
         <BackgroundSettings>
-            <View style={styleSettingsScreens.avatar}>
-                <Avatar
-                    title={user.firstName[0]}
-                    rounded
-                    containerStyle={{backgroundColor: 'lightgrey'}}
-                    size={67}/>
-                <Text style={styleSettingsScreens.avatarLabelName}>{user.firstName}</Text>
-                <Text style={styleSettingsScreens.avatarLabelId}>{user.id}</Text>
+            <View style={styleSettingsScreen.avatar}>
+                <AvatarWrapper
+                    source={user.avatar}
+                    textAvatar={user.firstName[0]}
+                />
             </View>
+            <Text style={styleSettingsScreen.avatarLabelName}>{user.firstName}</Text>
+            <Text style={styleSettingsScreen.avatarLabelId}>{user.id}</Text>
             <CustomButton
                 leftIcon={<SettingsBtnIcon/>}
                 title={PERSONAL_DATA}
                 onPress={() => navigation.navigate(PERSONAL_DATA)}
-                styles={settingsButton}
+                styles={styleSettingsButton}
             />
             <CustomButton
                 leftIcon={<SettingsBtnIcon/>}
                 title={SECURITY}
                 onPress={() => navigation.navigate(SECURITY)}
-                styles={settingsButton}
+                styles={styleSettingsButton}
             />
             <CustomButton
                 leftIcon={<SettingsBtnIcon/>}
                 title={NOTIFICATIONS}
                 onPress={() => navigation.navigate(NOTIFICATIONS)}
-                styles={settingsButton}
+                styles={styleSettingsButton}
             />
+            <CustomButton
+                leftIcon={<SettingsBtnIcon/>}
+                title={'Язык'}
+                styles={styleSettingsButton}
+            />
+            <View style={styleSettingsScreens.wrapperBtn}>
+                <CustomButton
+                    leftIcon={<SettingsBtnIcon/>}
+                    title={'О проекте'}
+                    styles={styleSettingsButton}
+                />
+                <CustomButton
+                    leftIcon={<SettingsBtnIcon/>}
+                    title={'Помощь'}
+                    styles={styleSettingsButton}
+                />
+                <CustomButton
+                    leftIcon={<SettingsBtnIcon/>}
+                    onPress={logout}
+                    title={'Выход'}
+                    styles={styleSettingsButton}
+                />
+            </View>
+
         </BackgroundSettings>
     );
 };
 
 export default Settings
 
-const settingsButton = StyleSheet.create({
-    button: {
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingLeft: 14,
-        paddingRight: 16,
-        height: 45,
-        backgroundColor: '#FFFFFF',
-        borderBottomColor: 'rgba(36, 168, 172, 0.5)',
-        borderBottomWidth: 1,
-
-    },
-    text: {
-        marginLeft: 15,
-        fontSize: 17,
-    }
-});
-
 const styleSettingsScreens = StyleSheet.create({
-    avatar: {
+    wrapperBtn: {
         width: '100%',
-        height: 135,
-        paddingTop: 34,
-        marginBottom: 15,
-        alignItems: 'center',
-    },
-    avatarLabelName: {
-        marginTop: 4,
-        color: '#454545',
-        fontSize: 12,
-    },
-    avatarLabelId: {
-        color: 'grey',
-        fontSize: 13,
+        marginTop: 36,
     }
 });

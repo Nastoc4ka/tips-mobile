@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import { styleSettingsScreen, styleSettingsInput } from "../../styles";
 import {AuthModal, BackgroundSettings, Input, InputPhone, UploadImageModal} from "../../components";
 import {Portal} from 'react-native-portalize';
 import {clearMessage, hideBlur, sendDataDisable, showBlur, updateUserSaga} from "../../redux/actions";
@@ -11,7 +12,6 @@ const PHONE_NUMBER_LENGTH = 19;
 const DATE_REG_EXP = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/;
 
 const isNumberLengthCorrect = (phoneNumber) => phoneNumber.length === PHONE_NUMBER_LENGTH;
-
 
 const PersonalData = ({navigation}) => {
     const dispatch = useDispatch();
@@ -109,11 +109,16 @@ const PersonalData = ({navigation}) => {
 
     return (
         <BackgroundSettings>
-            <AvatarWrapper
-                source={data.avatar}
+            <TouchableOpacity
+                style={styleSettingsScreen.avatar}
                 onPress={pickAvatar}
-                textAvatar={data.firstName[0]}
-            />
+            >
+                <AvatarWrapper
+                    source={data.avatar}
+                    textAvatar={data.firstName[0]}
+                />
+                <Text style={styleSettingsScreen.textPhoto}>Фото</Text>
+            </TouchableOpacity>
             <Input
                 autoCapitalize='words'
                 type='name'
@@ -164,38 +169,3 @@ const PersonalData = ({navigation}) => {
 };
 
 export default PersonalData
-
-const styleSettingsInput = StyleSheet.create({
-    wrapper: {
-        width: '100%',
-        marginBottom: 35,
-    },
-    text: {
-        marginBottom: 12,
-        fontSize: 13,
-        marginLeft: 14,
-        color: '#454545',
-    },
-    input: {
-        width: '100%',
-        paddingLeft: 14,
-        backgroundColor: '#FFFFFF',
-        borderBottomColor: 'rgba(36, 168, 172, 0.5)',
-        borderBottomWidth: 1,
-        borderTopColor: 'rgba(36, 168, 172, 0.5)',
-        borderTopWidth: 1,
-        ...Platform.select({
-            ios: {
-                paddingVertical: 11,
-                paddingRight: 46,
-            },
-            android: {
-                paddingVertical: 5,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingRight: 23,
-            }
-        }),
-    }
-});
