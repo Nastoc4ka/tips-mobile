@@ -45,19 +45,10 @@ exports.signin = async (req, res) => {
     };
 
     const {rows: [user]} = await db.query(queryUser);
-    console.log(user);
 
-    const queryOrganisation = {
-        name: 'fetch-organisation',
-        text: 'SELECT * FROM organisations WHERE id = $1',
-        values: [user.organisation_id],
-    };
-
-    const {rows: [organisation]} = await db.query(queryOrganisation);
-
-    const passwordIsValid = bcrypt.compareSync(
+    const passwordIsValid = user && bcrypt.compareSync(
         userToAuth.password,
-        user.password
+        user?.password
     );
 
     if (!user || !passwordIsValid) {
@@ -67,6 +58,14 @@ exports.signin = async (req, res) => {
         };
         return res.status(404).send({error: true, msg})
     }
+
+    const queryOrganisation = {
+        name: 'fetch-organisation',
+        text: 'SELECT * FROM organisations WHERE id = $1',
+        values: [user.organisation_id],
+    };
+
+    const {rows: [organisation]} = await db.query(queryOrganisation);
 
     if (!user.verified) {
         const msg = {
