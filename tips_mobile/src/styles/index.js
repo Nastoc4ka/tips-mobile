@@ -5,6 +5,9 @@ import { styleInput } from './input';
 import { styleMainScreens } from './mainScreens';
 import { styleNewsItem } from './newsItem';
 import { errors } from './errors';
+import { styleSettingsScreen } from './settingsScreen';
+import { styleSettingsInput } from './settingsInput';
+import { styleSettingsButton } from './settingsButton';
 
 export {
     buttonFill,
@@ -16,5 +19,8 @@ export {
     styleInput,
     styleMainScreens,
     styleNewsItem,
-    errors
+    errors,
+    styleSettingsScreen,
+    styleSettingsInput,
+    styleSettingsButton
 }
