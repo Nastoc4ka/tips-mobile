@@ -2,11 +2,8 @@ import {call, put, takeEvery} from 'redux-saga/effects';
 import {
     hideBlur,
     hideLoading,
-    loginFail,
-    loginLoading,
     loginSuccess,
     logout,
-    registerFail,
     registerSuccess,
     setMessage,
     showBlur,
@@ -71,7 +68,6 @@ function* registerSaga(action) {
         const isRegistered = yield call(() => authService.register(action.payload));
         yield put(registerSuccess());
         yield put(hideLoading());
-        console.log('isRegistered', isRegistered);
         yield put(setMessage(isRegistered.msg));
     } catch (error) {
         yield put(hideLoading());

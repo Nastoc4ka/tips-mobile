@@ -8,7 +8,6 @@ const InputPhone = ({ label, handleBlur, message, handleChange, value = null,  s
             start: 0,
             end: 0
     });
-console.log(style);
     const [phone, setPhone] = useState('');
     const [styleCurrentInput, setStyleCurrentInput] = useState(styleInput);
 
