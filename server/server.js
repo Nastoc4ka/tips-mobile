@@ -3,16 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const pool = require('./db');
 const app = express();
-const fileUpload = require('express-fileupload');
 
-// default options
-app.use(fileUpload());
-
-const corsOptions = {
-    origin: "http://localhost:8081",
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());

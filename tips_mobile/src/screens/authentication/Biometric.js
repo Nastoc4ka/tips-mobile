@@ -13,7 +13,7 @@ import {
  
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 import { useDispatch } from 'react-redux';
-import { setAuthentication } from '../../redux/actions';
+import { pinAuthenticationSuccess } from '../../redux/actions';
  
  
 // - this example component supports both the
@@ -24,25 +24,33 @@ const BiometricPopup = (props) => {
     const dispatch = useDispatch();
     const [state, setState] = useState({
         errorMessageLegacy: null,
-        biometricLegacy: null
+        biometricLegacy: null,
+        biometryType: null
     });
- 
-    let description = null;
- 
+
     const requiresLegacyAuthentication = () => Platform.Version < 23;
 
-    const onAuthenticate = () => {
-        dispatch(setAuthentication());
-    }
+    const getMessage = () =>{
+        const {biometryType}=state;
+        console.log(biometryType);
+        if(biometryType == 'Face ID')
+        {
+            return 'Scan your Face on the device to continue'
+        }
+        else
+        {
+            return 'Scan your Fingerprint on the device scanner to continue'
+        }
+    };
  
     const authCurrent = () => {
         FingerprintScanner
-            .authenticate({ title: 'Отсканируйте, чтобы войти', cancelButton: 'Ввести ПИН-код' })
+            .authenticate({ description: getMessage(), title: 'Отсканируйте, чтобы войти', cancelButton: 'Ввести ПИН-код' })
             .then(() => {
-                onAuthenticate();
+                dispatch(pinAuthenticationSuccess());
             })
             .catch((e) => console.log(e));
-    }
+    };
  
     const authLegacy = () => {
         FingerprintScanner
@@ -62,6 +70,10 @@ const BiometricPopup = (props) => {
         if (requiresLegacyAuthentication()) {
             authLegacy();
         } else {
+            FingerprintScanner.isSensorAvailable()
+                .then((biometryType) => {
+                    this.setState({biometryType});
+                })
             authCurrent();
         }
     }, []);
@@ -71,42 +83,9 @@ const BiometricPopup = (props) => {
     })
  
     const { errorMessageLegacy, biometricLegacy } = state;
-    const { style, handlePopupDismissedLegacy } = props;
 
-    return (
-        <>
-            { requiresLegacyAuthentication() 
-                ? <View style={styles.container}>
-                    {/* <View style={[styles.contentContainer, style]}>
-                        <Image
-                            style={styles.logo}
-                            source={require('../assets/images/avatar.jpg')}
-                        />
-                
-                        <Text style={styles.heading}>
-                            Biometric{'\n'}Authentication
-                        </Text>
-                        <Text
-                            ref={(instance) => { description = instance; }}
-                            style={styles.description(!!errorMessageLegacy)}>
-                            {errorMessageLegacy || `Scan your ${biometricLegacy} on the\ndevice scanner to continue`}
-                        </Text>
-            
-                        <TouchableOpacity
-                            style={styles.buttonContainer}
-                            onPress={handlePopupDismissedLegacy}
-                        >
-                            <Text style={styles.buttonText}>
-                                BACK TO MAIN
-                            </Text>
-                        </TouchableOpacity>
-                    </View> */}
-                </View>
-                : null
-            }
-        </>
-    );
-}
+    return false
+};
  
 BiometricPopup.propTypes = {
   handlePopupDismissedLegacy: PropTypes.func,

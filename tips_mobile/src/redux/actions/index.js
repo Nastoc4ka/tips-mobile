@@ -1,29 +1,68 @@
 import {
     CLEAR_MESSAGE,
+    GET_ORGANISATIONS_FAIL,
+    GET_ORGANISATIONS_SAGA,
+    GET_ORGANISATIONS_SUCCESS,
+    HIDE_BLUR,
+    HIDE_LOADING,
     LOGIN_FAIL,
     LOGIN_SAGA,
+    LOGIN_SCREEN_SHOW,
     LOGIN_SUCCESS,
     LOGOUT,
     LOGOUT_SAGA,
     REGISTER_FAIL,
+    REGISTER_INIT,
     REGISTER_SAGA,
     REGISTER_SUCCESS,
-    REGISTER_INIT,
-    SET_MESSAGE,
-    SHOW_BLUR,
-    HIDE_BLUR,
-    SHOW_LOADING,
-    HIDE_LOADING,
-    GET_ORGANISATIONS_SAGA,
-    GET_ORGANISATIONS_FAIL,
-    GET_ORGANISATIONS_SUCCESS,
-    LOGIN_SCREEN_SHOW,
     REGISTRATION_SCREEN_SHOW,
-    SET_AUTHENTICATION,
-    SEND_DATA_DISABLE,
+    REMOVE_PIN_AUTHENTICATION,
     SEND_DATA_ACTIVE,
-    UPDATE_USER_SAGA
+    SEND_DATA_DISABLE,
+    SET_MESSAGE,
+    SET_PIN_AUTHENTICATION_SAGA,
+    SHOW_BLUR,
+    SHOW_LOADING,
+    PIN_AUTHENTICATION_SUCCESS,
+    UPDATE_USER_SAGA,
+    PIN_AUTHENTICATIED_FALSE,
+    GET_LOCAL_DATA_SAGA,
+    SET_PIN_AUTHENTICATION,
+
 } from "./types"
+
+const getLocalDataSaga = () => {
+    return {
+        type: GET_LOCAL_DATA_SAGA
+    }
+};
+const pinAuthenticationSuccess = () => {
+    return {
+        type: PIN_AUTHENTICATION_SUCCESS
+    }
+};
+const removePinAuthentication = () => {
+    return {
+        type: REMOVE_PIN_AUTHENTICATION
+    }
+};
+const setPinAuthenticationSaga = (pin) => {
+    return {
+        type: SET_PIN_AUTHENTICATION_SAGA,
+        payload: pin
+    }
+};
+const setPinAuthentication = (pin) => {
+    return {
+        type: SET_PIN_AUTHENTICATION,
+        payload: pin
+    }
+};
+const pinAuthenticatiedFalse = () => {
+    return {
+        type: PIN_AUTHENTICATIED_FALSE
+    }
+};
 
 const loginScreenShow = () => {
     return {
@@ -167,12 +206,6 @@ const hideLoading = () => {
     }
 };
 
-const setAuthentication = () => {
-    return {
-        type: SET_AUTHENTICATION,
-    }
-};
-
 export {
     loginSaga,
     loginSuccess,
@@ -194,9 +227,13 @@ export {
     getOrganisationsSaga,
     registrationScreenShow,
     loginScreenShow,
-    setAuthentication,
     sendDataActive,
     sendDataDisable,
     updateUserSaga,
-
+    pinAuthenticatiedFalse,
+    setPinAuthenticationSaga,
+    setPinAuthentication,
+    removePinAuthentication,
+    pinAuthenticationSuccess,
+    getLocalDataSaga,
 };

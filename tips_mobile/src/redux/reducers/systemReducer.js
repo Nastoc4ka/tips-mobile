@@ -1,14 +1,11 @@
 import {
-    SHOW_BLUR,
-    HIDE_BLUR,
-    SHOW_LOADING,
-    HIDE_LOADING, CLEAR_MESSAGE, SET_MESSAGE, SET_AUTHENTICATION, SEND_DATA_DISABLE, SEND_DATA_ACTIVE
+    SHOW_BLUR, HIDE_BLUR, SHOW_LOADING, HIDE_LOADING,
+    CLEAR_MESSAGE, SET_MESSAGE, SEND_DATA_DISABLE, SEND_DATA_ACTIVE
 } from "../actions/types";
 
 const initialState = {
     blur: false,
     loading: false,
-    authenticated: false,
     message: '',
     sendData: false,
 };
@@ -56,11 +53,6 @@ const systemReducer = (state = initialState, action) => {
                 ...state,
                 message: '',
                 blur: false
-            };
-        case SET_AUTHENTICATION:
-            return {
-                ...state,
-                authenticated: true
             };
         default:
             return state;

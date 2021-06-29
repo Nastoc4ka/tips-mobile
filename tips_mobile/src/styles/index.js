@@ -8,6 +8,7 @@ import { errors } from './errors';
 import { styleSettingsScreen } from './settingsScreen';
 import { styleSettingsInput } from './settingsInput';
 import { styleSettingsButton } from './settingsButton';
+import { styleSettingsHeader, styleSettingsHeaderButtonRight } from './settingsHeader';
 
 export {
     buttonFill,
@@ -22,5 +23,7 @@ export {
     errors,
     styleSettingsScreen,
     styleSettingsInput,
-    styleSettingsButton
+    styleSettingsButton,
+    styleSettingsHeaderButtonRight,
+    styleSettingsHeader,
 }

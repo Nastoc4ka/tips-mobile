@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {buttonFill, buttonLight, styleAuth} from '../../styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, ScrollView, View, KeyboardAvoidingView} from 'react-native';
 import {CustomButton, IconInInputView, Input} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
 import {clearMessage, hideBlur, loginSaga} from '../../redux/actions';
@@ -86,7 +86,6 @@ const SignIn = ({handleRegistrationClick}) => {
 
     useEffect(() => {
         const currentErrors = Object.entries(errors).filter(([key, value]) => value.length > 0);
-
         if (!currentErrors.length && onLogin) {
             dispatch(loginSaga(data));
         }
@@ -96,31 +95,35 @@ const SignIn = ({handleRegistrationClick}) => {
 
     return (<>
             <Text style={styleAuth.headerSignIn}>Привет</Text>
-            <View style={{width: '100%', paddingBottom: 58}}>
-                <InputPhone
-                    label='Телефон'
-                    handleChange={validatePhoneNumberCorrect}
-                    handleBlur={validatePhoneNumber}
-                    message={errors.phoneNumber}
-                />
-                <Input
-                    maxWidth='90%'
-                    type='password'
-                    secureTextEntry={data.secureTextEntry}
-                    autoCapitalize="none"
-                    label='Пароль'
-                    placeholder='•••••••••'
-                    maxLength={60}
-                    handleChange={passwordHandleChange}
-                    message={errors.password}
-                >
-                    <TouchableOpacity onPress={updateSecureTextEntry}>
-                        <IconInInputView>
-                            {data.secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
-                        </IconInInputView>
-                    </TouchableOpacity>
-                </Input>
-            </View>
+            <KeyboardAvoidingView
+                style={{width: '100%', paddingBottom: 58}}
+                behavior="padding">
+                <ScrollView>
+                    <InputPhone
+                        label='Телефон'
+                        handleChange={validatePhoneNumberCorrect}
+                        handleBlur={validatePhoneNumber}
+                        message={errors.phoneNumber}
+                    />
+                    <Input
+                        maxWidth='90%'
+                        type='password'
+                        secureTextEntry={data.secureTextEntry}
+                        autoCapitalize="none"
+                        label='Пароль'
+                        placeholder='•••••••••'
+                        maxLength={60}
+                        handleChange={passwordHandleChange}
+                        message={errors.password}
+                    >
+                        <TouchableOpacity onPress={updateSecureTextEntry}>
+                            <IconInInputView>
+                                {data.secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
+                            </IconInInputView>
+                        </TouchableOpacity>
+                    </Input>
+                </ScrollView>
+            </KeyboardAvoidingView>
 
             <CustomButton
                 onPress={handleLogin}

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { View, Animated } from 'react-native';
+import { StyleSheet, View, Animated } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { setAuthentication } from '../../redux/actions';
+import { pinAuthenticationSuccess } from '../../redux/actions';
 
-const PasswordDots = ({password, correctPassword, handleAuthentication, setPassword}) => {
+const PasswordDots = ({password, correctPassword, handleAuthSecurity, setPassword}) => {
     const dispatch = useDispatch();
     const [animation] = useState(new Animated.Value(0));
 
@@ -41,12 +40,13 @@ const PasswordDots = ({password, correctPassword, handleAuthentication, setPassw
                 )
             )
         )
-    }   
+    };
 
     useEffect(() => {
         if (password.length === 4) {
             if (password === correctPassword) {
-                dispatch(setAuthentication())
+                dispatch(pinAuthenticationSuccess());
+                handleAuthSecurity ? handleAuthSecurity(previousState => !previousState) : null;
             } else {
                 animate();
                 setPassword('')

@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 export const styleSettingsScreen = StyleSheet.create({
-    avatar: {
+    container: {
         marginTop: 34,
+    },
+    avatar: {
         borderRadius: 67 / 2,
         width: 67,
         height: 67,
@@ -46,5 +48,9 @@ export const styleSettingsScreen = StyleSheet.create({
     textButton: {
         marginLeft: 15,
         fontSize: 17,
+    },
+    wrapperBtn: {
+        width: '100%',
+        marginTop: 36,
     }
 });
