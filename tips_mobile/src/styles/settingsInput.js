@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet, Dimension, Dimensions} from 'react-native';
 
 export const styleSettingsInput = StyleSheet.create({
     wrapper: {
-        width: '100%',
+        width: Dimensions.get('window').width,
         marginBottom: 35,
     },
     text: {

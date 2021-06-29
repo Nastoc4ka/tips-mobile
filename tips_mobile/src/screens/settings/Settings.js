@@ -1,13 +1,15 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from "react-redux";
-import {logoutSaga} from "../../redux/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {logoutSaga, pinAuthenticatiedFalse } from "../../redux/actions";
 import {BackgroundSettings, CustomButton} from '../../components';
-import { styleSettingsScreen, styleSettingsButton } from "../../styles";
+import {styleSettingsButton, styleSettingsScreen} from "../../styles";
 import {SettingsBtnIcon} from '../../assets/icons';
-import {NOTIFICATIONS, PERSONAL_DATA, SECURITY} from "../../constants/routeNames";
+import {LANGUAGE, NOTIFICATIONS, PERSONAL_DATA, SECURITY} from "../../constants/routeNames";
 import AvatarWrapper from "./AvatarWrapper";
+
+const buttons = [PERSONAL_DATA, SECURITY, NOTIFICATIONS, LANGUAGE];
 
 const Settings = () => {
     const {user} = useSelector(state => state.authLoginReducer);
@@ -15,43 +17,35 @@ const Settings = () => {
     const dispatch = useDispatch();
 
     const logout = () => {
-        dispatch(logoutSaga())
+        dispatch(logoutSaga());
     };
+
+    const renderButtons = buttons.map((screen) => {
+        return <CustomButton
+            key={`${screen}screen`}
+            leftIcon={<SettingsBtnIcon/>}
+            title={screen}
+            onPress={() => navigation.navigate(screen)}
+            styles={styleSettingsButton}
+        />
+    });
 
     return (
         <BackgroundSettings>
-            <View style={styleSettingsScreen.avatar}>
-                <AvatarWrapper
-                    source={user.avatar}
-                    textAvatar={user.firstName[0]}
-                />
+            <View style={styleSettingsScreen.container}>
+                <View style={styleSettingsScreen.avatar}>
+                    <AvatarWrapper
+                        source={user.avatar}
+                        textAvatar={user.firstName[0]}
+                    />
+                </View>
             </View>
             <Text style={styleSettingsScreen.avatarLabelName}>{user.firstName}</Text>
             <Text style={styleSettingsScreen.avatarLabelId}>{user.id}</Text>
-            <CustomButton
-                leftIcon={<SettingsBtnIcon/>}
-                title={PERSONAL_DATA}
-                onPress={() => navigation.navigate(PERSONAL_DATA)}
-                styles={styleSettingsButton}
-            />
-            <CustomButton
-                leftIcon={<SettingsBtnIcon/>}
-                title={SECURITY}
-                onPress={() => navigation.navigate(SECURITY)}
-                styles={styleSettingsButton}
-            />
-            <CustomButton
-                leftIcon={<SettingsBtnIcon/>}
-                title={NOTIFICATIONS}
-                onPress={() => navigation.navigate(NOTIFICATIONS)}
-                styles={styleSettingsButton}
-            />
-            <CustomButton
-                leftIcon={<SettingsBtnIcon/>}
-                title={'Язык'}
-                styles={styleSettingsButton}
-            />
-            <View style={styleSettingsScreens.wrapperBtn}>
+
+            {renderButtons}
+
+            <View style={styleSettingsScreen.wrapperBtn}>
                 <CustomButton
                     leftIcon={<SettingsBtnIcon/>}
                     title={'О проекте'}
@@ -75,10 +69,3 @@ const Settings = () => {
 };
 
 export default Settings
-
-const styleSettingsScreens = StyleSheet.create({
-    wrapperBtn: {
-        width: '100%',
-        marginTop: 36,
-    }
-});

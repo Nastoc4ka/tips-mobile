@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import { styleSettingsScreen, styleSettingsInput } from "../../styles";
+import {styleSettingsInput, styleSettingsScreen} from "../../styles";
 import {AuthModal, BackgroundSettings, Input, InputPhone, UploadImageModal} from "../../components";
 import {Portal} from 'react-native-portalize';
 import {clearMessage, hideBlur, sendDataDisable, showBlur, updateUserSaga} from "../../redux/actions";
@@ -53,7 +53,6 @@ const PersonalData = ({navigation}) => {
         dispatch(clearMessage());
         dispatch(hideBlur());
         setChoosePhoto(false);
-        navigation.goBack();
     };
 
     const pickAvatar = () => {
@@ -109,16 +108,18 @@ const PersonalData = ({navigation}) => {
 
     return (
         <BackgroundSettings>
-            <TouchableOpacity
-                style={styleSettingsScreen.avatar}
-                onPress={pickAvatar}
-            >
-                <AvatarWrapper
-                    source={data.avatar}
-                    textAvatar={data.firstName[0]}
-                />
-                <Text style={styleSettingsScreen.textPhoto}>Фото</Text>
-            </TouchableOpacity>
+            <View style={styleSettingsScreen.container}>
+                <TouchableOpacity
+                    style={styleSettingsScreen.avatar}
+                    onPress={pickAvatar}
+                >
+                    <AvatarWrapper
+                        source={data.avatar}
+                        textAvatar={data.firstName[0]}
+                    />
+                    <Text style={styleSettingsScreen.textPhoto}>Фото</Text>
+                </TouchableOpacity>
+            </View>
             <Input
                 autoCapitalize='words'
                 type='name'
@@ -154,6 +155,7 @@ const PersonalData = ({navigation}) => {
             <PositionAndOrganization position={data.position} organization={data.organisation.name}/>
             {choosePhoto ? <Portal>
                 <UploadImageModal
+                    navigationGoBack={() => navigation.goBack()}
                     setData={setData}
                     handleCloseModal={handleCloseModal}
                 />
