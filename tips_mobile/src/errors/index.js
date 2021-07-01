@@ -3,6 +3,8 @@ import RegistrationError from "./RegistrationError";
 import LoginError from "./LoginError";
 import OrganisationsError from "./OrganisationsError";
 import UpdateUserError from "./UpdateUserError";
+import PasswordConfirmationError from "./PasswordConfirmationError";
+import UpdatePasswordError from "./UpdatePasswordError";
 
 export {
     UnauthorizedError,
@@ -10,5 +12,7 @@ export {
     LoginError,
     OrganisationsError,
     UpdateUserError,
+    PasswordConfirmationError,
+    UpdatePasswordError,
 
 }

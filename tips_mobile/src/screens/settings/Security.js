@@ -3,8 +3,8 @@ import {Dimensions, StyleSheet, Switch, Text, View} from "react-native";
 import {BackgroundSettings, CustomButton} from "../../components";
 import {useDispatch, useSelector} from "react-redux";
 import { removePinAuthentication } from '../../redux/actions';
-import {styleSettingsButton, styleSettingsScreen} from "../../styles";
-import {CHANGE_PASSWORD, PIN_CODE} from "../../constants/routeNames";
+import {styleSettingsButton, styleSettingsScreen, styleSettingsButtonBlue} from "../../styles";
+import {CHANGE_PASSWORD, PASSWORD_CONFIRMATION, PIN_CODE} from "../../constants/routeNames";
 import Authentication from "../authentication";
 
 const Security = ({navigation}) => {
@@ -50,8 +50,8 @@ const Security = ({navigation}) => {
             <View style={styleSettingsScreen.container}>
                 <CustomButton
                     title={CHANGE_PASSWORD}
-                    onPress={() => navigation.navigate(CHANGE_PASSWORD)}
-                    styles={styleSettingsButton}
+                    onPress={() => navigation.navigate(PASSWORD_CONFIRMATION)}
+                    styles={styleSettingsButtonBlue}
                 />
                 <View style={styleSettingsScreen.container}>
                     <CustomButton
@@ -62,7 +62,7 @@ const Security = ({navigation}) => {
                     <CustomButton
                         title='Поменять ПИН-код'
                         onPress={() => navigation.navigate(PIN_CODE)}
-                        styles={styleSettingsButton}
+                        styles={styleSettingsButtonBlue}
                     />
                 </View>
                 <View style={styleSettingsScreen.container}>

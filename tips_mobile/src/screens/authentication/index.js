@@ -16,6 +16,6 @@ const Authentication = ({handleAuthSecurity}) => {
             <BiometricPopup />
         </View>
     )
-}
+};
 
 export default Authentication;

@@ -7,7 +7,7 @@ import { styleNewsItem } from './newsItem';
 import { errors } from './errors';
 import { styleSettingsScreen } from './settingsScreen';
 import { styleSettingsInput } from './settingsInput';
-import { styleSettingsButton } from './settingsButton';
+import { styleSettingsButton, styleSettingsButtonBlue, styleSettingsButtonString } from './settingsButton';
 import { styleSettingsHeader, styleSettingsHeaderButtonRight } from './settingsHeader';
 
 export {
@@ -26,4 +26,6 @@ export {
     styleSettingsButton,
     styleSettingsHeaderButtonRight,
     styleSettingsHeader,
+    styleSettingsButtonString,
+    styleSettingsButtonBlue
 }

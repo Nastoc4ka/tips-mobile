@@ -13,6 +13,12 @@ const DATE_REG_EXP = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20
 
 const isNumberLengthCorrect = (phoneNumber) => phoneNumber.length === PHONE_NUMBER_LENGTH;
 
+const initialErrorsState = {
+    firstName: '',
+    phoneNumber: '',
+    birthdate: '',
+};
+
 const PersonalData = ({navigation}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.authLoginReducer);
@@ -20,11 +26,7 @@ const PersonalData = ({navigation}) => {
     const {message} = useSelector(state => state.systemReducer);
     const [data, setData] = useState(user);
     const [choosePhoto, setChoosePhoto] = useState(false);
-    const [errors, setErrors] = useState({
-        firstName: '',
-        phoneNumber: '',
-        birthdate: '',
-    });
+    const [errors, setErrors] = useState(initialErrorsState);
 
     const displayInputError = (validatorFunc) => (data) => {
         setErrors({...errors, ...validatorFunc(data)});
@@ -102,6 +104,8 @@ const PersonalData = ({navigation}) => {
                 setErrors(formErrors);
             } else {
                 dispatch(updateUserSaga(data));
+                setErrors(initialErrorsState);
+                setData(user);
             }
         }
     }, [sendData]);
@@ -147,7 +151,7 @@ const PersonalData = ({navigation}) => {
                 name='birthdate'
                 label='Дата рождения'
                 handleBlur={displayInputError(validateBirthDate)}
-                maxLength={40}
+                maxLength={10}
                 message={errors.birthdate}
                 value={data.birthdate}
                 handleChange={(text) => onChange(text, 'birthdate')}
@@ -155,7 +159,6 @@ const PersonalData = ({navigation}) => {
             <PositionAndOrganization position={data.position} organization={data.organisation.name}/>
             {choosePhoto ? <Portal>
                 <UploadImageModal
-                    navigationGoBack={() => navigation.goBack()}
                     setData={setData}
                     handleCloseModal={handleCloseModal}
                 />

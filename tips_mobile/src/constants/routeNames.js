@@ -10,5 +10,7 @@ export const SECURITY = 'Безопасность';
 export const NOTIFICATIONS = 'Уведомления';
 export const SETTINGS_NAVIGATOR = 'Настройки';
 export const CHANGE_PASSWORD = 'Поменять пароль';
+export const PASSWORD_CONFIRMATION = 'Введите старый пароль';
+export const SMS_CONFIRMATION = 'Введите пароль из SMS';
 export const PIN_CODE = 'ПИН-код';
 export const LANGUAGE = 'Язык';

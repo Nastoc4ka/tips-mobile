@@ -8,7 +8,7 @@ const updateUserDataService = async (userData) => {
         .then(async (response) => {
             const jsonValue = JSON.stringify(userData);
             await AsyncStorage.setItem('user', jsonValue);
-
+console.log(userData);
             return {
                 userData,
                 ...response.data
@@ -16,4 +16,5 @@ const updateUserDataService = async (userData) => {
         })
         .catch(catchError(UpdateUserError));
 };
+
 export default updateUserDataService;

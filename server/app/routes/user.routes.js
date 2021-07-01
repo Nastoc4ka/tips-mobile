@@ -12,6 +12,7 @@ module.exports = function (app) {
 
     app.get("/api/organisations", controller.organisations);
     app.put("/api/userData", [authJwt.verifyToken], controller.updateUserData);
+    app.put("/api/updatePassword", [authJwt.verifyToken], controller.updatePassword);
     app.post("/api/organisations", controller.organizationsByAdmin);
     // app.get("/api/users", [authJwt.verifyToken], controller.users);
     // app.get("/api/dashboard", [authJwt.verifyToken], controller.dashboard);

@@ -1,6 +1,8 @@
 import {
     SHOW_BLUR, HIDE_BLUR, SHOW_LOADING, HIDE_LOADING,
-    CLEAR_MESSAGE, SET_MESSAGE, SEND_DATA_DISABLE, SEND_DATA_ACTIVE
+    CURRENT_PASSWORD_CONFIRMED,
+    CURRENT_PASSWORD_SET_FALSE, CLEAR_MESSAGE, SET_MESSAGE,
+    SEND_DATA_DISABLE, SEND_DATA_ACTIVE
 } from "../actions/types";
 
 const initialState = {
@@ -8,6 +10,8 @@ const initialState = {
     loading: false,
     message: '',
     sendData: false,
+    confirmPassword: false,
+    sms: null
 };
 
 const systemReducer = (state = initialState, action) => {
@@ -53,6 +57,16 @@ const systemReducer = (state = initialState, action) => {
                 ...state,
                 message: '',
                 blur: false
+            };
+            case CURRENT_PASSWORD_CONFIRMED:
+            return {
+                ...state,
+                confirmPassword: true,
+            };
+            case CURRENT_PASSWORD_SET_FALSE:
+            return {
+                ...state,
+                confirmPassword: false,
             };
         default:
             return state;

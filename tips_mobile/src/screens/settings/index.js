@@ -5,15 +5,8 @@ import PersonalData from "./PersonalData";
 import Security from "./Security";
 import Notifications from "./Notifications";
 import {useDispatch} from 'react-redux';
-import {
-    CHANGE_PASSWORD,
-    PIN_CODE,
-    LANGUAGE,
-    NOTIFICATIONS,
-    PERSONAL_DATA,
-    SECURITY,
-    SETTINGS
-} from "../../constants/routeNames";
+import { CHANGE_PASSWORD, PIN_CODE, LANGUAGE, NOTIFICATIONS, PERSONAL_DATA,
+    SECURITY, SETTINGS, SMS_CONFIRMATION, PASSWORD_CONFIRMATION } from "../../constants/routeNames";
 import {styleSettingsHeaderButtonRight, styleSettingsHeader} from '../../styles';
 import {BackButton, CustomButton, SettingsTopPanel} from "../../components";
 import {sendDataActive} from "../../redux/actions";
@@ -21,6 +14,8 @@ import ChangePassword from "./ChangePassword";
 import PINcode from "./PINcode";
 import Language from "./Language";
 import Settings from "./Settings";
+import passwordConfirmation from "./passwordConfirmation";
+import SmsConfirmation from "./SmsConfirmation";
 
 const screens = [
     {name: SETTINGS, component: Settings},
@@ -30,6 +25,8 @@ const screens = [
     {name: CHANGE_PASSWORD, component: ChangePassword},
     {name: PIN_CODE, component: PINcode},
     {name: LANGUAGE, component: Language},
+    {name: PASSWORD_CONFIRMATION, component: passwordConfirmation},
+    {name: SMS_CONFIRMATION, component: SmsConfirmation},
 ];
 
 const SettingsNavigator = () => {
