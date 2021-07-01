@@ -3,7 +3,7 @@ import {StyleSheet, Text, TouchableHighlight} from 'react-native';
 import ModalWrapper from './ModalWrapper';
 import ImagePicker from 'react-native-image-crop-picker';
 
-const UploadImageModal = ({handleCloseModal, setData, navigationGoBack}) => {
+const UploadImageModal = ({handleCloseModal, setData}) => {
     const [takePhoto, setTakePhoto] = useState(null);
 
     const chooseFromLibrary = () => {
@@ -33,13 +33,9 @@ const UploadImageModal = ({handleCloseModal, setData, navigationGoBack}) => {
             includeExif: true,
         })
             .then(image => {
-                setData((data) => ({
-                    ...data,
-                    avatar: {
-                        uri: `data:${image.mime};base64,` + image.data,
-                        width: image.width,
-                        height: image.height,
-                    }
+                setData((prevData) => ({
+                    ...prevData,
+                    avatar: `data:${image.mime};base64,` + image.data
                 }));
                 handleCloseModal();
             })
@@ -47,7 +43,6 @@ const UploadImageModal = ({handleCloseModal, setData, navigationGoBack}) => {
     };
 
     const closeModal = () => {
-        navigationGoBack();
         handleCloseModal();
     };
 

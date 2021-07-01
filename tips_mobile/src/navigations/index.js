@@ -9,13 +9,17 @@ import {getLocalDataSaga} from "../redux/actions";
 
 const AppNavContainer = () => {
     const dispatch = useDispatch();
+    const {success, pin} = useSelector((state) => state.pinAuthenticateReducer);
+    const {user} = useSelector((state) => state.authLoginReducer);
+
 
     useEffect(() => {
         dispatch(getLocalDataSaga());
     }, []);
 
-    const {success, pin} = useSelector((state) => state.pinAuthenticateReducer);
-    const {user} = useSelector((state) => state.authLoginReducer);
+    useEffect(() => {
+        console.log("success, pin, user in Nav", success, pin, user);
+    }, [success, pin, user]);
     return (
         <Host>
             {

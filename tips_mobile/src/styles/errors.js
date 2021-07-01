@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const errors = StyleSheet.create({
     wrapper: {
-        //flex: 1,
+        marginRight: 5,
         alignItems: 'flex-end',
     },
     text: {

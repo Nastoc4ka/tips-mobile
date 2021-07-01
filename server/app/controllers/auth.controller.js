@@ -78,6 +78,7 @@ exports.signin = async (req, res) => {
     const accessToken = jwt.sign({id: user.id}, config.secret, {
         expiresIn: 60 * 60 * 24 * 30 // 30 day
     });
+
     const userDataAsyncStorage = {
         success: true,
         role: user.role,
@@ -91,6 +92,35 @@ exports.signin = async (req, res) => {
         avatar: user.avatar,
         accessToken,
     };
-console.log('userDataAsyncStorage', userDataAsyncStorage);
+
     res.status(200).send(userDataAsyncStorage);
+};
+
+exports.confirmPassword = async (req, res) => {
+
+    const dataToConfirm = req.body;
+
+    const queryPassword = {
+        name: 'fetch-userPassword',
+        text: 'SELECT password FROM users WHERE id = $1',
+        values: [req.userId],
+    };
+
+    const {rows: [{password}]} = await db.query(queryPassword);
+
+console.log(password);
+
+    const passwordIsValid = password && bcrypt.compareSync(
+        dataToConfirm.password,
+        password
+    );
+
+    if (!passwordIsValid) {
+        const msg = {
+            title: "пароль указан неверно.",
+            text: ""
+        };
+        return res.status(404).send({error: true, msg})
+    }
+    res.status(200).send({success: true});
 };

@@ -1,39 +1,28 @@
 import {
-    CLEAR_MESSAGE,
-    GET_ORGANISATIONS_FAIL,
-    GET_ORGANISATIONS_SAGA,
-    GET_ORGANISATIONS_SUCCESS,
-    HIDE_BLUR,
-    HIDE_LOADING,
-    LOGIN_FAIL,
-    LOGIN_SAGA,
-    LOGIN_SCREEN_SHOW,
-    LOGIN_SUCCESS,
-    LOGOUT,
-    LOGOUT_SAGA,
-    REGISTER_FAIL,
-    REGISTER_INIT,
-    REGISTER_SAGA,
-    REGISTER_SUCCESS,
-    REGISTRATION_SCREEN_SHOW,
-    REMOVE_PIN_AUTHENTICATION,
-    SEND_DATA_ACTIVE,
-    SEND_DATA_DISABLE,
-    SET_MESSAGE,
-    SET_PIN_AUTHENTICATION_SAGA,
-    SHOW_BLUR,
-    SHOW_LOADING,
-    PIN_AUTHENTICATION_SUCCESS,
-    UPDATE_USER_SAGA,
-    PIN_AUTHENTICATIED_FALSE,
-    GET_LOCAL_DATA_SAGA,
-    SET_PIN_AUTHENTICATION,
+    CLEAR_MESSAGE, GET_ORGANISATIONS_FAIL, GET_ORGANISATIONS_SAGA,
+    GET_ORGANISATIONS_SUCCESS, HIDE_BLUR, HIDE_LOADING, LOGIN_FAIL,
+    LOGIN_SAGA, LOGIN_SCREEN_SHOW, LOGIN_SUCCESS, LOGOUT, LOGOUT_SAGA,
+    REGISTER_FAIL, REGISTER_INIT, REGISTER_SAGA, REGISTER_SUCCESS,
+    REGISTRATION_SCREEN_SHOW, REMOVE_PIN_AUTHENTICATION, SEND_DATA_ACTIVE,
+    SEND_DATA_DISABLE, SET_MESSAGE, SET_PIN_AUTHENTICATION_SAGA, SHOW_BLUR,
+    SHOW_LOADING, PIN_AUTHENTICATION_SUCCESS, UPDATE_USER_SAGA,
+    PIN_AUTHENTICATIED_FALSE, GET_LOCAL_DATA_SAGA, SET_PIN_AUTHENTICATION,
+    SET_CONFIRM_CURRENT_PASSWORD_SAGA, CURRENT_PASSWORD_CONFIRMED,
+    CURRENT_PASSWORD_SET_FALSE, UPDATE_PASSWORD_SAGA,
 
 } from "./types"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const getLocalDataSaga = () => {
     return {
         type: GET_LOCAL_DATA_SAGA
+    }
+};
+const updatePasswordSaga = (password) => {
+    return {
+        type: UPDATE_PASSWORD_SAGA,
+        payload: password
     }
 };
 const pinAuthenticationSuccess = () => {
@@ -42,6 +31,7 @@ const pinAuthenticationSuccess = () => {
     }
 };
 const removePinAuthentication = () => {
+    AsyncStorage.removeItem('pin');
     return {
         type: REMOVE_PIN_AUTHENTICATION
     }
@@ -50,6 +40,22 @@ const setPinAuthenticationSaga = (pin) => {
     return {
         type: SET_PIN_AUTHENTICATION_SAGA,
         payload: pin
+    }
+};
+const setConfirmCurrentPasswordSaga = (password) => {
+    return {
+        type: SET_CONFIRM_CURRENT_PASSWORD_SAGA,
+        payload: password
+    }
+};
+const currentPasswordConfirmed = () => {
+    return {
+        type: CURRENT_PASSWORD_CONFIRMED
+    }
+};
+const currentPasswordSetFalse = () => {
+    return {
+        type: CURRENT_PASSWORD_SET_FALSE
     }
 };
 const setPinAuthentication = (pin) => {
@@ -100,9 +106,11 @@ const setMessage = (message) => ({
     payload: message,
 });
 
-const clearMessage = () => ({
+const clearMessage = () => {
+    console.log(CLEAR_MESSAGE);
+    return {
     type: CLEAR_MESSAGE,
-});
+}};
 
 const registerSaga = (registrationData) => {
     return {
@@ -236,4 +244,8 @@ export {
     removePinAuthentication,
     pinAuthenticationSuccess,
     getLocalDataSaga,
+    setConfirmCurrentPasswordSaga,
+    currentPasswordConfirmed,
+    currentPasswordSetFalse,
+    updatePasswordSaga,
 };

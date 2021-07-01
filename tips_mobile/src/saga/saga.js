@@ -17,9 +17,10 @@ import {
     getOrganisationsSuccess,
     setPinAuthentication,
     pinAuthenticatiedFalse,
-
+    currentPasswordSetFalse,
+    currentPasswordConfirmed
 } from '../redux/actions';
-import {authService, organisationsService, updateUserDataService} from '../services';
+import {authService, organisationsService, updateUserDataService, updatePassword} from '../services';
 
 import {
     LOGIN_SAGA,
@@ -28,12 +29,16 @@ import {
     GET_ORGANISATIONS_SAGA,
     UPDATE_USER_SAGA,
     GET_LOCAL_DATA_SAGA,
-    SET_PIN_AUTHENTICATION_SAGA
+    SET_PIN_AUTHENTICATION_SAGA,
+    SET_CONFIRM_CURRENT_PASSWORD_SAGA,
+    UPDATE_PASSWORD_SAGA,
 
 } from "../redux/actions/types";
 
 export function* sagaWatcher() {
     yield takeEvery(LOGIN_SAGA, loginSaga);
+    yield takeEvery(UPDATE_PASSWORD_SAGA, updatePasswordSaga);
+    yield takeEvery(SET_CONFIRM_CURRENT_PASSWORD_SAGA, setConfirmCurrentPasswordSaga);
     yield takeEvery(SET_PIN_AUTHENTICATION_SAGA, setPinAuthenticationSaga);
     yield takeEvery(GET_LOCAL_DATA_SAGA, getLocalDataSaga);
     yield takeEvery(GET_ORGANISATIONS_SAGA, fetchOrganizationsSaga);
@@ -41,6 +46,34 @@ export function* sagaWatcher() {
     yield takeEvery(UPDATE_USER_SAGA, updateUserSaga);
     yield takeEvery(LOGOUT_SAGA, logoutSaga);
 
+}
+
+function* updatePasswordSaga(action) {
+    try {
+        yield put(showBlur());
+        yield put(showLoading());
+        const updatedUser = yield call(() => updatePassword(action.payload));
+        yield put(loginSuccess(updatedUser.userData));
+        yield put(hideLoading());
+        yield put(setMessage(updatedUser.msg));
+    } catch (error) {
+        yield put(hideLoading());
+        yield put(hideBlur());
+        yield put(setMessage(error.msg));
+    }
+}
+
+function* setConfirmCurrentPasswordSaga(action) {
+    try {
+        yield put(showBlur());
+        yield put(showLoading());
+        yield call(() => authService.confirmCurrentPassword(action.payload));
+        yield put(hideLoading());
+        yield put(currentPasswordConfirmed())
+    } catch (error) {
+        yield put(hideLoading());
+        yield put(setMessage(error.msg));
+    }
 }
 
 function* setPinAuthenticationSaga(action) {
@@ -58,14 +91,19 @@ function* setPinAuthenticationSaga(action) {
     }
 }
 
+const getUserFromLocalStorage = async () => {
+    const user = await AsyncStorage.getItem('user');
+    return user ? await JSON.parse(user) : null;
+};
+
 function* getLocalDataSaga() {
     try {
         yield put(showBlur());
         yield put(showLoading());
-        const userData = yield call(() => (AsyncStorage.getItem('user')));
+        const userData = yield call(getUserFromLocalStorage);
         const pin = yield call(() => (AsyncStorage.getItem('pin')));
-        yield put(loginSuccess(userData));
-        yield put(setPinAuthentication(pin));
+        if(userData) yield put(loginSuccess(userData));
+        if(pin) yield put(setPinAuthentication(pin));
         yield put(hideLoading());
         yield put(hideBlur());
     } catch (error) {
