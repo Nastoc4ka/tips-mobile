@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Dimensions, StyleSheet, Text, View, TouchableOpacity} from "react-native";
 import {BackgroundSettings, CustomButton, Input, AuthModal, IconInInputView} from "../../components";
 import {useSelector, useDispatch} from "react-redux";
@@ -26,7 +26,6 @@ const passwordConfirmation = ({navigation}) => {
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
     const [data, setData] = useState(initialDataState);
-    const [toRdirect, setToRedirect] = useState(false);
     const [errors, setErrors] = useState(initialErrorsState);
 
     const displayInputError = (validatorFunc) => (data) => {
@@ -95,9 +94,13 @@ const passwordConfirmation = ({navigation}) => {
         }
     };
 
-    const handleCloseModal = async () => {
-        await dispatch(clearMessage());
-        await navigation.navigate(SETTINGS);
+    const redirect = useCallback(() => {
+        navigation.navigate(SETTINGS);
+    }, [message]);
+
+    const handleCloseModal = () => {
+        dispatch(clearMessage());
+        redirect();
     };
 
     return (
