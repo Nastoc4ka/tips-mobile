@@ -1,14 +1,14 @@
-import React, {useState, useCallback} from 'react';
-import {Dimensions, StyleSheet, Text, View, TouchableOpacity} from "react-native";
-import {BackgroundSettings, CustomButton, Input, AuthModal, IconInInputView} from "../../components";
-import {useSelector, useDispatch} from "react-redux";
+import React, {useState, useEffect} from 'react';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {AuthModal, BackgroundSettings, CustomButton, IconInInputView, Input} from "../../components";
+import {useDispatch, useSelector} from "react-redux";
 import {Portal} from 'react-native-portalize';
-import { clearMessage, hideBlur, updatePasswordSaga } from '../../redux/actions';
-import {styleSettingsButton, styleSettingsInput, styleSettingsScreen, styleSettingsButtonBlue, styleSettingsButtonString} from "../../styles";
+import {clearMessage, updatePasswordSaga} from '../../redux/actions';
+import {styleSettingsButtonString, styleSettingsInput, styleSettingsScreen} from "../../styles";
 import {SETTINGS} from "../../constants/routeNames";
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
 
-const regexpFactory = () => new RegExp(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g);
+const regexpPasswordFactory = () => new RegExp(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g);
 
 const initialErrorsState = {
     password: '',
@@ -26,6 +26,7 @@ const passwordConfirmation = ({navigation}) => {
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
     const [data, setData] = useState(initialDataState);
+    const [modalIsVisible, setModalIsVisible] = useState(false);
     const [errors, setErrors] = useState(initialErrorsState);
 
     const displayInputError = (validatorFunc) => (data) => {
@@ -33,8 +34,8 @@ const passwordConfirmation = ({navigation}) => {
     };
 
     const validatePassword = (password) => {
-        if (regexpFactory().test(password)) {
-            return { password: ''}
+        if (regexpPasswordFactory().test(password)) {
+            return {password: ''}
         } else {
             return {
                 password: 'Пароль должен содержать хотя бы 8 символов, заглавную, строчную латинскую букву и цифру.'
@@ -94,13 +95,15 @@ const passwordConfirmation = ({navigation}) => {
         }
     };
 
-    const redirect = useCallback(() => {
-        navigation.navigate(SETTINGS);
+    useEffect(() => {
+        if(message) setModalIsVisible(true);
     }, [message]);
 
+    useEffect(() => () =>  dispatch(clearMessage()), []);
+
     const handleCloseModal = () => {
-        dispatch(clearMessage());
-        redirect();
+        setModalIsVisible(false);
+        navigation.navigate(SETTINGS)
     };
 
     return (
@@ -149,12 +152,13 @@ const passwordConfirmation = ({navigation}) => {
                     styles={styleSettingsButtonString}
                 />
             </View>
-            {message ? <Portal>
+            <Portal>
                 <AuthModal
+                    modalIsVisible={modalIsVisible}
                     message={message}
                     handleCloseModal={handleCloseModal}
                 />
-            </Portal> : null}
+            </Portal>
         </BackgroundSettings>
     );
 };

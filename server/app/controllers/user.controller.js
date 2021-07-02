@@ -101,6 +101,7 @@ exports.updatePassword = async (req, res) => {
         success: true,
         role: user.role,
         id: user.id,
+        filterBirthdate: user.filter_birthdate,
         birthdate: user.birthdate,
         phoneNumber: user.phone_number,
         position: user.position,

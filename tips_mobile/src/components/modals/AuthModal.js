@@ -3,9 +3,9 @@ import { Text, View, StyleSheet } from 'react-native';
 import { TouchableHighlight } from 'react-native';
 import ModalWrapper from './ModalWrapper';
 
-const AuthModal = ({ message, handleCloseModal }) => {
+const AuthModal = ({ message, handleCloseModal, modalIsVisible }) => {
   return (
-    <ModalWrapper onBackdropPress={handleCloseModal}>
+    <ModalWrapper message={message} modalIsVisible={modalIsVisible} onBackdropPress={handleCloseModal}>
       <View style={styles.messageWrapper}>            
         <Text style={styles.messageTitle}>{message.title}</Text>
         <Text style={styles.message}>{message.text}</Text>

@@ -106,11 +106,9 @@ const setMessage = (message) => ({
     payload: message,
 });
 
-const clearMessage = () => {
-    console.log(CLEAR_MESSAGE);
-    return {
+const clearMessage = () => ({
     type: CLEAR_MESSAGE,
-}};
+});
 
 const registerSaga = (registrationData) => {
     return {

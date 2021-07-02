@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {buttonFill, buttonLight, styleAuth} from '../../styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {StyleSheet, Text, TouchableOpacity, ScrollView, View, KeyboardAvoidingView} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {CustomButton, IconInInputView, Input} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
-import {clearMessage, hideBlur, loginSaga} from '../../redux/actions';
+import {clearMessage, loginSaga} from '../../redux/actions';
 import {Portal} from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
 import InputPhone from "../../components/InputPhone";
@@ -13,6 +13,7 @@ const SignIn = ({handleRegistrationClick}) => {
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
     const [onLogin, setOnLogin] = useState(false);
+    const [modalIsVisible, setModalIsVisible] = useState(false);
 
     const [data, setData] = useState({
         phoneNumber: '',
@@ -25,8 +26,8 @@ const SignIn = ({handleRegistrationClick}) => {
     });
 
     const handleCloseModal = () => {
+        setModalIsVisible(false);
         dispatch(clearMessage());
-        setTimeout(() => dispatch(hideBlur()), 400)
     };
 
     const validatePhoneNumber = (text) => {
@@ -93,6 +94,10 @@ const SignIn = ({handleRegistrationClick}) => {
         setOnLogin(false)
     }, [errors, onLogin]);
 
+    useEffect(() => {
+        if (message) setModalIsVisible(true);
+    }, [message]);
+
     return (<>
             <Text style={styleAuth.headerSignIn}>Привет</Text>
             <KeyboardAvoidingView
@@ -138,12 +143,12 @@ const SignIn = ({handleRegistrationClick}) => {
                 title='Регистрация'
                 styles={buttonLight}
             />
-
-            {message ? <Portal>
+            <Portal>
                 <AuthModal
+                    modalIsVisible={modalIsVisible}
                     handleCloseModal={handleCloseModal}
                     message={message}/>
-            </Portal> : null}
+            </Portal>
         </>
     )
 };

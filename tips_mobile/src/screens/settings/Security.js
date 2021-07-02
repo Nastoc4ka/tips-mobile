@@ -1,16 +1,43 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, Switch, Text, View} from "react-native";
-import {BackgroundSettings, CustomButton} from "../../components";
+import {BackgroundSettings, CustomButton, FilterBirthdateAccessModal} from "../../components";
+import {Arrow_right_blue} from "../../assets/icons";
+import {Portal} from 'react-native-portalize';
 import {useDispatch, useSelector} from "react-redux";
-import { removePinAuthentication } from '../../redux/actions';
-import {styleSettingsButton, styleSettingsScreen, styleSettingsButtonBlue} from "../../styles";
+import {changeBirthdateAccess, removePinAuthentication} from '../../redux/actions';
+import {styleRightButtonLayout, styleSettingsButton, styleSettingsButtonBlue, styleSettingsScreen} from "../../styles";
 import {CHANGE_PASSWORD, PASSWORD_CONFIRMATION, PIN_CODE} from "../../constants/routeNames";
 import Authentication from "../authentication";
 
+const filterOptionsBirthdateAccess = [
+    {
+        access: 'admin',
+        name: 'Только администраторам'
+    },
+    {
+        access: 'all',
+        name: 'Всем'
+    },
+    {
+        access: 'staff',
+        name: 'Персоналу'
+    },
+];
+
+const chooseFilteredName = (accessChosen) => {
+    const option = filterOptionsBirthdateAccess.find(({access}) => accessChosen === access).name;
+    if (option.length > 8) {
+        return option.slice(0, 6).concat('...');
+    }
+};
+
 const Security = ({navigation}) => {
     const dispatch = useDispatch();
-    const [authenticatedSecurity , setAuthenticatedSecurity] = useState(false);
+    const {filterBirthdate} = useSelector(state => state.authLoginReducer.user);
+    const [authenticatedSecurity, setAuthenticatedSecurity] = useState(false);
+    const [filterBirthdateAccess, setFilterBirthdateAccess] = useState(false);
     const {pin} = useSelector(state => state.pinAuthenticateReducer);
+
     const toggleSwitch = () => {
         setAuthenticatedSecurity(false);
         if (pin) {
@@ -30,10 +57,13 @@ const Security = ({navigation}) => {
     />;
 
     const showBirthDate = () => {
-        console.log('show birth date');
+        setFilterBirthdateAccess(true)
     };
 
-    const filterButton = <></>;
+    const filterButton = <View style={styleFilterButton.wrapper}>
+        <Text style={styleFilterButton.text}>{chooseFilteredName(filterBirthdate)}</Text>
+        <Arrow_right_blue/>
+    </View>;
 
     useEffect(() => {}, [pin]);
 
@@ -44,6 +74,15 @@ const Security = ({navigation}) => {
     if (pin && !authenticatedSecurity) {
         return <Authentication handleAuthSecurity={setAuthenticatedSecurity}/>
     }
+
+    const handleChooseFilter = (access) => {
+        dispatch(changeBirthdateAccess(access));
+        setFilterBirthdateAccess(false);
+    };
+
+    const handleCloseModal = () => {
+        setFilterBirthdateAccess(false);
+    };
 
     return (
         <BackgroundSettings>
@@ -57,7 +96,7 @@ const Security = ({navigation}) => {
                     <CustomButton
                         title='Включить ПИН-код'
                         rightButton={togglePinSecurity}
-                        styles={{...styleSettingsButton, ...styles}}
+                        styles={{...styleSettingsButton, ...styleRightButtonLayout}}
                     />
                     <CustomButton
                         title='Поменять ПИН-код'
@@ -67,67 +106,41 @@ const Security = ({navigation}) => {
                 </View>
                 <View style={styleSettingsScreen.container}>
                     <CustomButton
-                        title='Показывать мою дату рождения'
+                        title='Показывать дату рождения'
                         onPress={showBirthDate}
-                        styles={styleSettingsButton}
+                        styles={{...styleSettingsButton, ...styleRightButtonLayout}}
                         rightButton={filterButton}
                     />
                 </View>
             </View>
+            <Portal>
+                <FilterBirthdateAccessModal
+                    isVisible={filterBirthdateAccess}
+                    filterOptionsBirthdateAccess={filterOptionsBirthdateAccess}
+                    filterBirthdate={filterBirthdate}
+                    handleCloseModal={handleCloseModal}
+                    handleChooseFilter={handleChooseFilter}
+                />
+            </Portal>
         </BackgroundSettings>
     );
 };
 
 export default Security
 
-const styles = StyleSheet.create({
-    rightButtonLayout: {
-        justifyContent: 'space-between'
-    }
-});
-
-
-const styleSecurityScreens = StyleSheet.create({
-    paper: {
-        width: '89%',
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
-        backgroundColor: '#fff',
-        flex: 1,
-        alignItems: 'center',
-    },
-    bottom: {
-        position: 'absolute',
-        zIndex: -1,
-        bottom: 0,
-        flex: 1,
-        width: 0,
-        height: '36%',
-        borderTopColor: 'transparent',
-        borderTopWidth: Dimensions.get('window').width / 4,
-        borderRightColor: 'transparent',
-        borderRightWidth: 0,
-        borderLeftColor: '#017C31',
-        borderLeftWidth: Dimensions.get('window').width
-    },
-    buttonsTabsWrapper: {
-        position: 'absolute',
-        zIndex: -11,
-        marginTop: -33,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '80%',
-
-    },
+const styleFilterButton = StyleSheet.create({
     wrapper: {
-        marginTop: 35,
-        width: '100%',
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        paddingBottom: 0
+
     },
     text: {
+        marginLeft: 15,
         fontSize: 17,
-        color: 'white',
-        fontWeight: '600',
+        marginRight: 2,
+        color: 'rgba(69, 69, 69, 0.5)'
     }
 });

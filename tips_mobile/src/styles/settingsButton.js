@@ -18,6 +18,12 @@ export const styleSettingsButton = StyleSheet.create({
     }
 });
 
+export const styleRightButtonLayout = StyleSheet.create({
+    rightButtonLayout: {
+        justifyContent: 'space-between'
+    }
+});
+
 export const styleSettingsButtonBlue = StyleSheet.create({
     button: {
         width: Dimensions.get('window').width,
