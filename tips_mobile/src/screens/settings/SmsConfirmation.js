@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, Text, View} from "react-native";
-import {BackgroundSettings, CustomButton, Input, AuthModal} from "../../components";
-import {useSelector, useDispatch} from "react-redux";
+import {AuthModal, BackgroundSettings, CustomButton, Input} from "../../components";
+import {useDispatch, useSelector} from "react-redux";
 import {Portal} from 'react-native-portalize';
-import {clearMessage, hideBlur, setConfirmCurrentPasswordSaga, currentPasswordSetFalse} from '../../redux/actions';
-import {styleSettingsButton, styleSettingsInput, styleSettingsScreen, styleSettingsButtonBlue, styleSettingsButtonString} from "../../styles";
-import {SMS_CONFIRMATION, CHANGE_PASSWORD} from "../../constants/routeNames";
+import {clearMessage, currentPasswordSetFalse, setConfirmCurrentPasswordSaga} from '../../redux/actions';
+import {styleSettingsButtonString, styleSettingsInput, styleSettingsScreen} from "../../styles";
+import {CHANGE_PASSWORD} from "../../constants/routeNames";
 
 const EMPTY_INPUT_ERROR = 'поле должно быть заполнено';
 
 const passwordConfirmation = ({navigation}) => {
     const dispatch = useDispatch();
     const {message, confirmPassword} = useSelector(state => state.systemReducer);
-
+    const [modalIsVisible, setModalIsVisible] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [currentPasswordError, setCurrentPasswordError] = useState('');
 
@@ -25,7 +25,7 @@ const passwordConfirmation = ({navigation}) => {
 
     const handleCloseModal = () => {
         dispatch(clearMessage());
-        dispatch(hideBlur());
+        setModalIsVisible(false);
     };
 
     const displayInputError = (validatorFunc) => (data) => {
@@ -34,7 +34,7 @@ const passwordConfirmation = ({navigation}) => {
 
     const onCheckCurrentPassword = () => {
         const passwordError = validate(currentPassword);
-        if(passwordError) {
+        if (passwordError) {
             setCurrentPasswordError(passwordError);
         } else {
             dispatch(setConfirmCurrentPasswordSaga(currentPassword))
@@ -46,6 +46,10 @@ const passwordConfirmation = ({navigation}) => {
         navigation.navigate(CHANGE_PASSWORD);
 
     }
+
+    useEffect(() => {
+        if (message) setModalIsVisible(true);
+    }, [message]);
 
     return (
         <BackgroundSettings>
@@ -67,12 +71,13 @@ const passwordConfirmation = ({navigation}) => {
                     styles={styleSettingsButtonString}
                 />
             </View>
-            {message ? <Portal>
+            <Portal>
                 <AuthModal
+                    modalIsVisible={modalIsVisible}
                     message={message}
                     handleCloseModal={handleCloseModal}
                 />
-            </Portal> : null}
+            </Portal>
         </BackgroundSettings>
     );
 };

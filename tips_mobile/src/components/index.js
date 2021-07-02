@@ -16,6 +16,7 @@ import AuthModal from './modals/AuthModal';
 import UploadImageModal from './modals/UploadImageModal';
 import ModalWrapper from './modals/ModalWrapper';
 import BackgroundSettings from './BackgroundSettings';
+import FilterBirthdateAccessModal from './modals/FilterBirthdateAccessModal';
 
 export {
     Background,
@@ -36,5 +37,6 @@ export {
     AuthModal,
     ModalWrapper,
     BackgroundSettings,
+    FilterBirthdateAccessModal,
 
 }

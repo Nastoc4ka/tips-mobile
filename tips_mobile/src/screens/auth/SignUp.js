@@ -1,6 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+    Keyboard,
+    KeyboardAvoidingView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    TouchableWithoutFeedback
+} from 'react-native';
 import {buttonFill, main} from '../../styles';
 import {AuthModal, CustomButton, IconInInputView, Input, InputPhone, OrganizationSearch} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
@@ -14,12 +22,13 @@ import {
 } from '../../redux/actions'
 import {Portal} from 'react-native-portalize';
 
-const reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
+const regexpPasswordFactory = () => new RegExp(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g);
 
 const SignUp = () => {
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
     const [onRegister, setOnRegister] = useState(false);
+    const [modalIsVisible, setModalIsVisible] = useState(false);
     const [data, setData] = useState({
         firstName: '',
         lastName: '',
@@ -41,7 +50,7 @@ const SignUp = () => {
     });
 
     const handleCloseModal = () => {
-        dispatch(hideBlur());
+        setModalIsVisible(false);
         dispatch(registerInit());
         dispatch(clearMessage());
         dispatch(loginScreenShow());
@@ -113,7 +122,7 @@ const SignUp = () => {
     };
 
     const validatePassword = (password) => {
-        if (!reg.test(password)) {
+        if (!regexpPasswordFactory().test(password)) {
             setErrors({
                 ...errors,
                 password: 'Пароль должен содержать хотя бы 8 символов, заглавную, строчную латинскую букву и цифру.',
@@ -173,6 +182,10 @@ const SignUp = () => {
     useEffect(() => {
         dispatch(getOrganisationsSaga());
     }, []);
+
+    useEffect(() => {
+        if (message) setModalIsVisible(true);
+    }, [message]);
 
     return (
         <>
@@ -255,12 +268,12 @@ const SignUp = () => {
             </KeyboardAvoidingView>
 
             <CustomButton title='Готово' styles={button} onPress={handleAuthorization}/>
-
-            {message ? <Portal>
+            <Portal>
                 <AuthModal
+                    modalIsVisible={modalIsVisible}
                     handleCloseModal={handleCloseModal}
                     message={message}/>
-            </Portal> : null}
+            </Portal>
         </>
     )
 };

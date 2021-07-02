@@ -84,6 +84,7 @@ exports.signin = async (req, res) => {
         role: user.role,
         id: user.id,
         birthdate: user.birthdate,
+        filterBirthdate: user.filter_birthdate,
         phoneNumber: user.phone_number,
         position: user.position,
         organisation: organisation,

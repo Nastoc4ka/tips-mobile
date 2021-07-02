@@ -22,9 +22,9 @@ const initialErrorsState = {
 const PersonalData = ({navigation}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.authLoginReducer);
-    const {sendData} = useSelector(state => state.systemReducer);
-    const {message} = useSelector(state => state.systemReducer);
+    const {sendData, message} = useSelector(state => state.systemReducer);
     const [data, setData] = useState(user);
+    const [modalIsVisible, setModalIsVisible] = useState(false);
     const [choosePhoto, setChoosePhoto] = useState(false);
     const [errors, setErrors] = useState(initialErrorsState);
 
@@ -55,6 +55,7 @@ const PersonalData = ({navigation}) => {
         dispatch(clearMessage());
         dispatch(hideBlur());
         setChoosePhoto(false);
+        setModalIsVisible(false);
     };
 
     const pickAvatar = () => {
@@ -94,6 +95,10 @@ const PersonalData = ({navigation}) => {
             ...validatePhoneNumber(dataToValidate.phoneNumber)
         };
     };
+
+    useEffect(() => {
+        if(message) setModalIsVisible(true);
+    }, [message]);
 
     useEffect(() => {
         if (sendData) {
@@ -157,18 +162,20 @@ const PersonalData = ({navigation}) => {
                 handleChange={(text) => onChange(text, 'birthdate')}
             />
             <PositionAndOrganization position={data.position} organization={data.organisation.name}/>
-            {choosePhoto ? <Portal>
+            <Portal>
                 <UploadImageModal
+                    modalIsVisible={choosePhoto}
                     setData={setData}
                     handleCloseModal={handleCloseModal}
                 />
-            </Portal> : null}
-            {message ? <Portal>
+            </Portal>
+            <Portal>
                 <AuthModal
+                    modalIsVisible={modalIsVisible}
                     message={message}
                     handleCloseModal={handleCloseModal}
                 />
-            </Portal> : null}
+            </Portal>
         </BackgroundSettings>
     );
 };
