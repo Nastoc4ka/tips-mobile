@@ -1,8 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+    Keyboard,
+    KeyboardAvoidingView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    TouchableWithoutFeedback
+} from 'react-native';
 import {buttonFill, main} from '../../styles';
-import {CustomButton, IconInInputView, Input, InputPhone, OrganizationSearch} from '../../components';
+import {AuthModal, CustomButton, IconInInputView, Input, InputPhone, OrganizationSearch} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
 import {
     clearMessage,
@@ -13,14 +21,14 @@ import {
     registerSaga
 } from '../../redux/actions'
 import {Portal} from 'react-native-portalize';
-import AuthModal from '../../components/modals/AuthModal';
 
-const reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
+const regexpPasswordFactory = () => new RegExp(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g);
 
 const SignUp = () => {
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
     const [onRegister, setOnRegister] = useState(false);
+    const [modalIsVisible, setModalIsVisible] = useState(false);
     const [data, setData] = useState({
         firstName: '',
         lastName: '',
@@ -42,7 +50,7 @@ const SignUp = () => {
     });
 
     const handleCloseModal = () => {
-        dispatch(hideBlur());
+        setModalIsVisible(false);
         dispatch(registerInit());
         dispatch(clearMessage());
         dispatch(loginScreenShow());
@@ -114,7 +122,7 @@ const SignUp = () => {
     };
 
     const validatePassword = (password) => {
-        if (!reg.test(password)) {
+        if (!regexpPasswordFactory().test(password)) {
             setErrors({
                 ...errors,
                 password: 'Пароль должен содержать хотя бы 8 символов, заглавную, строчную латинскую букву и цифру.',
@@ -125,8 +133,8 @@ const SignUp = () => {
                 password: '',
             })
         }
-    }
-    
+    };
+
     const setOrganizationInData = (id, name) => {
         setData({
             ...data,
@@ -175,87 +183,97 @@ const SignUp = () => {
         dispatch(getOrganisationsSaga());
     }, []);
 
+    useEffect(() => {
+        if (message) setModalIsVisible(true);
+    }, [message]);
+
     return (
         <>
             <Text style={main.headerTextRegistration}>Добро пожаловать!</Text>
-            <ScrollView style={{width: '100%'}}>
-                <Input
-                    autoCapitalize='words'
-                    type='name'
-                    name='firstName'
-                    label='Имя'
-                    maxLength={40}
-                    message={errors.firstName}
-                    value={data.firstName}
-                    handleChange={(text) => nameInputChange(text, 'firstName')}
-                />
-                <Input
-                    autoCapitalize='words'
-                    type='name'
-                    name='lastName'
-                    label='Фамилия'
-                    message={errors.lastName}
-                    value={data.lastName}
-                    maxLength={40}
-                    handleChange={(text) => nameInputChange(text, 'lastName')}
-                />
-                <InputPhone
-                    label='Телефон'
-                    handleChange={validatePhoneNumberCorrect}
-                    handleBlur={validatePhoneNumber}
-                    message={errors.phoneNumber}
-                />
-                
-                <OrganizationSearch
-                    error={errors.organization} 
-                    setOrganizationInData={setOrganizationInData}
-                />
+            <KeyboardAvoidingView
+                style={{width: '100%', flex: 1}}
+                behavior="height">
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <ScrollView>
+                        <Input
+                            autoCapitalize='words'
+                            type='name'
+                            name='firstName'
+                            label='Имя'
+                            maxLength={40}
+                            message={errors.firstName}
+                            value={data.firstName}
+                            handleChange={(text) => nameInputChange(text, 'firstName')}
+                        />
+                        <Input
+                            autoCapitalize='words'
+                            type='name'
+                            name='lastName'
+                            label='Фамилия'
+                            message={errors.lastName}
+                            value={data.lastName}
+                            maxLength={40}
+                            handleChange={(text) => nameInputChange(text, 'lastName')}
+                        />
+                        <InputPhone
+                            label='Телефон'
+                            handleChange={validatePhoneNumberCorrect}
+                            handleBlur={validatePhoneNumber}
+                            message={errors.phoneNumber}
+                        />
 
-                <Input
-                    type='password'
-                    maxWidth='90%'
-                    handleChange={passwordHandleChange}
-                    secureTextEntry={data.secureTextEntry}
-                    autoCapitalize="none"
-                    label='Пароль'
-                    value={data.password}
-                    message={errors.password}
-                    placeholder='•••••••••'
-                    handleBlur={validatePassword}
-                >
-                    <TouchableOpacity onPress={() => updateSecureTextEntry('secureTextEntry')}>
-                        <IconInInputView>
-                            {data.secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
-                        </IconInInputView>
-                    </TouchableOpacity>
-                </Input>
+                        <OrganizationSearch
+                            error={errors.organization}
+                            setOrganizationInData={setOrganizationInData}
+                        />
 
-                <Input
-                    maxWidth='90%'
-                    type='password'
-                    secureTextEntry={data.confirm_secureTextEntry}
-                    autoCapitalize='none'
-                    label='Повторить пороль'
-                    placeholder='•••••••••'
-                    message={errors.confirm_password}
-                    value={data.confirm_password}
-                    handleChange={confirmPasswordHandleChange}
-                >
-                    <TouchableOpacity onPress={() => updateSecureTextEntry('confirm_secureTextEntry')}>
-                        <IconInInputView>
-                            {data.confirm_secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
-                        </IconInInputView>
-                    </TouchableOpacity>
-                </Input>
-            </ScrollView>
+                        <Input
+                            type='password'
+                            maxWidth='90%'
+                            handleChange={passwordHandleChange}
+                            secureTextEntry={data.secureTextEntry}
+                            autoCapitalize="none"
+                            label='Пароль'
+                            value={data.password}
+                            message={errors.password}
+                            placeholder='•••••••••'
+                            handleBlur={validatePassword}
+                        >
+                            <TouchableOpacity onPress={() => updateSecureTextEntry('secureTextEntry')}>
+                                <IconInInputView>
+                                    {data.secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
+                                </IconInInputView>
+                            </TouchableOpacity>
+                        </Input>
+
+                        <Input
+                            maxWidth='90%'
+                            type='password'
+                            secureTextEntry={data.confirm_secureTextEntry}
+                            autoCapitalize='none'
+                            label='Повторить пороль'
+                            placeholder='•••••••••'
+                            message={errors.confirm_password}
+                            value={data.confirm_password}
+                            handleChange={confirmPasswordHandleChange}
+                        >
+                            <TouchableOpacity onPress={() => updateSecureTextEntry('confirm_secureTextEntry')}>
+                                <IconInInputView>
+                                    {data.confirm_secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
+                                </IconInInputView>
+                            </TouchableOpacity>
+                        </Input>
+                    </ScrollView>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
 
             <CustomButton title='Готово' styles={button} onPress={handleAuthorization}/>
-
-            {message ? <Portal>
+            <Portal>
                 <AuthModal
+                    modalIsVisible={modalIsVisible}
                     handleCloseModal={handleCloseModal}
-                    message={message} />
-            </Portal> : null}
+                    message={message}/>
+            </Portal>
         </>
     )
 };

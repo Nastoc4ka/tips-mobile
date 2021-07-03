@@ -4,11 +4,12 @@ import { styleInput } from '../styles'
 import ErrorMessage from "./ErrorMessage";
 
 const InputPhone = ({ label, handleBlur, message, handleChange, value = null,  style = null }) => {
+
     const [selection, setSelection] = useState({
             start: 0,
             end: 0
     });
-console.log(style);
+
     const [phone, setPhone] = useState('');
     const [styleCurrentInput, setStyleCurrentInput] = useState(styleInput);
 
@@ -67,7 +68,7 @@ console.log(style);
     return (
         <View style={styleCurrentInput.wrapper}>
             <Text style={styleCurrentInput.text}>{label}</Text>
-            
+
             <TextInput
                 onBlur={onBlur}
                 maxLength={19}

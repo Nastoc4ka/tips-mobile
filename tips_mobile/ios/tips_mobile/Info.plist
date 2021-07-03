@@ -2,10 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSFaceIDUsageDescription</key>
-    <string>tips-mobile requires FaceID access to allows you quick and secure access.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>tips-mobile requires FaceID access to allows you quick and secure access.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>tips-mobile requires PhotoLibrary access to allows you add avatar.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>tips-mobile requires Camera access to allows you add avatar.</string>
 	<key>CFBundleDisplayName</key>
 	<string>tips_mobile</string>
 	<key>CFBundleExecutable</key>
@@ -28,6 +32,8 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>

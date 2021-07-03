@@ -3,7 +3,7 @@ import { View, StatusBar } from 'react-native';
 import BiometricPopup from './Biometric';
 import Password from './Password';
 
-const Authentication = () => {
+const Authentication = ({handleAuthSecurity}) => {
     return (
         <View>
             <StatusBar
@@ -12,9 +12,10 @@ const Authentication = () => {
                 barStyle='light-content'
                 showHideTransition='fade'
             />
-            <Password />
+            <Password handleAuthSecurity={handleAuthSecurity}/>
+            <BiometricPopup />
         </View>
     )
-}
+};
 
 export default Authentication;

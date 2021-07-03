@@ -1,7 +1,6 @@
 const config = require("../config/auth.config");
 const db = require("../../db");
 const {getUserData, saveUserData} = require("../models");
-
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -47,9 +46,9 @@ exports.signin = async (req, res) => {
 
     const {rows: [user]} = await db.query(queryUser);
 
-    const passwordIsValid = bcrypt.compareSync(
+    const passwordIsValid = user && bcrypt.compareSync(
         userToAuth.password,
-        user.password
+        user?.password
     );
 
     if (!user || !passwordIsValid) {
@@ -59,6 +58,14 @@ exports.signin = async (req, res) => {
         };
         return res.status(404).send({error: true, msg})
     }
+
+    const queryOrganisation = {
+        name: 'fetch-organisation',
+        text: 'SELECT * FROM organisations WHERE id = $1',
+        values: [user.organisation_id],
+    };
+
+    const {rows: [organisation]} = await db.query(queryOrganisation);
 
     if (!user.verified) {
         const msg = {
@@ -72,17 +79,49 @@ exports.signin = async (req, res) => {
         expiresIn: 60 * 60 * 24 * 30 // 30 day
     });
 
-    userDataAsyncStorage = {
+    const userDataAsyncStorage = {
         success: true,
         role: user.role,
         id: user.id,
+        birthdate: user.birthdate,
+        filterBirthdate: user.filter_birthdate,
         phoneNumber: user.phone_number,
         position: user.position,
-        organisation: user.organisation,
+        organisation: organisation,
         firstName: user.first_name,
         lastName: user.last_name,
+        avatar: user.avatar,
         accessToken,
     };
 
-    res.send(userDataAsyncStorage);
+    res.status(200).send(userDataAsyncStorage);
+};
+
+exports.confirmPassword = async (req, res) => {
+
+    const dataToConfirm = req.body;
+
+    const queryPassword = {
+        name: 'fetch-userPassword',
+        text: 'SELECT password FROM users WHERE id = $1',
+        values: [req.userId],
+    };
+
+    const {rows: [{password}]} = await db.query(queryPassword);
+
+console.log(password);
+
+    const passwordIsValid = password && bcrypt.compareSync(
+        dataToConfirm.password,
+        password
+    );
+
+    if (!passwordIsValid) {
+        const msg = {
+            title: "пароль указан неверно.",
+            text: ""
+        };
+        return res.status(404).send({error: true, msg})
+    }
+    res.status(200).send({success: true});
 };

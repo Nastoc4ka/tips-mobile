@@ -13,6 +13,7 @@ const Loading = () => {
 const styles = StyleSheet.create({
     loading: {
         position: 'absolute',
+        zIndex: 1,
         left: '50%',
         top: '50%',
         transform: [{translateY: -20}, {translateX: -20}]

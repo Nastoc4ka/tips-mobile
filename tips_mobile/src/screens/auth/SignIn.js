@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {buttonFill, buttonLight, styleAuth} from '../../styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {CustomButton, IconInInputView, Input} from '../../components';
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
-import {clearMessage, hideBlur, loginSaga} from '../../redux/actions';
+import {clearMessage, loginSaga} from '../../redux/actions';
 import {Portal} from 'react-native-portalize';
 import AuthModal from '../../components/modals/AuthModal';
 import InputPhone from "../../components/InputPhone";
@@ -13,6 +13,7 @@ const SignIn = ({handleRegistrationClick}) => {
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
     const [onLogin, setOnLogin] = useState(false);
+    const [modalIsVisible, setModalIsVisible] = useState(false);
 
     const [data, setData] = useState({
         phoneNumber: '',
@@ -25,8 +26,8 @@ const SignIn = ({handleRegistrationClick}) => {
     });
 
     const handleCloseModal = () => {
+        setModalIsVisible(false);
         dispatch(clearMessage());
-        setTimeout(() => dispatch(hideBlur()), 400)
     };
 
     const validatePhoneNumber = (text) => {
@@ -82,47 +83,52 @@ const SignIn = ({handleRegistrationClick}) => {
             })
         }
         setOnLogin(true);
-
     };
 
     useEffect(() => {
         const currentErrors = Object.entries(errors).filter(([key, value]) => value.length > 0);
-
         if (!currentErrors.length && onLogin) {
             dispatch(loginSaga(data));
         }
 
         setOnLogin(false)
-
     }, [errors, onLogin]);
+
+    useEffect(() => {
+        if (message) setModalIsVisible(true);
+    }, [message]);
 
     return (<>
             <Text style={styleAuth.headerSignIn}>Привет</Text>
-            <View style={{width: '100%', paddingBottom: 58}}>
-                <InputPhone
-                    label='Телефон'
-                    handleChange={validatePhoneNumberCorrect}
-                    handleBlur={validatePhoneNumber}
-                    message={errors.phoneNumber}
-                />
-                <Input
-                    maxWidth='90%'
-                    type='password'
-                    secureTextEntry={data.secureTextEntry}
-                    autoCapitalize="none"
-                    label='Пароль'
-                    placeholder='•••••••••'
-                    maxLength={60}
-                    handleChange={passwordHandleChange}
-                    message={errors.password}
-                >
-                    <TouchableOpacity onPress={updateSecureTextEntry}>
-                        <IconInInputView>
-                            {data.secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
-                        </IconInInputView>
-                    </TouchableOpacity>
-                </Input>
-            </View>
+            <KeyboardAvoidingView
+                style={{width: '100%', paddingBottom: 58}}
+                behavior="padding">
+                <ScrollView>
+                    <InputPhone
+                        label='Телефон'
+                        handleChange={validatePhoneNumberCorrect}
+                        handleBlur={validatePhoneNumber}
+                        message={errors.phoneNumber}
+                    />
+                    <Input
+                        maxWidth='90%'
+                        type='password'
+                        secureTextEntry={data.secureTextEntry}
+                        autoCapitalize="none"
+                        label='Пароль'
+                        placeholder='•••••••••'
+                        maxLength={60}
+                        handleChange={passwordHandleChange}
+                        message={errors.password}
+                    >
+                        <TouchableOpacity onPress={updateSecureTextEntry}>
+                            <IconInInputView>
+                                {data.secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
+                            </IconInInputView>
+                        </TouchableOpacity>
+                    </Input>
+                </ScrollView>
+            </KeyboardAvoidingView>
 
             <CustomButton
                 onPress={handleLogin}
@@ -137,12 +143,12 @@ const SignIn = ({handleRegistrationClick}) => {
                 title='Регистрация'
                 styles={buttonLight}
             />
-
-            {message ? <Portal>
+            <Portal>
                 <AuthModal
+                    modalIsVisible={modalIsVisible}
                     handleCloseModal={handleCloseModal}
                     message={message}/>
-            </Portal> : null}
+            </Portal>
         </>
     )
 };

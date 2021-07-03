@@ -1,42 +1,41 @@
 import React, { useState } from 'react';
 import { View, Text , Dimensions, StyleSheet } from 'react-native';
 import Keyboard from './Keyboard';
-import { Avatar } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import PasswordDots from './PathwordDots';
+import {styleSettingsScreen} from "../../styles";
+import AvatarWrapper from "../settings/AvatarWrapper";
 
-const Password = () => {
-    // const {avatar, firstName, lastName} = useSelector(state => state.authLoginReducer.user)
-    //const truePassword = smth from asyncstorage
-    const correctPassword = '1488'
+const Password = ({handleAuthSecurity}) => {
+    const {user} = useSelector(state => state.authLoginReducer);
+    const {success, pin} = useSelector((state) => state.pinAuthenticateReducer);
+
     const [password, setPassword] = useState('');
 
     const handlePasswordEntry = (text) => {
         setPassword(password + text)
-    } 
+    };
 
     const handleDelete = () => {
         setPassword(password.slice(0, -1))
-    }
+    };
 
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
-                <Avatar
-                    // title={`${firstName[0]}${lastName[0] || ''}`}
-                    containerStyle={styles.avatar}
-                    title='MN'
-                    rounded 
-                    size="large" 
-                    // source={avatar}
-                />
+                <View style={styleSettingsScreen.avatar}>
+                    <AvatarWrapper
+                        source={user.avatar}
+                        textAvatar={user.firstName[0]}
+                    />
+                </View>
                 <Text style={styles.text}>ПИН-код</Text>
-                <PasswordDots password={password} correctPassword={correctPassword} setPassword={setPassword}/>
+                <PasswordDots password={password} handleAuthSecurity={handleAuthSecurity} correctPassword={pin} setPassword={setPassword}/>
             </View>
             <Keyboard handleDelete={handleDelete} handlePasswordEntry={handlePasswordEntry}/>
         </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     container: {

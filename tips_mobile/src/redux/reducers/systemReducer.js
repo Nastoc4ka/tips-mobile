@@ -1,28 +1,40 @@
 import {
-    SHOW_BLUR,
-    HIDE_BLUR,
-    SHOW_LOADING,
-    HIDE_LOADING, CLEAR_MESSAGE, SET_MESSAGE, SET_AUTHENTICATION
+    SHOW_BLUR, HIDE_BLUR, SHOW_LOADING, HIDE_LOADING,
+    CURRENT_PASSWORD_CONFIRMED,
+    CURRENT_PASSWORD_SET_FALSE, CLEAR_MESSAGE, SET_MESSAGE,
+    SEND_DATA_DISABLE, SEND_DATA_ACTIVE
 } from "../actions/types";
 
 const initialState = {
     blur: false,
     loading: false,
-    authenticated: false,
     message: '',
+    sendData: false,
+    confirmPassword: false,
+    sms: null
 };
 
 const systemReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SHOW_BLUR:
+        case SEND_DATA_ACTIVE:
             return { 
                 ...state,
-                blur: true 
+                sendData: true
+            };
+        case SEND_DATA_DISABLE:
+            return { 
+                ...state,
+                sendData: false
+            };
+            case SHOW_BLUR:
+            return {
+                ...state,
+                blur: true
             };
         case HIDE_BLUR:
-            return { 
+            return {
                 ...state,
-                blur: false 
+                blur: false
             };
         case SHOW_LOADING:
             return { 
@@ -46,11 +58,16 @@ const systemReducer = (state = initialState, action) => {
                 message: '',
                 blur: false
             };
-        case SET_AUTHENTICATION:
+            case CURRENT_PASSWORD_CONFIRMED:
             return {
                 ...state,
-                authenticated: true
-            }
+                confirmPassword: true,
+            };
+            case CURRENT_PASSWORD_SET_FALSE:
+            return {
+                ...state,
+                confirmPassword: false,
+            };
         default:
             return state;
     }

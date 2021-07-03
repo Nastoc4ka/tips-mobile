@@ -1,24 +1,37 @@
-import React from 'react';
-import {useSelector} from 'react-redux'
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
-import Auth from '../screens/auth';
 import HomeNavigator from "./HomeNavigator";
 import {Host} from 'react-native-portalize';
 import Authentication from '../screens/authentication';
+import Auth from '../screens/auth';
+import {getLocalDataSaga} from "../redux/actions";
 
 const AppNavContainer = () => {
-    const authenticated = useSelector((state) => state.systemReducer.authenticated);
+    const dispatch = useDispatch();
+    const {success, pin} = useSelector((state) => state.pinAuthenticateReducer);
     const {user} = useSelector((state) => state.authLoginReducer);
 
+
+    useEffect(() => {
+        dispatch(getLocalDataSaga());
+    }, []);
+
+    useEffect(() => {
+        console.log("success, pin, user in Nav", success, pin, user);
+    }, [success, pin, user]);
     return (
         <Host>
-            { true
-                ?
+            {
                 <NavigationContainer>
-                    {user?.success ? <HomeNavigator/> : <Auth/>}
+                    {user?.success ?
+                        (pin ?
+                            (success ?
+                                <HomeNavigator/> :
+                                <Authentication/>) :
+                            <HomeNavigator/>) :
+                        <Auth/>}
                 </NavigationContainer>
-                :
-                <Authentication />
             }
         </Host>
     );

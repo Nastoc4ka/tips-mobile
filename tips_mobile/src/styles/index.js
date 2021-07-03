@@ -5,6 +5,10 @@ import { styleInput } from './input';
 import { styleMainScreens } from './mainScreens';
 import { styleNewsItem } from './newsItem';
 import { errors } from './errors';
+import { styleSettingsScreen } from './settingsScreen';
+import { styleSettingsInput } from './settingsInput';
+import { styleSettingsButton, styleSettingsButtonBlue, styleRightButtonLayout, styleSettingsButtonString } from './settingsButton';
+import { styleSettingsHeader, styleSettingsHeaderButtonRight } from './settingsHeader';
 
 export {
     buttonFill,
@@ -16,5 +20,13 @@ export {
     styleInput,
     styleMainScreens,
     styleNewsItem,
-    errors
+    errors,
+    styleSettingsScreen,
+    styleSettingsInput,
+    styleSettingsButton,
+    styleSettingsHeaderButtonRight,
+    styleSettingsHeader,
+    styleSettingsButtonString,
+    styleSettingsButtonBlue,
+    styleRightButtonLayout
 }

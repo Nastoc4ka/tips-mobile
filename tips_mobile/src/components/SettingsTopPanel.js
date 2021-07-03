@@ -12,6 +12,7 @@ const SettingsTopPanel = ({title, rightButton = null, leftButton, onPress = null
     return (<>
         <FocusAwareStatusBar
             barStyle="dark-content"
+            backgroundColor='rgba(249, 249, 249, 0.9)'
             showHideTransition='fade'
             animated={true}
         />
