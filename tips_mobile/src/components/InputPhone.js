@@ -9,10 +9,7 @@ const InputPhone = ({ label, handleBlur, message, handleChange, value = null,  s
             start: 0,
             end: 0
     });
-<<<<<<< HEAD
-=======
 
->>>>>>> f192c2e668c2c7bbc8c12c852f827ea9c2922b87
     const [phone, setPhone] = useState('');
     const [styleCurrentInput, setStyleCurrentInput] = useState(styleInput);
 

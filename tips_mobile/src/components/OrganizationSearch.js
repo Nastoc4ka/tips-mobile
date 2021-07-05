@@ -48,11 +48,8 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
             setFiltered(tempList);
         } else {
             setSearching(false);
-<<<<<<< HEAD
-            console.log(organisations, "org");
+
             setFiltered(organisations);
-=======
->>>>>>> f192c2e668c2c7bbc8c12c852f827ea9c2922b87
         }
     };
 
