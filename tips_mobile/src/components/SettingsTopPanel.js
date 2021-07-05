@@ -11,10 +11,10 @@ const FocusAwareStatusBar = (props) => {
 const SettingsTopPanel = ({title, rightButton = null, leftButton, onPress = null, style}) => {
     return (<>
         <FocusAwareStatusBar
-            animated={true}
-            backgroundColor='#F9F9F9'
-            barStyle='dark-content'
+            barStyle="dark-content"
+            backgroundColor='rgba(249, 249, 249, 0.9)'
             showHideTransition='fade'
+            animated={true}
         />
         <SafeAreaView style={style.wrapperSafe}>
             <View style={style.header}>

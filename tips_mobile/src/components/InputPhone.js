@@ -4,10 +4,15 @@ import { styleInput } from '../styles'
 import ErrorMessage from "./ErrorMessage";
 
 const InputPhone = ({ label, handleBlur, message, handleChange, value = null,  style = null }) => {
+
     const [selection, setSelection] = useState({
             start: 0,
             end: 0
     });
+<<<<<<< HEAD
+=======
+
+>>>>>>> f192c2e668c2c7bbc8c12c852f827ea9c2922b87
     const [phone, setPhone] = useState('');
     const [styleCurrentInput, setStyleCurrentInput] = useState(styleInput);
 
@@ -66,7 +71,7 @@ const InputPhone = ({ label, handleBlur, message, handleChange, value = null,  s
     return (
         <View style={styleCurrentInput.wrapper}>
             <Text style={styleCurrentInput.text}>{label}</Text>
-            
+
             <TextInput
                 onBlur={onBlur}
                 maxLength={19}

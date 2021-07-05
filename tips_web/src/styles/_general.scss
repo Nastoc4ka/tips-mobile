@@ -5,6 +5,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Source Sans Pro", sans-serif;
+  line-height: 1.2;
 }
 
 html,
@@ -89,7 +90,7 @@ li {
 
 .paper {
   width: 90%;
-  height: calc(100vh - 14vw);
+  min-height: calc(100vh - 14vw);
   margin: auto;
   padding-top: 2rem;
   background-color: #fff;
@@ -100,4 +101,5 @@ li {
 .content {
   width: 80%;
   margin: auto;
+  padding-bottom: 1rem;
 }

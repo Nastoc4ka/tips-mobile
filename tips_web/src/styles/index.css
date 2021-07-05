@@ -5,6 +5,7 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-family: "Source Sans Pro", sans-serif;
+  line-height: 1.2;
 }
 
 html,
@@ -120,7 +121,7 @@ li {
 
 .paper {
   width: 90%;
-  height: calc(100vh - 14vw);
+  min-height: calc(100vh - 14vw);
   margin: auto;
   padding-top: 2rem;
   background-color: #fff;
@@ -131,6 +132,7 @@ li {
 .content {
   width: 80%;
   margin: auto;
+  padding-bottom: 1rem;
 }
 
 #root {
@@ -155,8 +157,32 @@ li {
   margin-top: 8px;
 }
 
-#root .navigation__link .MuiButton-label {
+#root .navigation__link .MuiButton-label,
+#root .addEmployee__form .MuiButton-label {
   font-size: 1rem;
+}
+
+.menu {
+  background-color: #00a03e;
+  padding: 1.25rem;
+  position: absolute;
+  right: -1px;
+  top: calc(1rem + 5px);
+  z-index: 1;
+}
+
+.menu__item {
+  list-style-type: none;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.menu__item:not(:last-child) {
+  padding-bottom: 1rem;
+}
+
+.menu__item_danger {
+  color: #ff8080;
 }
 
 .login {
@@ -295,5 +321,326 @@ li {
           flex: 1;
   margin: 0 1rem;
   line-height: 1;
+}
+
+.staff__item {
+  border: 1px solid #0087cb;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+.staff__item__avatar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-right: 1rem;
+}
+
+.staff__item__avatar_img {
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.staff__item__info {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.staff__item__info_employee {
+  text-transform: capitalize;
+  font-size: 1.25rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.staff__item__info_employee_p {
+  padding-right: 1rem;
+  line-height: 1.2;
+}
+
+.staff__item__info_employee_span {
+  font-size: 0.75rem;
+}
+
+.staff__item__info_tips {
+  font-size: 1rem;
+  line-height: 1.2;
+  padding-top: 0.5rem;
+}
+
+.staff__item__controllers {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+}
+
+.staff__item__controllers_btn {
+  background-color: transparent;
+  border: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  cursor: pointer;
+}
+
+.staff__item__controllers_btn:focus {
+  outline: none;
+}
+
+.staff__item__controllers_circle {
+  width: 5px;
+  height: 5px;
+  background-color: #0087cb;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+
+.staff__controllers {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr 1fr;
+      grid-template-columns: 1fr 2fr 1fr;
+  padding: 1rem 0;
+}
+
+.staff__controllers_btn {
+  -ms-flex-item-align: end;
+      -ms-grid-row-align: end;
+      align-self: end;
+  -ms-grid-column-align: start;
+      justify-self: start;
+  color: #0087cb;
+  font-size: 1rem;
+  background-color: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  margin-right: -1.1rem;
+}
+
+.staff__controllers_btn:hover {
+  border-bottom-color: #0087cb;
+}
+
+.staff__controllers_btn_mid {
+  color: #000;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.staff__controllers_btn_mid:hover {
+  border-bottom-color: #000;
+}
+
+.staff__controllers_mid {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.staff__controllers_subtitle {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-left: 1.1rem;
+}
+
+.staff__controllers_title {
+  font-size: 1.75rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.addEmployee__form {
+  width: 50%;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+.addEmployee__form_wrapper {
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+.addEmployee__avatar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  margin-bottom: 1rem;
+}
+
+.addEmployee__avatar_buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 1rem;
+  padding: 5px 0;
+  padding-left: 2rem;
+}
+
+.addEmployee__avatar_label {
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.addEmployee__avatar_label:hover {
+  text-decoration: underline;
+}
+
+.addEmployee__avatar_label:focus {
+  outline: none;
+}
+
+.addEmployee__avatar_input {
+  display: none;
+}
+
+.editPhoto {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.editPhoto__btn {
+  width: 20%;
+  max-width: 180px;
+  min-width: 100px;
+}
+
+.editPhoto__btn .MuiButtonBase-root .MuiButton-label {
+  font-size: 1rem;
+}
+
+.editPhoto__controllers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-left: 5rem;
+  width: 20vw;
+}
+
+.editPhoto__label {
+  font-size: 1rem;
+}
+
+.takePhoto {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.takePhoto__wrapper {
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #00a03e;
+}
+
+.takePhoto__item {
+  border: none;
+}
+
+.takePhoto__btn {
+  background-color: transparent;
+  border: none;
+  width: 5vw;
+  min-width: 30px;
+  margin: 0 2rem;
+  cursor: pointer;
+}
+
+.takePhoto__btn:focus {
+  outline: none;
+}
+
+.takePhoto__btn svg {
+  fill: #00a03e;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.takePhoto__btn:hover svg {
+  fill: #ffa200;
 }
 /*# sourceMappingURL=index.css.map */

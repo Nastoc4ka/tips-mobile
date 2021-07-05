@@ -8,6 +8,11 @@ import {
   GET_STAFF_SAGA,
   GET_STAFF_FAIL,
   GET_STAFF_SUCCESS,
+  CAMERA_ON,
+  CAMERA_OFF,
+  SET_CHOSEN_ORGANIZATION,
+  ADD_USER_SAGA,
+  SEND_SMS_SAGA,
 } from "./types";
 
 const loginSaga = (loginData) => {
@@ -70,6 +75,39 @@ const getStaffFail = () => {
   };
 };
 
+const cameraOn = () => {
+  return {
+    type: CAMERA_ON,
+  };
+};
+
+const cameraOff = () => {
+  return {
+    type: CAMERA_OFF,
+  };
+};
+
+const setChosenOrganization = (id) => {
+  return {
+    type: SET_CHOSEN_ORGANIZATION,
+    payload: id,
+  };
+};
+
+const addUserSaga = (data) => {
+  return {
+    type: ADD_USER_SAGA,
+    payload: data,
+  };
+};
+
+const sendSMSSaga = (data) => {
+  return {
+    type: SEND_SMS_SAGA,
+    payload: data,
+  };
+};
+
 export {
   loginSaga,
   loginSuccess,
@@ -80,4 +118,9 @@ export {
   getStaffSaga,
   getStaffSuccess,
   getStaffFail,
+  cameraOn,
+  cameraOff,
+  setChosenOrganization,
+  addUserSaga,
+  sendSMSSaga,
 };

@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import OrganizationsList from "./ChoosingOrganizations";
 import LogIn from "../Authorization/LogIn";
 import MainScreen from "../Wrappers/MainScreen";
+import { getOrganizationsSaga } from "../../redux/actions";
 
 const Main = () => {
+  const user = useSelector((state) => state.authLoginReducer.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) dispatch(getOrganizationsSaga(user.id));
+  }, [user, dispatch]);
+
   return (
     <Switch>
       <Route path="/organizations" component={OrganizationsList} />
@@ -15,16 +24,3 @@ const Main = () => {
 };
 
 export default Main;
-
-// import React from "react";
-// import { Switch, Route } from "react-router-dom";
-
-// const Main = ({ match }) => {
-//   console.log(match);
-//   return (
-//     <Switch>
-//     </Switch>
-//   );
-// };
-
-// export default Main;

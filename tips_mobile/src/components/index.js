@@ -12,6 +12,10 @@ import Loading from './Loading';
 import OrganizationSearch from './OrganizationSearch';
 import SettingsTopPanel from './SettingsTopPanel';
 import BackButton from './BackButton';
+import AuthModal from './modals/AuthModal';
+import UploadImageModal from './modals/UploadImageModal';
+import ModalWrapper from './modals/ModalWrapper';
+import BackgroundSettings from './BackgroundSettings';
 
 export {
     Background,
@@ -27,5 +31,10 @@ export {
     Loading,
     OrganizationSearch,
     SettingsTopPanel,
-    BackButton
+    BackButton,
+    UploadImageModal,
+    AuthModal,
+    ModalWrapper,
+    BackgroundSettings,
+
 }

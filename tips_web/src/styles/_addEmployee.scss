@@ -1,0 +1,50 @@
+.addEmployee {
+  &__form {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    &_wrapper {
+      width: 100%;
+      padding-top: 0.5rem;
+    }
+  }
+
+  &__avatar {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    margin-bottom: 1rem;
+
+    &_buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 1rem;
+      padding: 5px 0;
+      padding-left: 2rem;
+    }
+
+    &_label {
+      font-size: 1rem;
+      text-align: center;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &_input {
+      display: none;
+    }
+  }
+}

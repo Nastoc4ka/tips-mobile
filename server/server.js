@@ -3,18 +3,20 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const pool = require('./db');
 const app = express();
+const fileUpload = require('express-fileupload');
+const bcrypt = require("bcryptjs");
 
-const corsOptions = {
-    origin: "http://localhost:8081",
-};
+
+// default options
+app.use(fileUpload());
 
 app.use(cors());
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // simple route
 app.get("/", (req, res) => {
@@ -23,10 +25,11 @@ app.get("/", (req, res) => {
 
 // routes
 require("./app/routes/auth.routes")(app);
-require("./app/routes/organisations.routes")(app);
+require("./app/routes/user.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
+    console.log(bcrypt.hashSync("1111", 8));
     console.log(`Server is running on port ${PORT}.`);
 });

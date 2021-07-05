@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, Route, useHistory, useRouteMatch } from "react-router-dom";
-import CustomButton from "../c/Button";
+import NavButton from "../c/Button";
 import Staff from "../Routes/Staff";
 import Visitors from "../Routes/Visitors";
 import Tips from "../Routes/Tips";
@@ -55,21 +55,25 @@ const Navigation = () => {
           className="navigation__link"
           key={index}
         >
-          <CustomButton
+          <NavButton
             type={isActive ? "outline" : "fill"}
             disabled={isActive}
             handleClick={() => setActivelink(index)}
           >
             {item.name}
-          </CustomButton>
+          </NavButton>
         </Link>
       );
     });
   };
 
   const renderRoutes = () => {
-    return links.map((item) => (
-      <Route path={`${url}/${item.link}`} component={item.component} />
+    return links.map((item, index) => (
+      <Route
+        path={`${url}/${item.link}`}
+        component={() => <item.component />}
+        key={index}
+      />
     ));
   };
 

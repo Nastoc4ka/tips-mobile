@@ -29,12 +29,12 @@ const useStyles = makeStyles({
       borderWidth: 2,
       
       color: "#0087CB",
-      backgroundColor: "transparent",
+      backgroundColor: "#fff",
     },
   },
 
   outline: {
-    backgroundColor: "transparent",
+    backgroundColor: "#fff",
     color: "#0087CB",
   },
 });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://10.100.2.172:8080/api';
+const baseURL = 'http://10.100.3.248:8080/api';
 //localhost
 //10.100.2.172
 const client = axios.create({
@@ -15,7 +15,7 @@ const catchError = (errorType) => (err) => {
         title: "Ошибка сервера",
         text: ""
     };
-    throw new errorType('Something went wrong... please contact vendor');
+    throw new errorType(msg);
 };
 
 export {

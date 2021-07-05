@@ -7,12 +7,12 @@ import DoubleScreen from "../../Wrappers/DoubleScreen";
 
 const OrganizationsList = () => {
   const dispatch = useDispatch();
-  const { organizations } = useSelector((state) => state.userReducer);
+  const { organizations } = useSelector((state) => state.adminReducer);
   const { user } = useSelector((state) => state.authLoginReducer);
 
   const renderOrganizationsLinks = () => {
     return organizations.map((organization) => (
-      <OrganizationLink organization={organization} key={organization.id} />
+      <OrganizationLink organization={organization} key={organization?.id} />
     ));
   };
 

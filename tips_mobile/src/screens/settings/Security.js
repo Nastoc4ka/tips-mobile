@@ -1,5 +1,7 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from "react-native";
+import {BackgroundSettings} from "../../components";
+
 
 import {useSelector} from "react-redux";
 
@@ -7,44 +9,15 @@ const Security = () => {
     const {user} = useSelector(state => state.authLoginReducer);
 
     return (
-        <View style={styleSettingsScreens.topPanel}>
+        <BackgroundSettings>
             <Text>Security</Text>
-        </View>
+        </BackgroundSettings>
     );
 };
 
 export default Security
 
 const styleSettingsScreens = StyleSheet.create({
-    topPanel: {
-        flex: 1,
-        alignItems: 'center',
-        position: 'relative',
-        backgroundColor: 'rgba(249, 249, 249, 0.9)'
-    },
-    container: {
-        flex: 1,
-        width: '100%',
-        alignItems: 'center',
-        position: 'relative',
-        backgroundColor: '#E5E5E5'
-    },
-    avatar: {
-        flex: 1,
-        width: '100%',
-        height: 135,
-        paddingTop: 34,
-        alignItems: 'center',
-    },
-    avatarLabelName: {
-        marginTop: 4,
-        color: '#454545',
-        fontSize: 12,
-    },
-    avatarLabelId: {
-        color: 'grey',
-        fontSize: 13,
-    },
     paper: {
         width: '89%',
         borderTopRightRadius: 20,
