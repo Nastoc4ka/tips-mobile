@@ -1,17 +1,7 @@
 import {LOGIN_FAIL, LOGIN_LOADING, LOGIN_SUCCESS, LOGOUT,} from "../actions/types";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-let user = null;
-
-(async () => {
-    return await AsyncStorage.getItem('user')
-        .then((data) => {
-            data != null ? user = JSON.parse(data) : null
-        });
-})();
 
 const initialState = {
-    user,
+    user: null
 };
 
 const authLoginReducer = (state = initialState, action) => {

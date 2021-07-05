@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 // import AvatarImagePath from "../../../../assets/images/default.png";
 
 const AddEmployee = () => {
-  const organisationId = useSelector(
+  const organizationId = useSelector(
     (state) => state.adminReducer.chosenOrganization
   );
   const history = useHistory();
@@ -16,7 +16,7 @@ const AddEmployee = () => {
     position: "",
     password: Math.random().toString(36).slice(-8),
     avatar: null,
-    organisationId,
+    organizationId,
   });
 
   const goBack = () => {
@@ -24,8 +24,8 @@ const AddEmployee = () => {
   };
 
   useEffect(() => {
-    setEmployeeData((prev) => ({ ...prev, organisationId }));
-  }, [organisationId]);
+    setEmployeeData((prev) => ({ ...prev, organizationId }));
+  }, [organizationId]);
 
   return (
     <div>

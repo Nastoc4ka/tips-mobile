@@ -3,8 +3,7 @@ import {StyleSheet, Text, TouchableHighlight} from 'react-native';
 import ModalWrapper from './ModalWrapper';
 import ImagePicker from 'react-native-image-crop-picker';
 
-const UploadImageModal = ({handleCloseModal, setData}) => {
-    const [takePhoto, setTakePhoto] = useState(null);
+const UploadImageModal = ({handleCloseModal, setData, modalIsVisible}) => {
 
     const chooseFromLibrary = () => {
         ImagePicker.openPicker({
@@ -33,21 +32,21 @@ const UploadImageModal = ({handleCloseModal, setData}) => {
             includeExif: true,
         })
             .then(image => {
-                setData((data) => ({
-                    ...data,
-                    avatar: {
-                        uri: `data:${image.mime};base64,` + image.data,
-                        width: image.width,
-                        height: image.height,
-                    }
+                setData((prevData) => ({
+                    ...prevData,
+                    avatar: `data:${image.mime};base64,` + image.data
                 }));
                 handleCloseModal();
             })
             .catch((e) => console.log(e));
     };
 
+    const closeModal = () => {
+        handleCloseModal();
+    };
+
     return (
-        <ModalWrapper onBackdropPress={handleCloseModal}>
+        <ModalWrapper modalIsVisible={modalIsVisible} onBackdropPress={closeModal}>
             <TouchableHighlight
                 style={styles.button}
                 onPress={chooseFromLibrary}

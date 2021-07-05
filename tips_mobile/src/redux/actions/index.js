@@ -1,29 +1,74 @@
 import {
-    CLEAR_MESSAGE,
-    LOGIN_FAIL,
-    LOGIN_SAGA,
-    LOGIN_SUCCESS,
-    LOGOUT,
-    LOGOUT_SAGA,
-    REGISTER_FAIL,
-    REGISTER_SAGA,
-    REGISTER_SUCCESS,
-    REGISTER_INIT,
-    SET_MESSAGE,
-    SHOW_BLUR,
-    HIDE_BLUR,
-    SHOW_LOADING,
-    HIDE_LOADING,
-    GET_ORGANISATIONS_SAGA,
-    GET_ORGANISATIONS_FAIL,
-    GET_ORGANISATIONS_SUCCESS,
-    LOGIN_SCREEN_SHOW,
-    REGISTRATION_SCREEN_SHOW,
-    SET_AUTHENTICATION,
-    SEND_DATA_DISABLE,
-    SEND_DATA_ACTIVE,
-    UPDATE_USER_SAGA
+    CLEAR_MESSAGE, GET_ORGANISATIONS_FAIL, GET_ORGANISATIONS_SAGA,
+    GET_ORGANISATIONS_SUCCESS, HIDE_BLUR, HIDE_LOADING, LOGIN_FAIL,
+    LOGIN_SAGA, LOGIN_SCREEN_SHOW, LOGIN_SUCCESS, LOGOUT, LOGOUT_SAGA,
+    REGISTER_FAIL, REGISTER_INIT, REGISTER_SAGA, REGISTER_SUCCESS,
+    REGISTRATION_SCREEN_SHOW, REMOVE_PIN_AUTHENTICATION, SEND_DATA_ACTIVE,
+    SEND_DATA_DISABLE, SET_MESSAGE, SET_PIN_AUTHENTICATION_SAGA, SHOW_BLUR,
+    SHOW_LOADING, PIN_AUTHENTICATION_SUCCESS, UPDATE_USER_SAGA,
+    PIN_AUTHENTICATIED_FALSE, GET_LOCAL_DATA_SAGA, SET_PIN_AUTHENTICATION,
+    SET_CONFIRM_CURRENT_PASSWORD_SAGA, CURRENT_PASSWORD_CONFIRMED,
+    CURRENT_PASSWORD_SET_FALSE, UPDATE_PASSWORD_SAGA,
+
 } from "./types"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const getLocalDataSaga = () => {
+    return {
+        type: GET_LOCAL_DATA_SAGA
+    }
+};
+const updatePasswordSaga = (password) => {
+    return {
+        type: UPDATE_PASSWORD_SAGA,
+        payload: password
+    }
+};
+const pinAuthenticationSuccess = () => {
+    return {
+        type: PIN_AUTHENTICATION_SUCCESS
+    }
+};
+const removePinAuthentication = () => {
+    AsyncStorage.removeItem('pin');
+    return {
+        type: REMOVE_PIN_AUTHENTICATION
+    }
+};
+const setPinAuthenticationSaga = (pin) => {
+    return {
+        type: SET_PIN_AUTHENTICATION_SAGA,
+        payload: pin
+    }
+};
+const setConfirmCurrentPasswordSaga = (password) => {
+    return {
+        type: SET_CONFIRM_CURRENT_PASSWORD_SAGA,
+        payload: password
+    }
+};
+const currentPasswordConfirmed = () => {
+    return {
+        type: CURRENT_PASSWORD_CONFIRMED
+    }
+};
+const currentPasswordSetFalse = () => {
+    return {
+        type: CURRENT_PASSWORD_SET_FALSE
+    }
+};
+const setPinAuthentication = (pin) => {
+    return {
+        type: SET_PIN_AUTHENTICATION,
+        payload: pin
+    }
+};
+const pinAuthenticatiedFalse = () => {
+    return {
+        type: PIN_AUTHENTICATIED_FALSE
+    }
+};
 
 const loginScreenShow = () => {
     return {
@@ -167,12 +212,6 @@ const hideLoading = () => {
     }
 };
 
-const setAuthentication = () => {
-    return {
-        type: SET_AUTHENTICATION,
-    }
-};
-
 export {
     loginSaga,
     loginSuccess,
@@ -194,9 +233,17 @@ export {
     getOrganisationsSaga,
     registrationScreenShow,
     loginScreenShow,
-    setAuthentication,
     sendDataActive,
     sendDataDisable,
     updateUserSaga,
-
+    pinAuthenticatiedFalse,
+    setPinAuthenticationSaga,
+    setPinAuthentication,
+    removePinAuthentication,
+    pinAuthenticationSuccess,
+    getLocalDataSaga,
+    setConfirmCurrentPasswordSaga,
+    currentPasswordConfirmed,
+    currentPasswordSetFalse,
+    updatePasswordSaga,
 };

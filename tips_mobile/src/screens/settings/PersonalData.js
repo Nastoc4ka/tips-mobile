@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {styleSettingsInput, styleSettingsScreen} from "../../styles";
 import {AuthModal, BackgroundSettings, Input, InputPhone, UploadImageModal} from "../../components";
 import {Portal} from 'react-native-portalize';
 import {clearMessage, hideBlur, sendDataDisable, showBlur, updateUserSaga} from "../../redux/actions";
@@ -12,19 +13,20 @@ const DATE_REG_EXP = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20
 
 const isNumberLengthCorrect = (phoneNumber) => phoneNumber.length === PHONE_NUMBER_LENGTH;
 
+const initialErrorsState = {
+    firstName: '',
+    phoneNumber: '',
+    birthdate: '',
+};
 
 const PersonalData = ({navigation}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.authLoginReducer);
-    const {sendData} = useSelector(state => state.systemReducer);
-    const {message} = useSelector(state => state.systemReducer);
+    const {sendData, message} = useSelector(state => state.systemReducer);
     const [data, setData] = useState(user);
+    const [modalIsVisible, setModalIsVisible] = useState(false);
     const [choosePhoto, setChoosePhoto] = useState(false);
-    const [errors, setErrors] = useState({
-        firstName: '',
-        phoneNumber: '',
-        birthdate: '',
-    });
+    const [errors, setErrors] = useState(initialErrorsState);
 
     const displayInputError = (validatorFunc) => (data) => {
         setErrors({...errors, ...validatorFunc(data)});
@@ -53,7 +55,7 @@ const PersonalData = ({navigation}) => {
         dispatch(clearMessage());
         dispatch(hideBlur());
         setChoosePhoto(false);
-        navigation.goBack();
+        setModalIsVisible(false);
     };
 
     const pickAvatar = () => {
@@ -95,6 +97,10 @@ const PersonalData = ({navigation}) => {
     };
 
     useEffect(() => {
+        if(message) setModalIsVisible(true);
+    }, [message]);
+
+    useEffect(() => {
         if (sendData) {
             dispatch(sendDataDisable());
             const formErrors = validateForm(data);
@@ -103,17 +109,26 @@ const PersonalData = ({navigation}) => {
                 setErrors(formErrors);
             } else {
                 dispatch(updateUserSaga(data));
+                setErrors(initialErrorsState);
+                setData(user);
             }
         }
     }, [sendData]);
 
     return (
         <BackgroundSettings>
-            <AvatarWrapper
-                source={data.avatar}
-                onPress={pickAvatar}
-                textAvatar={data.firstName[0]}
-            />
+            <View style={styleSettingsScreen.container}>
+                <TouchableOpacity
+                    style={styleSettingsScreen.avatar}
+                    onPress={pickAvatar}
+                >
+                    <AvatarWrapper
+                        source={data.avatar}
+                        textAvatar={data.firstName[0]}
+                    />
+                    <Text style={styleSettingsScreen.textPhoto}>Фото</Text>
+                </TouchableOpacity>
+            </View>
             <Input
                 autoCapitalize='words'
                 type='name'
@@ -141,61 +156,28 @@ const PersonalData = ({navigation}) => {
                 name='birthdate'
                 label='Дата рождения'
                 handleBlur={displayInputError(validateBirthDate)}
-                maxLength={40}
+                maxLength={10}
                 message={errors.birthdate}
                 value={data.birthdate}
                 handleChange={(text) => onChange(text, 'birthdate')}
             />
             <PositionAndOrganization position={data.position} organization={data.organisation.name}/>
-            {choosePhoto ? <Portal>
+            <Portal>
                 <UploadImageModal
+                    modalIsVisible={choosePhoto}
                     setData={setData}
                     handleCloseModal={handleCloseModal}
                 />
-            </Portal> : null}
-            {message ? <Portal>
+            </Portal>
+            <Portal>
                 <AuthModal
+                    modalIsVisible={modalIsVisible}
                     message={message}
                     handleCloseModal={handleCloseModal}
                 />
-            </Portal> : null}
+            </Portal>
         </BackgroundSettings>
     );
 };
 
 export default PersonalData
-
-const styleSettingsInput = StyleSheet.create({
-    wrapper: {
-        width: '100%',
-        marginBottom: 35,
-    },
-    text: {
-        marginBottom: 12,
-        fontSize: 13,
-        marginLeft: 14,
-        color: '#454545',
-    },
-    input: {
-        width: '100%',
-        paddingLeft: 14,
-        backgroundColor: '#FFFFFF',
-        borderBottomColor: 'rgba(36, 168, 172, 0.5)',
-        borderBottomWidth: 1,
-        borderTopColor: 'rgba(36, 168, 172, 0.5)',
-        borderTopWidth: 1,
-        ...Platform.select({
-            ios: {
-                paddingVertical: 11,
-                paddingRight: 46,
-            },
-            android: {
-                paddingVertical: 5,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingRight: 23,
-            }
-        }),
-    }
-});

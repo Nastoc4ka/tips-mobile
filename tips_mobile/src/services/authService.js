@@ -1,6 +1,7 @@
-import {LoginError, RegistrationError} from "../errors";
+import {LoginError, RegistrationError, PasswordConfirmationError} from "../errors";
 import {catchError, client} from './client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import authHeader from "./authHeader";
 
 const login = (loginData) => {
     return client.post("/auth/signin", loginData)
@@ -10,6 +11,14 @@ const login = (loginData) => {
             return response.data;
         })
         .catch(catchError(LoginError));
+};
+
+const confirmCurrentPassword = async (password) => {
+    return client.post("/auth/confirmPassword", {password}, {headers: await authHeader()})
+        .then(async (response) => {
+            return response.data;
+        })
+        .catch(catchError(PasswordConfirmationError));
 };
 
 const logout = () => AsyncStorage.removeItem("user");
@@ -24,4 +33,6 @@ export default {
     login,
     logout,
     register,
+    confirmCurrentPassword,
+
 }

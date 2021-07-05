@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 function createUser(user) {
-    const query = `INSERT INTO users (first_name, last_name, role, organisation_id, password, phone_number, position, avatar, verified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`;
-    const values = [user.firstName, user.lastName, user.role, user.organisationId, user.password, user.phoneNumber, user.position, user.avatar, user.verified];
+    const query = `INSERT INTO users (first_name, last_name, role, organization_id, password, phone_number, position, avatar, verified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`;
+    const values = [user.firstName, user.lastName, user.role, user.organizationId, user.password, user.phoneNumber, user.position, user.avatar, user.verified];
     return db.query(query, values);
 }
 
@@ -13,7 +13,7 @@ exports.addUser = async (req, res) => {
     const userData = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        organisationId: req.body.organisationId,
+        organizationId: req.body.organizationId,
         phoneNumber: req.body.phoneNumber,
         password: bcrypt.hashSync(req.body.password, 8),
         role: 'employee',
@@ -43,7 +43,7 @@ exports.signup = async (req, res) => {
     const userData = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        organisationId: req.body.organisationId,
+        organizationId: req.body.organizationId,
         phoneNumber: req.body.phoneNumber,
         password: bcrypt.hashSync(req.body.password, 8),
         role: 'employee',
@@ -79,17 +79,9 @@ exports.signin = async (req, res) => {
 
     const {rows: [user]} = await db.query(queryUser);
 
-    const queryOrganisation = {
-        name: 'fetch-organisation',
-        text: 'SELECT * FROM organisations WHERE id = $1',
-        values: [user.organisation_id],
-    };
-
-    const {rows: [organisation]} = await db.query(queryOrganisation);
-
-    const passwordIsValid = bcrypt.compareSync(
+    const passwordIsValid = user && bcrypt.compareSync(
         userToAuth.password,
-        user.password
+        user?.password
     );
 
     if (!user || !passwordIsValid) {
@@ -99,6 +91,14 @@ exports.signin = async (req, res) => {
         };
         return res.status(404).send({error: true, msg})
     }
+
+    const queryOrganization = {
+        name: 'fetch-organization',
+        text: 'SELECT * FROM organizations WHERE id = $1',
+        values: [user.organization_id],
+    };
+
+    const {rows: [organization]} = await db.query(queryOrganization);
 
     if (!user.verified) {
         const msg = {
@@ -111,18 +111,50 @@ exports.signin = async (req, res) => {
     const accessToken = jwt.sign({id: user.id}, config.secret, {
         expiresIn: 60 * 60 * 24 * 30 // 30 day
     });
+
     const userDataAsyncStorage = {
         success: true,
         role: user.role,
         id: user.id,
         birthdate: user.birthdate,
+        filterBirthdate: user.filter_birthdate,
         phoneNumber: user.phone_number,
         position: user.position,
-        organisation: organisation,
+        organization: organization,
         firstName: user.first_name,
         lastName: user.last_name,
         avatar: user.avatar,
         accessToken,
     };
+
     res.status(200).send(userDataAsyncStorage);
+};
+
+exports.confirmPassword = async (req, res) => {
+
+    const dataToConfirm = req.body;
+
+    const queryPassword = {
+        name: 'fetch-userPassword',
+        text: 'SELECT password FROM users WHERE id = $1',
+        values: [req.userId],
+    };
+
+    const {rows: [{password}]} = await db.query(queryPassword);
+
+console.log(password);
+
+    const passwordIsValid = password && bcrypt.compareSync(
+        dataToConfirm.password,
+        password
+    );
+
+    if (!passwordIsValid) {
+        const msg = {
+            title: "пароль указан неверно.",
+            text: ""
+        };
+        return res.status(404).send({error: true, msg})
+    }
+    res.status(200).send({success: true});
 };

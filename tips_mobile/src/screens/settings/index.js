@@ -5,13 +5,32 @@ import PersonalData from "./PersonalData";
 import Security from "./Security";
 import Notifications from "./Notifications";
 import {useDispatch} from 'react-redux';
-import Settings from "./Settings";
-import {PERSONAL_DATA, SETTINGS, NOTIFICATIONS, SECURITY} from "../../constants/routeNames";
+import { CHANGE_PASSWORD, PIN_CODE, LANGUAGE, NOTIFICATIONS, PERSONAL_DATA,
+    SECURITY, SETTINGS, SMS_CONFIRMATION, PASSWORD_CONFIRMATION } from "../../constants/routeNames";
+import {styleSettingsHeaderButtonRight, styleSettingsHeader} from '../../styles';
 import {BackButton, CustomButton, SettingsTopPanel} from "../../components";
 import {sendDataActive} from "../../redux/actions";
+import ChangePassword from "./ChangePassword";
+import PINcode from "./PINcode";
+import Language from "./Language";
+import Settings from "./Settings";
+import passwordConfirmation from "./passwordConfirmation";
+import SmsConfirmation from "./SmsConfirmation";
+
+const screens = [
+    {name: SETTINGS, component: Settings},
+    {name: PERSONAL_DATA, component: PersonalData},
+    {name: SECURITY, component: Security},
+    {name: NOTIFICATIONS, component: Notifications},
+    {name: CHANGE_PASSWORD, component: ChangePassword},
+    {name: PIN_CODE, component: PINcode},
+    {name: LANGUAGE, component: Language},
+    {name: PASSWORD_CONFIRMATION, component: passwordConfirmation},
+    {name: SMS_CONFIRMATION, component: SmsConfirmation},
+];
 
 const SettingsNavigator = () => {
-const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const Stack = createStackNavigator();
 
     const onSavePersonalData = () => {
@@ -29,16 +48,22 @@ const dispatch = useDispatch();
             leftButton={<BackButton onPress={navigation.goBack}/>}
             rightButton={title === PERSONAL_DATA ? <CustomButton
                 title={'Готово'}
-                styles={settingsButton}
+                styles={styleSettingsHeaderButtonRight}
                 onPress={onSavePersonalData}
             /> : null}
-            style={styleSettingsTopPanel}
+            style={styleSettingsHeader}
         />, [title]);
 
         return (
             myHeader
         );
     };
+
+    const stackScreens = screens.map(({name, component}) => <Stack.Screen
+        key={`${name}${component}`}
+        name={name}
+        component={component}
+    />);
 
     return (
         <Stack.Navigator
@@ -47,54 +72,11 @@ const dispatch = useDispatch();
                 header: createHeader
             }}
         >
-            <Stack.Screen
-                name={SETTINGS}
-                component={Settings}
-            />
-            <Stack.Screen
-                name={PERSONAL_DATA}
-                component={PersonalData}
-            />
-            <Stack.Screen
-                name={SECURITY}
-                component={Security}
-            />
-            <Stack.Screen
-                name={NOTIFICATIONS}
-                component={Notifications}
-            />
+
+            {stackScreens}
+
         </Stack.Navigator>
     );
 };
 
 export default SettingsNavigator
-
-const settingsButton = StyleSheet.create({
-    button: {
-        //justifyContent: 'center',
-    },
-    text: {
-        color: '#0087CB'
-    }
-});
-
-const styleSettingsTopPanel = StyleSheet.create({
-    wrapperSafe: {
-        width: '100%',
-        alignItems: 'center',
-        borderBottomColor: '#D3D3D3',
-        borderBottomWidth: 1,
-    },
-    header: {
-        width: '80%',
-        marginTop: 10,
-        paddingBottom: 12,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-
-    },
-    headerText: {
-        fontSize: 17,
-        fontWeight: '600',
-    }
-});

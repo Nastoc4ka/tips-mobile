@@ -13,7 +13,7 @@ const Blur = () => {
             blurType='light'
         />
         : null
-}
+};
 
 const styles = StyleSheet.create({
     absolute: {

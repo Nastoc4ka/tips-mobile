@@ -3,12 +3,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const pool = require('./db');
 const app = express();
-const fileUpload = require('express-fileupload');
-const bcrypt = require("bcryptjs");
-
-
-// default options
-app.use(fileUpload());
 
 app.use(cors());
 
@@ -30,6 +24,5 @@ require("./app/routes/user.routes")(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-    console.log(bcrypt.hashSync("1111", 8));
     console.log(`Server is running on port ${PORT}.`);
 });

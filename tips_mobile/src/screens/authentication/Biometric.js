@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import FingerprintScanner from 'react-native-fingerprint-scanner';
+<<<<<<< HEAD
 import {useDispatch} from 'react-redux';
 import {setAuthentication} from '../../redux/actions';
 
@@ -109,6 +110,83 @@ const BiometricPopup = props => {
   );
 };
 
+=======
+import { useDispatch } from 'react-redux';
+import { pinAuthenticationSuccess } from '../../redux/actions';
+ 
+ 
+// - this example component supports both the
+//   legacy device-specific (Android < v23) and
+//   current (Android >= 23) biometric APIs
+// - your lib and implementation may not need both
+const BiometricPopup = (props) => {
+    const dispatch = useDispatch();
+    const [state, setState] = useState({
+        errorMessageLegacy: null,
+        biometricLegacy: null,
+        biometryType: null
+    });
+
+    const requiresLegacyAuthentication = () => Platform.Version < 23;
+
+    const getMessage = () =>{
+        const {biometryType}=state;
+        console.log(biometryType);
+        if(biometryType == 'Face ID')
+        {
+            return 'Scan your Face on the device to continue'
+        }
+        else
+        {
+            return 'Scan your Fingerprint on the device scanner to continue'
+        }
+    };
+ 
+    const authCurrent = () => {
+        FingerprintScanner
+            .authenticate({ description: getMessage(), title: 'Отсканируйте, чтобы войти', cancelButton: 'Ввести ПИН-код' })
+            .then(() => {
+                dispatch(pinAuthenticationSuccess());
+            })
+            .catch((e) => console.log(e));
+    };
+ 
+    const authLegacy = () => {
+        FingerprintScanner
+            .authenticate({ onAttempt: handleAuthenticationAttemptedLegacy })
+            .then(() => {
+                props.handlePopupDismissedLegacy();
+                Alert.alert('Fingerprint Authentication', 'Authenticated successfully');
+            })
+            .catch((error) => {
+                setState({ errorMessageLegacy: error.message, biometricLegacy: error.biometric });
+            });
+    }
+ 
+    const handleAuthenticationAttemptedLegacy = (error) => setState({ errorMessageLegacy: error.message });
+
+    useEffect(() => {
+        if (requiresLegacyAuthentication()) {
+            authLegacy();
+        } else {
+            FingerprintScanner.isSensorAvailable()
+                .then((biometryType) => {
+                    this.setState({biometryType});
+                })
+            authCurrent();
+        }
+    }, []);
+
+    useEffect(() => {
+        return FingerprintScanner.release;
+    })
+ 
+    const { errorMessageLegacy, biometricLegacy } = state;
+
+    return false
+};
+ 
+>>>>>>> f42a7bc7fb80725b95ce5587dd322c88486c86a9
 BiometricPopup.propTypes = {
   handlePopupDismissedLegacy: PropTypes.func,
   style: ViewPropTypes.style,
