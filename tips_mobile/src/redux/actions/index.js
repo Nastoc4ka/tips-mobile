@@ -8,12 +8,18 @@ import {
     SHOW_LOADING, PIN_AUTHENTICATION_SUCCESS, UPDATE_USER_SAGA,
     PIN_AUTHENTICATIED_FALSE, GET_LOCAL_DATA_SAGA, SET_PIN_AUTHENTICATION,
     SET_CONFIRM_CURRENT_PASSWORD_SAGA, CURRENT_PASSWORD_CONFIRMED,
-    CURRENT_PASSWORD_SET_FALSE, UPDATE_PASSWORD_SAGA,
+    CURRENT_PASSWORD_SET_FALSE, UPDATE_PASSWORD_SAGA, CHANGE_BIRTHDATE_ACCESS_SAGA
 
 } from "./types"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+const changeBirthdateAccessSaga = (access) => {
+    return {
+        type: CHANGE_BIRTHDATE_ACCESS_SAGA,
+        payload: access
+    }
+};
 const getLocalDataSaga = () => {
     return {
         type: GET_LOCAL_DATA_SAGA
@@ -246,4 +252,6 @@ export {
     currentPasswordConfirmed,
     currentPasswordSetFalse,
     updatePasswordSaga,
+    changeBirthdateAccessSaga,
+
 };

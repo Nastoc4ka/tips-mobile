@@ -17,10 +17,9 @@ import {
     getOrganisationsSuccess,
     setPinAuthentication,
     pinAuthenticatiedFalse,
-    currentPasswordSetFalse,
     currentPasswordConfirmed
 } from '../redux/actions';
-import {authService, organisationsService, updateUserDataService, updatePassword} from '../services';
+import {authService, organisationsService, updateUserDataService, updatePassword, updateBirthdateAccess} from '../services';
 
 import {
     LOGIN_SAGA,
@@ -32,12 +31,14 @@ import {
     SET_PIN_AUTHENTICATION_SAGA,
     SET_CONFIRM_CURRENT_PASSWORD_SAGA,
     UPDATE_PASSWORD_SAGA,
+    CHANGE_BIRTHDATE_ACCESS_SAGA,
 
 } from "../redux/actions/types";
 
 export function* sagaWatcher() {
     yield takeEvery(LOGIN_SAGA, loginSaga);
     yield takeEvery(UPDATE_PASSWORD_SAGA, updatePasswordSaga);
+    yield takeEvery(CHANGE_BIRTHDATE_ACCESS_SAGA, changeBirthdateAccessSaga);
     yield takeEvery(SET_CONFIRM_CURRENT_PASSWORD_SAGA, setConfirmCurrentPasswordSaga);
     yield takeEvery(SET_PIN_AUTHENTICATION_SAGA, setPinAuthenticationSaga);
     yield takeEvery(GET_LOCAL_DATA_SAGA, getLocalDataSaga);
@@ -46,6 +47,21 @@ export function* sagaWatcher() {
     yield takeEvery(UPDATE_USER_SAGA, updateUserSaga);
     yield takeEvery(LOGOUT_SAGA, logoutSaga);
 
+}
+
+function* changeBirthdateAccessSaga(action) {
+    try {
+        yield put(showBlur());
+        yield put(showLoading());
+        const updatedUser = yield call(() => updateBirthdateAccess(action.payload));
+        yield put(loginSuccess(updatedUser.userData));
+        yield put(hideLoading());
+        yield put(hideBlur());
+    } catch (error) {
+        yield put(hideLoading());
+        yield put(hideBlur());
+        yield put(setMessage(error.msg));
+    }
 }
 
 function* updatePasswordSaga(action) {
@@ -175,7 +191,6 @@ function* registerSaga(action) {
         yield put(setMessage(error.msg));
     }
 }
-
 
 function delay(ms) {
     return new Promise(resolve => setTimeout(() => resolve(true), ms))

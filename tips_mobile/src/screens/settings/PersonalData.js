@@ -110,7 +110,6 @@ const PersonalData = ({navigation}) => {
             } else {
                 dispatch(updateUserSaga(data));
                 setErrors(initialErrorsState);
-                setData(user);
             }
         }
     }, [sendData]);

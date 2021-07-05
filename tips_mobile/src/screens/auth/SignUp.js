@@ -15,7 +15,6 @@ import {VisibilityHide, VisibilityShow} from '../../assets/icons';
 import {
     clearMessage,
     getOrganisationsSaga,
-    hideBlur,
     loginScreenShow,
     registerInit,
     registerSaga

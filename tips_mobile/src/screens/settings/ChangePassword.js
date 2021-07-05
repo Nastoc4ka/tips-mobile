@@ -91,7 +91,6 @@ const passwordConfirmation = ({navigation}) => {
             setErrors(passwordErrors);
         } else {
             dispatch(updatePasswordSaga(data.password));
-            setData(initialDataState);
         }
     };
 
@@ -99,10 +98,14 @@ const passwordConfirmation = ({navigation}) => {
         if(message) setModalIsVisible(true);
     }, [message]);
 
-    useEffect(() => () =>  dispatch(clearMessage()), []);
+    useEffect(() => () =>  {
+        console.log('unmount');
+        dispatch(clearMessage())}, []
+    );
 
     const handleCloseModal = () => {
         setModalIsVisible(false);
+        console.log('handleCloseModal');
         navigation.navigate(SETTINGS)
     };
 
