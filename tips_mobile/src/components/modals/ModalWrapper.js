@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Modal from 'react-native-modal';
 import { View, StyleSheet } from 'react-native';
 
 const ModalWrapper = ({ children, onBackdropPress, modalIsVisible }) => {
-
+    console.log(modalIsVisible);
     return (
-        <Modal 
+        <Modal
             isVisible={modalIsVisible}
             backdropOpacity={0}
             onBackdropPress={onBackdropPress}

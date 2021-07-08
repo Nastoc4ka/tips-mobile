@@ -3,7 +3,8 @@ import axios from 'axios';
 const baseURL = 'http://localhost:8080/api';
 
 //localhost
-//10.100.2.172
+//172.20.10.2
+//10.100.3.53
 const client = axios.create({
     baseURL
 });

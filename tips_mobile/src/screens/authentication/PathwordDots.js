@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { pinAuthenticationSuccess } from '../../redux/actions';
 
-const PasswordDots = ({password, correctPassword, handleAuthSecurity, setPassword}) => {
+const PasswordDots = ({password, handleAuthSecurity, setPassword}) => {
     const dispatch = useDispatch();
+    const {pin} = useSelector((state) => state.pinAuthenticateReducer);
     const [animation] = useState(new Animated.Value(0));
 
     const animate = () => {
@@ -44,9 +45,9 @@ const PasswordDots = ({password, correctPassword, handleAuthSecurity, setPasswor
 
     useEffect(() => {
         if (password.length === 4) {
-            if (password === correctPassword) {
+            if (password === pin) {
                 dispatch(pinAuthenticationSuccess());
-                handleAuthSecurity ? handleAuthSecurity(previousState => !previousState) : null;
+                handleAuthSecurity ? handleAuthSecurity(true) : null;
             } else {
                 animate();
                 setPassword('')
@@ -57,7 +58,7 @@ const PasswordDots = ({password, correctPassword, handleAuthSecurity, setPasswor
     const shake = animation.interpolate({
         inputRange: [-1, 0, 1],
         outputRange: [-20, 0, 20], 
-    })
+    });
 
     return (
         <Animated.View style={{transform: [{translateX: shake}]}}>
@@ -69,7 +70,8 @@ const PasswordDots = ({password, correctPassword, handleAuthSecurity, setPasswor
             </View>
         </Animated.View>
     )
-}
+};
+
 const styles = StyleSheet.create({
     dotsWrapper: {
         flexDirection: 'row',
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     filledDotStyle: {
         backgroundColor: '#FFA200'
     }
-})
+});
 
 const dots = StyleSheet.create({
     filledDot: {

@@ -8,8 +8,8 @@ const getNews = (id) => {
         newsItem.avatar = userNewsAuthor.avatar;
         newsItem.key = i;
         newsItem.dateFormated = moment(newsItem.date).format('HH:MM');
-        const currentUserOrganisation = users.find(user => user.id === id).organisation;
-        return userNewsAuthor.organisation === currentUserOrganisation;
+        const currentUserOrganization = users.find(user => user.id === id).organization;
+        return userNewsAuthor.organization === currentUserOrganization;
     });
 };
 

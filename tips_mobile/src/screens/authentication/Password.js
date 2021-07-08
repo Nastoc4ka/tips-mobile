@@ -8,8 +8,6 @@ import AvatarWrapper from "../settings/AvatarWrapper";
 
 const Password = ({handleAuthSecurity}) => {
     const {user} = useSelector(state => state.authLoginReducer);
-    const {success, pin} = useSelector((state) => state.pinAuthenticateReducer);
-
     const [password, setPassword] = useState('');
 
     const handlePasswordEntry = (text) => {
@@ -30,7 +28,7 @@ const Password = ({handleAuthSecurity}) => {
                     />
                 </View>
                 <Text style={styles.text}>ПИН-код</Text>
-                <PasswordDots password={password} handleAuthSecurity={handleAuthSecurity} correctPassword={pin} setPassword={setPassword}/>
+                <PasswordDots password={password} handleAuthSecurity={handleAuthSecurity} setPassword={setPassword}/>
             </View>
             <Keyboard handleDelete={handleDelete} handlePasswordEntry={handlePasswordEntry}/>
         </View>
