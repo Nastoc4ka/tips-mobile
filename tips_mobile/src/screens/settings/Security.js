@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Dimensions, StyleSheet, Switch, Text, View} from "react-native";
 import {AuthModal, BackgroundSettings, CustomButton, FilterBirthdateAccessModal} from "../../components";
 import {Arrow_right_blue} from "../../assets/icons";
@@ -8,6 +8,7 @@ import {changeBirthdateAccessSaga, clearMessage, removePinAuthentication} from '
 import {styleRightButtonLayout, styleSettingsButton, styleSettingsButtonBlue, styleSettingsScreen} from "../../styles";
 import {CHANGE_PASSWORD, PASSWORD_CONFIRMATION, PIN_CODE} from "../../constants/routeNames";
 import Authentication from "../authentication";
+import { useFocusEffect } from '@react-navigation/native';
 
 const filterOptionsBirthdateAccess = [
     {
@@ -45,7 +46,6 @@ const FilterButton = ({filterBirthdate}) => {
 const Security = ({navigation}) => {
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
-    console.log(message);
     const {filterBirthdate} = useSelector(state => state.authLoginReducer.user);
     const [authenticatedSecurity, setAuthenticatedSecurity] = useState(false);
     const [filterBirthdateAccess, setFilterBirthdateAccess] = useState(false);
@@ -91,10 +91,13 @@ const Security = ({navigation}) => {
         setFilterBirthdateAccess(false);
         setModalIsVisible(false);
     };
+    //useFocus to upgrade modals status in current screen
+    useFocusEffect(
+        useCallback(() => {
+            if (message) setModalIsVisible(true);
+        }, [message])
+    );
 
-    useEffect(() => {
-        if (message) setModalIsVisible(true);
-    }, [message]);
 
     if (pin && !authenticatedSecurity) {
         return <Authentication handleAuthSecurity={setAuthenticatedSecurity}/>

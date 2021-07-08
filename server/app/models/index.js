@@ -16,12 +16,12 @@ exports.getUserData = async (userId) => {
     return user
 };
 
-exports.getOrganisationById = async (organisation_id) => {
+exports.getOrganizationById = async (organization_id) => {
 
     const queryOrganization = {
-        name: 'fetch-organisation',
-        text: 'SELECT * FROM organisations WHERE id = $1',
-        values: [organisation_id],
+        name: 'fetch-organization',
+        text: 'SELECT * FROM organizations WHERE id = $1',
+        values: [organization_id],
     };
 
     const {rows: [organization]} = await db.query(queryOrganization);
@@ -29,7 +29,7 @@ exports.getOrganisationById = async (organisation_id) => {
     return organization
 };
 
-exports.userDataToSetToLocalStorage = async (user, organisation) => {
+exports.userDataToSetToLocalStorage = async (user, organization) => {
 
     const accessToken = jwt.sign({id: user.id}, config.secret, {
         expiresIn: 60 * 60 * 24 * 30 // 30 day
@@ -38,12 +38,13 @@ exports.userDataToSetToLocalStorage = async (user, organisation) => {
     return {
         success: true,
         role: user.role,
+        verified: user.verified,
         id: user.id,
         filterBirthdate: user.filter_birthdate,
         birthdate: user.birthdate,
         phoneNumber: user.phone_number,
         position: user.position,
-        organisation: organisation,
+        organization: organization,
         firstName: user.first_name,
         lastName: user.last_name,
         avatar: user.avatar,
@@ -51,22 +52,25 @@ exports.userDataToSetToLocalStorage = async (user, organisation) => {
     };
 };
 
-exports.getOrganizations = async (adminId = null) => {
+exports.getOrganizations = async () => {
 
-    let queryOrganizations = null;
+    const queryOrganizations =  {
+            name: 'get-organizations',
+            text: 'SELECT * FROM organizations',
+        };
 
-    if(adminId) {
-        queryOrganizations = {
+    const {rows: organizations} = await db.query(queryOrganizations);
+
+    return organizations
+};
+
+exports.getOrganizationsByAdminId = async (adminId = null) => {
+
+    const queryOrganizations =  {
             name: 'fetch-organizations',
-            text: 'SELECT * FROM organisations WHERE admin_id = $1',
+            text: 'SELECT * FROM organizations WHERE admin_id = $1',
             values: [adminId]
         };
-    } else {
-        queryOrganizations = {
-            name: 'get-organisations',
-            text: 'SELECT * FROM organisations',
-        };
-    }
 
     const {rows: organizations} = await db.query(queryOrganizations);
 
@@ -109,4 +113,3 @@ exports.updateBirthdateAccess = async ({body, userId}) => {
 
     return rowCount
 };
-

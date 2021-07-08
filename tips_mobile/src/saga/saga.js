@@ -13,19 +13,19 @@ import {
     setMessage,
     showBlur,
     showLoading,
-    getOrganisationsFail,
-    getOrganisationsSuccess,
+    getOrganizationsFail,
+    getOrganizationsSuccess,
     setPinAuthentication,
     pinAuthenticatiedFalse,
     currentPasswordConfirmed
 } from '../redux/actions';
-import {authService, organisationsService, updateUserDataService, updatePassword, updateBirthdateAccess} from '../services';
+import {authService, organizationsService, updateUserDataService, updatePassword, updateBirthdateAccess} from '../services';
 
 import {
     LOGIN_SAGA,
     LOGOUT_SAGA,
     REGISTER_SAGA,
-    GET_ORGANISATIONS_SAGA,
+    GET_ORGANIZATIONS_SAGA,
     UPDATE_USER_SAGA,
     GET_LOCAL_DATA_SAGA,
     SET_PIN_AUTHENTICATION_SAGA,
@@ -42,7 +42,7 @@ export function* sagaWatcher() {
     yield takeEvery(SET_CONFIRM_CURRENT_PASSWORD_SAGA, setConfirmCurrentPasswordSaga);
     yield takeEvery(SET_PIN_AUTHENTICATION_SAGA, setPinAuthenticationSaga);
     yield takeEvery(GET_LOCAL_DATA_SAGA, getLocalDataSaga);
-    yield takeEvery(GET_ORGANISATIONS_SAGA, fetchOrganizationsSaga);
+    yield takeEvery(GET_ORGANIZATIONS_SAGA, fetchOrganizationsSaga);
     yield takeEvery(REGISTER_SAGA, registerSaga);
     yield takeEvery(UPDATE_USER_SAGA, updateUserSaga);
     yield takeEvery(LOGOUT_SAGA, logoutSaga);
@@ -85,9 +85,11 @@ function* setConfirmCurrentPasswordSaga(action) {
         yield put(showLoading());
         yield call(() => authService.confirmCurrentPassword(action.payload));
         yield put(hideLoading());
-        yield put(currentPasswordConfirmed())
+        yield put(hideBlur());
+        yield put(currentPasswordConfirmed());
     } catch (error) {
         yield put(hideLoading());
+        yield put(hideBlur());
         yield put(setMessage(error.msg));
     }
 }
@@ -146,10 +148,10 @@ function* updateUserSaga(action) {
 
 function* fetchOrganizationsSaga() {
     try {
-        const payload = yield call(() => organisationsService.getOrganisations());
-        yield put(getOrganisationsSuccess(payload));
+        const payload = yield call(() => organizationsService.getOrganizations());
+        yield put(getOrganizationsSuccess(payload));
     } catch (error) {
-        yield put(getOrganisationsFail(error));
+        yield put(getOrganizationsFail(error));
     }
 }
 

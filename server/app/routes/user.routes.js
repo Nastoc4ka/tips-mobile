@@ -10,9 +10,9 @@ module.exports = function (app) {
         next();
     });
 
-    app.get("/api/organisations", controller.organisations);
+    app.get("/api/organizations", controller.organizations);
     app.put("/api/userData", [authJwt.verifyToken], controller.updateUserData);
     app.put("/api/updatePassword", [authJwt.verifyToken], controller.updatePassword);
     app.put("/api/updateBirthdateAccess", [authJwt.verifyToken], controller.updateBirthdateAccess);
-    app.post("/api/organisations", controller.organizationsByAdmin);
+    app.post("/api/organizations", controller.organizationsByAdmin);
 };

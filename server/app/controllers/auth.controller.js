@@ -9,7 +9,7 @@ exports.signup = async (req, res) => {
     const userData = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        organisationId: req.body.organisationId,
+        organizationId: req.body.organizationId,
         phoneNumber: req.body.phoneNumber,
         password: bcrypt.hashSync(req.body.password, 8),
         role: 'employee',
@@ -30,8 +30,8 @@ exports.signup = async (req, res) => {
 };
 
 function createUser(user) {
-    const query = `INSERT INTO users (first_name, last_name, role, organisation_id, password, phone_number) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
-    const values = [user.firstName, user.lastName, user.role, user.organisationId, user.password, user.phoneNumber];
+    const query = `INSERT INTO users (first_name, last_name, role, organization_id, password, phone_number) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+    const values = [user.firstName, user.lastName, user.role, user.organizationId, user.password, user.phoneNumber];
     return db.query(query, values);
 }
 
@@ -59,13 +59,13 @@ exports.signin = async (req, res) => {
         return res.status(404).send({error: true, msg})
     }
 
-    const queryOrganisation = {
-        name: 'fetch-organisation',
-        text: 'SELECT * FROM organisations WHERE id = $1',
-        values: [user.organisation_id],
+    const queryorganization = {
+        name: 'fetch-organization',
+        text: 'SELECT * FROM organizations WHERE id = $1',
+        values: [user.organization_id],
     };
 
-    const {rows: [organisation]} = await db.query(queryOrganisation);
+    const {rows: [organization]} = await db.query(queryorganization);
 
     if (!user.verified) {
         const msg = {
@@ -87,7 +87,7 @@ exports.signin = async (req, res) => {
         filterBirthdate: user.filter_birthdate,
         phoneNumber: user.phone_number,
         position: user.position,
-        organisation: organisation,
+        organization: organization,
         firstName: user.first_name,
         lastName: user.last_name,
         avatar: user.avatar,

@@ -1,12 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AuthModal, BackgroundSettings, CustomButton, IconInInputView, Input} from "../../components";
 import {useDispatch, useSelector} from "react-redux";
 import {Portal} from 'react-native-portalize';
-import {clearMessage, updatePasswordSaga} from '../../redux/actions';
+import {clearMessage, hideBlur, updatePasswordSaga} from '../../redux/actions';
 import {styleSettingsButtonString, styleSettingsInput, styleSettingsScreen} from "../../styles";
 import {SETTINGS} from "../../constants/routeNames";
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 const regexpPasswordFactory = () => new RegExp(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g);
 
@@ -22,7 +23,8 @@ const initialDataState = {
     confirm_secureTextEntry: true,
 };
 
-const passwordConfirmation = ({navigation}) => {
+const ChangePassword = ({navigation}) => {
+
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
     const [data, setData] = useState(initialDataState);
@@ -94,19 +96,18 @@ const passwordConfirmation = ({navigation}) => {
         }
     };
 
-    useEffect(() => {
-        if(message) setModalIsVisible(true);
-    }, [message]);
-
-    useEffect(() => () =>  {
-        console.log('unmount');
-        dispatch(clearMessage())}, []
+    //useFocus to upgrade modals status in current screen
+    useFocusEffect(
+        useCallback(() => {
+            if (message) setModalIsVisible(true);
+        }, [message])
     );
 
     const handleCloseModal = () => {
+        setData(initialDataState);
+        dispatch(clearMessage());
         setModalIsVisible(false);
-        console.log('handleCloseModal');
-        navigation.navigate(SETTINGS)
+        navigation.navigate(SETTINGS);
     };
 
     return (
@@ -166,4 +167,4 @@ const passwordConfirmation = ({navigation}) => {
     );
 };
 
-export default passwordConfirmation
+export default ChangePassword

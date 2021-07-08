@@ -1,12 +1,12 @@
 import authService from './authService';
-import organisationsService from './organisationsService';
+import organizationsService from './organizationsService';
 import updateUserDataService from './updateUserData';
 import updatePassword from './updatePassword';
 import updateBirthdateAccess from './updateBirthdateAccess';
 
 export {
     authService,
-    organisationsService,
+    organizationsService,
     updateUserDataService,
     updatePassword,
     updateBirthdateAccess

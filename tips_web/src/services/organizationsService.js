@@ -1,11 +1,11 @@
-// import { OrganisationsError } from "../errors";
+// import { OrganizationsError } from "../errors";
 import {catchError, client} from './client';
 
 const getOrganizations = (adminId) => {
     const obj = {
         adminId
     };
-    return client.post(`/organisations`, obj)
+    return client.post(`/organizations`, obj)
         .then(({data}) => {
             return data
         })

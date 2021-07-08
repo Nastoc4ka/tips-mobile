@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AuthModal, BackgroundSettings, CustomButton, IconInInputView, Input} from "../../components";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,6 +7,7 @@ import {clearMessage, currentPasswordSetFalse, hideBlur, setConfirmCurrentPasswo
 import {styleSettingsButtonString, styleSettingsInput, styleSettingsScreen} from "../../styles";
 import {CHANGE_PASSWORD, SMS_CONFIRMATION} from "../../constants/routeNames";
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 const EMPTY_INPUT_ERROR = 'поле должно быть заполнено';
 
@@ -30,15 +31,15 @@ const passwordConfirmation = ({navigation}) => {
     };
 
     const handleCloseModal = () => {
-        dispatch(clearMessage());
         setModalIsVisible(false);
+        dispatch(clearMessage());
     };
 
     const displayInputError = (validatorFunc) => (data) => {
         setCurrentPasswordError(validatorFunc(data));
     };
 
-    const onCheckCurrentPassword = async () => {
+    const onCheckCurrentPassword = () => {
         const passwordError = validate(currentPassword);
         if (passwordError) {
             setCurrentPasswordError(passwordError);
@@ -47,7 +48,7 @@ const passwordConfirmation = ({navigation}) => {
         }
     };
 
-    const navigateToChangePassword = () => navigation.navigate(CHANGE_PASSWORD);
+    const navigateToChangePassword = () => setTimeout(() => navigation.navigate(CHANGE_PASSWORD), 100);
 
     useEffect(() => {
         if (confirmPassword) {
@@ -59,10 +60,12 @@ const passwordConfirmation = ({navigation}) => {
         }
     }, [confirmPassword]);
 
-    useEffect(() => {
-        if (message) setModalIsVisible(true);
-    }, [message]);
-
+    //useFocus to upgrade modals status in current screen
+    useFocusEffect(
+        useCallback(() => {
+            if (message) setModalIsVisible(true);
+        }, [message])
+    );
 
     return (
         <BackgroundSettings>

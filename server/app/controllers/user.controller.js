@@ -1,12 +1,12 @@
-const {getUserData, saveUserData, getOrganizations,
-    updateUser, updatePassword, getOrganisationById,
-    userDataToSetToLocalStorage, updateBirthdateAccess} = require('../models');
+const {getUserData, getOrganizations,
+    updateUser, updatePassword, userDataToSetToLocalStorage,
+    updateBirthdateAccess, getOrganizationsByAdminId} = require('../models');
 const db = require("../../db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 
-exports.organisations = async (req, res) => {
+exports.organizations = async (req, res) => {
 
     const organizations = await getOrganizations();
 
@@ -15,7 +15,7 @@ exports.organisations = async (req, res) => {
 
 exports.organizationsByAdmin = async (req, res) => {
 
-    const organizations = await getOrganizations(req.body.adminId);
+    const organizations = await getOrganizationsByAdminId(req.body.adminId);
 
     res.status(200).json(organizations);
 };
@@ -56,7 +56,7 @@ exports.updatePassword = async (req, res) => {
 
     const user = await getUserData(req.userId);
 
-    const organization = await getOrganisationById(user.organisation_id);
+    const organization = await getOrganizationById(user.organization_id);
 
     const userData = await userDataToSetToLocalStorage(user, organization);
 
@@ -82,7 +82,7 @@ exports.updateBirthdateAccess = async (req, res) => {
 
     const user = await getUserData(req.userId);
 
-    const organization = await getOrganisationById(user.organisation_id);
+    const organization = await getOrganizationById(user.organization_id);
 
     const userData = await userDataToSetToLocalStorage(user, organization);
 

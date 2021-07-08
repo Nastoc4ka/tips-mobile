@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { TouchableHighlight } from 'react-native';
 import ModalWrapper from './ModalWrapper';
 
 const AuthModal = ({ message, handleCloseModal, modalIsVisible }) => {
+
+    const closeModal = () => {
+        handleCloseModal();
+    };
+
   return (
-    <ModalWrapper message={message} modalIsVisible={modalIsVisible} onBackdropPress={handleCloseModal}>
+    <ModalWrapper message={message} modalIsVisible={modalIsVisible} onBackdropPress={closeModal}>
       <View style={styles.messageWrapper}>            
         <Text style={styles.messageTitle}>{message.title}</Text>
         <Text style={styles.message}>{message.text}</Text>
@@ -13,7 +18,7 @@ const AuthModal = ({ message, handleCloseModal, modalIsVisible }) => {
 
       <TouchableHighlight 
         style={styles.button} 
-        onPress={handleCloseModal} 
+        onPress={closeModal}
         underlayColor='rgba(36, 168, 172, 0.5)'
       >
         <Text style={styles.buttonText}>OK</Text>

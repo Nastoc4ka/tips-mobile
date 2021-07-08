@@ -18,7 +18,6 @@ const AppNavContainer = () => {
     }, []);
 
     useEffect(() => {
-        console.log("success, pin, user in Nav", success, pin, user);
     }, [success, pin, user]);
     return (
         <Host>
