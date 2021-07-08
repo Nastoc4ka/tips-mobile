@@ -12,105 +12,6 @@ import {
 } from 'react-native';
 
 import FingerprintScanner from 'react-native-fingerprint-scanner';
-<<<<<<< HEAD
-import {useDispatch} from 'react-redux';
-import {setAuthentication} from '../../redux/actions';
-
-const BiometricPopup = props => {
-  const dispatch = useDispatch();
-  const [state, setState] = useState({
-    errorMessageLegacy: null,
-    biometricLegacy: null,
-  });
-
-  let description = null;
-
-  const requiresLegacyAuthentication = () => Platform.Version < 23;
-
-  const onAuthenticate = () => {
-    dispatch(setAuthentication());
-  };
-
-  const authCurrent = () => {
-    FingerprintScanner.authenticate({
-      title: 'Отсканируйте, чтобы войти',
-      cancelButton: 'Ввести ПИН-код',
-    })
-      .then(() => {
-        onAuthenticate();
-      })
-      .catch(e => console.log(e));
-  };
-
-  const authLegacy = () => {
-    FingerprintScanner.authenticate({
-      onAttempt: handleAuthenticationAttemptedLegacy,
-    })
-      .then(() => {
-        props.handlePopupDismissedLegacy();
-        Alert.alert('Fingerprint Authentication', 'Authenticated successfully');
-      })
-      .catch(error => {
-        setState({
-          errorMessageLegacy: error.message,
-          biometricLegacy: error.biometric,
-        });
-      });
-  };
-
-  const handleAuthenticationAttemptedLegacy = error =>
-    setState({errorMessageLegacy: error.message});
-
-  useEffect(() => {
-    if (requiresLegacyAuthentication()) {
-      authLegacy();
-    } else {
-      authCurrent();
-    }
-  }, []);
-
-  useEffect(() => {
-    return FingerprintScanner.release;
-  });
-
-  const {errorMessageLegacy, biometricLegacy} = state;
-  const {style, handlePopupDismissedLegacy} = props;
-
-  return (
-    <>
-      {requiresLegacyAuthentication() ? (
-        <View style={styles.container}>
-          {/* <View style={[styles.contentContainer, style]}>
-                        <Image
-                            style={styles.logo}
-                            source={require('../assets/images/avatar.jpg')}
-                        />
-
-                        <Text style={styles.heading}>
-                            Biometric{'\n'}Authentication
-                        </Text>
-                        <Text
-                            ref={(instance) => { description = instance; }}
-                            style={styles.description(!!errorMessageLegacy)}>
-                            {errorMessageLegacy || `Scan your ${biometricLegacy} on the\ndevice scanner to continue`}
-                        </Text>
-
-                        <TouchableOpacity
-                            style={styles.buttonContainer}
-                            onPress={handlePopupDismissedLegacy}
-                        >
-                            <Text style={styles.buttonText}>
-                                BACK TO MAIN
-                            </Text>
-                        </TouchableOpacity>
-                    </View> */}
-        </View>
-      ) : null}
-    </>
-  );
-};
-
-=======
 import { useDispatch } from 'react-redux';
 import { pinAuthenticationSuccess } from '../../redux/actions';
  
@@ -183,10 +84,40 @@ const BiometricPopup = (props) => {
  
     const { errorMessageLegacy, biometricLegacy } = state;
 
-    return false
+    return (
+      <>
+        {requiresLegacyAuthentication() ? (
+          <View style={styles.container}>
+            {/* <View style={[styles.contentContainer, style]}>
+                          <Image
+                              style={styles.logo}
+                              source={require('../assets/images/avatar.jpg')}
+                          />
+  
+                          <Text style={styles.heading}>
+                              Biometric{'\n'}Authentication
+                          </Text>
+                          <Text
+                              ref={(instance) => { description = instance; }}
+                              style={styles.description(!!errorMessageLegacy)}>
+                              {errorMessageLegacy || `Scan your ${biometricLegacy} on the\ndevice scanner to continue`}
+                          </Text>
+  
+                          <TouchableOpacity
+                              style={styles.buttonContainer}
+                              onPress={handlePopupDismissedLegacy}
+                          >
+                              <Text style={styles.buttonText}>
+                                  BACK TO MAIN
+                              </Text>
+                          </TouchableOpacity>
+                      </View> */}
+          </View>
+        ) : null}
+      </>
+    );
 };
  
->>>>>>> f42a7bc7fb80725b95ce5587dd322c88486c86a9
 BiometricPopup.propTypes = {
   handlePopupDismissedLegacy: PropTypes.func,
   style: ViewPropTypes.style,

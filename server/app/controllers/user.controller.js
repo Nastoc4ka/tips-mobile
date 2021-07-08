@@ -30,7 +30,7 @@ exports.organizationsByAdmin = async (req, res) => {
 
 exports.updateUserData = async (req, res) => {
     const updateUser = {
-        text: 'UPDATE users SET first_name=$1, phone_number=$2, birthdate=$3, avatar=$4 WHERE id = $5',
+        text: 'UPDATE users SET first_name=$1, last_name=$2, phone_number=$2, birthdate=$3, avatar=$4 WHERE id = $5',
         values: [req.body.firstName, req.body.phoneNumber, req.body.birthdate, req.body.avatar, req.userId]
     };
 
@@ -110,11 +110,10 @@ exports.updatePassword = async (req, res) => {
     };
 
     const msg = {
-        title: "Пароль изменен. ",
+        title: "Пароль изменен.",
         text: ""
     };
-
-    console.log('userData', userData);
+    
     res.status(200).send({userData, msg});
 };
 
