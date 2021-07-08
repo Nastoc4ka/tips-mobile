@@ -1,7 +1,13 @@
-import { CAMERA_OFF, CAMERA_ON } from "../actions/types";
+import {
+  ADD_USER_FAIL,
+  ADD_USER_SUCCESS,
+  CAMERA_OFF,
+  CAMERA_ON,
+} from "../actions/types";
 
 const initialState = {
   camera: false,
+  isUserAdded: false,
 };
 
 const systemReducer = (state = initialState, action) => {
@@ -15,6 +21,16 @@ const systemReducer = (state = initialState, action) => {
       return {
         ...state,
         camera: true,
+      };
+    case ADD_USER_SUCCESS:
+      return {
+        ...state,
+        isUserAdded: true,
+      };
+    case ADD_USER_FAIL:
+      return {
+        ...state,
+        isUserAdded: false,
       };
     default:
       return state;

@@ -25,4 +25,18 @@
       font-size: 1rem;
     }
   }
+
+  .block__form {
+    .MuiButton {
+      &-root {
+        margin-top: 10px;
+      }
+
+      &-label {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        line-height: 1;
+      }
+    }
+  }
 }

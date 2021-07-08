@@ -4,6 +4,8 @@ import {
   getOrganizationsSuccess,
   getStaffSuccess,
   sendSMSSaga,
+  addUserSuccess,
+  addUserFail,
 } from "../redux/actions";
 import { authService, organizationsService, smsService } from "../services";
 
@@ -60,6 +62,7 @@ function* addUserSaga(action) {
     const payload = yield call(() =>
       organizationsService.addUser(action.payload)
     );
+    yield put(addUserSuccess());
 
     const phone = action.payload.phoneNumber
       .split("")
@@ -73,6 +76,7 @@ function* addUserSaga(action) {
     // yield put(sendSMSSaga(data));
   } catch (error) {
     console.log(error);
+    yield put(addUserFail());
   }
 }
 

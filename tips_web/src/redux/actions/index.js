@@ -13,6 +13,9 @@ import {
   SET_CHOSEN_ORGANIZATION,
   ADD_USER_SAGA,
   SEND_SMS_SAGA,
+  SET_ERRORS,
+  ADD_USER_SUCCESS,
+  ADD_USER_FAIL,
 } from "./types";
 
 const loginSaga = (loginData) => {
@@ -101,6 +104,18 @@ const addUserSaga = (data) => {
   };
 };
 
+const addUserSuccess = () => {
+  return {
+    type: ADD_USER_SUCCESS,
+  };
+};
+
+const addUserFail = () => {
+  return {
+    type: ADD_USER_FAIL,
+  };
+};
+
 const sendSMSSaga = (data) => {
   return {
     type: SEND_SMS_SAGA,
@@ -122,5 +137,7 @@ export {
   cameraOff,
   setChosenOrganization,
   addUserSaga,
+  addUserSuccess,
+  addUserFail,
   sendSMSSaga,
 };

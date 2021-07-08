@@ -1,15 +1,16 @@
 // import {LoginError, RegistrationError} from "../errors";
-import {catchError, client} from './client';
+import { catchError, client } from "./client";
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const login = (loginData) => {
-    return client.post('/auth/signin', loginData)
-        .then(async (response) => {
-            const jsonValue = JSON.stringify(response.data);
-            localStorage.setItem('user', jsonValue);
-            return response.data;
-        })
-        .catch((e) => console.log(e, 'bad'));
+  return client
+    .post("/auth/signin", loginData)
+    .then(async (response) => {
+      const jsonValue = JSON.stringify(response.data);
+      localStorage.setItem("user", jsonValue);
+      return response.data;
+    })
+    .catch((e) => console.log(e, "bad"));
 };
 
 // const logout = () => AsyncStorage.removeItem("user");
@@ -21,7 +22,7 @@ const login = (loginData) => {
 // };
 
 export default {
-    login,
-    // logout,
-    // register,
-}
+  login,
+  // logout,
+  // register,
+};
