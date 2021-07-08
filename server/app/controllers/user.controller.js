@@ -1,10 +1,7 @@
-const {getUserData, getOrganizations,
+const {getUserData, getOrganizations, getOrganizationById,
     updateUser, updatePassword, userDataToSetToLocalStorage,
     updateBirthdateAccess, getOrganizationsByAdminId} = require('../models');
 const db = require("../../db");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config");
 
 exports.organizations = async (req, res) => {
 
