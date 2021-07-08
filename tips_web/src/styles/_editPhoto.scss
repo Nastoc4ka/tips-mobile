@@ -1,0 +1,27 @@
+.editPhoto {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__btn {
+    width: 20%;
+    max-width: 180px;
+    min-width: 100px;
+
+    .MuiButtonBase-root .MuiButton-label {
+      font-size: 1rem;
+    }
+  }
+
+  &__controllers {
+    display: flex;
+    flex-direction: column;
+    padding-left: 5rem;
+    width: 20vw;
+  }
+
+  &__label {
+    font-size: 1rem;
+  }
+}

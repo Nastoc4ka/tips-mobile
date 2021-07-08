@@ -12,6 +12,8 @@ module.exports = function (app) {
 
     app.get("/api/organizations", controller.organizations);
     app.put("/api/userData", [authJwt.verifyToken], controller.updateUserData);
+    app.post("/api/users", [authJwt.verifyToken], controller.usersByOrganization);
+    app.post("/api/organizations", [authJwt.verifyToken], controller.organizationsByAdmin);
     app.put("/api/updatePassword", [authJwt.verifyToken], controller.updatePassword);
     app.put("/api/updateBirthdateAccess", [authJwt.verifyToken], controller.updateBirthdateAccess);
     app.post("/api/organizations", controller.organizationsByAdmin);

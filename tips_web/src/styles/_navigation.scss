@@ -1,0 +1,13 @@
+.navigation {
+  width: calc(90% + 2rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+
+  &__link {
+    flex: 1;
+    margin: 0 1rem;
+    line-height: 1;
+  }
+}

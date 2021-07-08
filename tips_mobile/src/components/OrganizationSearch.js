@@ -48,6 +48,8 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
             setFiltered(tempList);
         } else {
             setSearching(false);
+
+            setFiltered(organisations);
         }
     };
 

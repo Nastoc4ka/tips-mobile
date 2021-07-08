@@ -9,10 +9,10 @@ const Background = ({ children }) => {
         <View style={main.container}>
             {children}
             <StatusBar
-                    animated={true}
-                    backgroundColor='#00A03E'
-                    barStyle='light-content'
-                    showHideTransition='fade'
+                animated={true}
+                backgroundColor='#00A03E'
+                barStyle='light-content'
+                showHideTransition='fade'
             />
             <View style={main.bottom}></View>
             <Blur />

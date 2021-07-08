@@ -1,0 +1,42 @@
+.takePhoto {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__wrapper {
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00a03e;
+  }
+
+  &__item {
+    border: none;
+  }
+
+  &__btn {
+    background-color: transparent;
+    border: none;
+    width: 5vw;
+    min-width: 30px;
+    margin: 0 2rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+
+    svg {
+      fill: #00a03e;
+      transition: 0.2s;
+    }
+
+    &:hover svg {
+      fill: #ffa200;
+    }
+  }
+}

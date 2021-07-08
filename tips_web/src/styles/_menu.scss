@@ -1,0 +1,22 @@
+.menu {
+  background-color: #00a03e;
+  padding: 1.25rem;
+  position: absolute;
+  right: -1px;
+  top: calc(1rem + 5px);
+  z-index: 1;
+
+  &__item {
+    list-style-type: none;
+    color: #fff;
+    font-size: 1rem;
+
+    &:not(:last-child) {
+      padding-bottom: 1rem;
+    }
+
+    &_danger {
+      color: #ff8080;
+    }
+  }
+}

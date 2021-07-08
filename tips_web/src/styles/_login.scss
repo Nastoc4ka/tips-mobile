@@ -10,12 +10,4 @@
   &__form {
     flex: 1;
   }
-
-  &__logo {
-    background-color: #00a03e;
-
-    @media (max-width: 800px) {
-      flex: 1;
-    }
-  }
 }
