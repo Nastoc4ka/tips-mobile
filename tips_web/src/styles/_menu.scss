@@ -8,6 +8,7 @@
 
   &__item {
     list-style-type: none;
+    display: flex;
 
     &:not(:last-child) {
       padding-bottom: 1rem;
@@ -19,6 +20,7 @@
     border: none;
     color: #fff;
     font-size: 1rem;
+    cursor: pointer;
 
     &_danger {
       color: #ff8080;

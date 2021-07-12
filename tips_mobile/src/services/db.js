@@ -9,7 +9,7 @@ const users = [
         position: 'Администратор',
         password: 'qwerty',
         phone: '0501111111',
-        organisation: 'BlackDiamond',
+        organization: 'BlackDiamond',
         city: 'Kyiv',
     },
     {
@@ -21,7 +21,7 @@ const users = [
         position: 'Администратор',
         password: 'qwerty',
         phone: '0501111111',
-        organisation: 'BlackDiamond',
+        organization: 'BlackDiamond',
         city: 'Kyiv',
     },
     {
@@ -33,7 +33,7 @@ const users = [
         position: 'Официант',
         password: 'qwerty',
         phone: '0501111112',
-        organisation: 'BlackDiamond',
+        organization: 'BlackDiamond',
         city: 'Odessa'
     },
     {
@@ -44,7 +44,7 @@ const users = [
         position: 'Официант',
         password: 'qwerty',
         phone: '0501111113',
-        organisation: 'BlackDiamond',
+        organization: 'BlackDiamond',
         city: 'Sumy'
     },
     {
@@ -56,7 +56,7 @@ const users = [
         position: 'Администратор',
         password: 'qwerty',
         phone: '0501111114',
-        organisation: 'Glovo',
+        organization: 'Glovo',
         city: 'Kyiv',
     },
     {
@@ -67,7 +67,7 @@ const users = [
         position: 'Официант',
         password: 'qwerty',
         phone: '0501111115',
-        organisation: 'Glovo',
+        organization: 'Glovo',
         city: 'Odessa'
     },
     {
@@ -78,7 +78,7 @@ const users = [
         position: 'Официант',
         password: 'qwerty',
         phone: '0501111116',
-        organisation: 'Glovo',
+        organization: 'Glovo',
         city: 'Sumy'
     },
 ];

@@ -1,13 +1,23 @@
 import React from "react";
+import { Menu, MenuItem } from "@material-ui/core";
 
-const StaffMenu = () => {
+const StaffMenu = ({ deleteEmployee, handleClose, open, anchor }) => {
   return (
-    <div className="menu">
-      <ul className="menu__list">
-        <li className="menu__item">Настройки</li>
-        <li className="menu__item menu__item_danger">Удалить сотрудника</li>
-      </ul>
-    </div>
+    <Menu
+      keepMounted
+      open={open}
+      onClose={handleClose}
+      anchorEl={anchor}
+      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: "bottom",
+      }}
+    >
+      <MenuItem onClick={handleClose}>Настройки</MenuItem>
+      <MenuItem className="menu__button_danger" onClick={deleteEmployee}>
+        Удалить сотрудника
+      </MenuItem>
+    </Menu>
   );
 };
 

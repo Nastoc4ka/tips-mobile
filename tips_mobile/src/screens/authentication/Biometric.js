@@ -62,7 +62,7 @@ const BiometricPopup = (props) => {
             .catch((error) => {
                 setState({ errorMessageLegacy: error.message, biometricLegacy: error.biometric });
             });
-    }
+    };
  
     const handleAuthenticationAttemptedLegacy = (error) => setState({ errorMessageLegacy: error.message });
 
@@ -73,14 +73,14 @@ const BiometricPopup = (props) => {
             FingerprintScanner.isSensorAvailable()
                 .then((biometryType) => {
                     this.setState({biometryType});
-                })
+                });
             authCurrent();
         }
     }, []);
 
     useEffect(() => {
         return FingerprintScanner.release;
-    })
+    });
  
     const { errorMessageLegacy, biometricLegacy } = state;
 

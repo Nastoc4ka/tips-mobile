@@ -142,8 +142,6 @@ exports.confirmPassword = async (req, res) => {
 
     const {rows: [{password}]} = await db.query(queryPassword);
 
-console.log(password);
-
     const passwordIsValid = password && bcrypt.compareSync(
         dataToConfirm.password,
         password

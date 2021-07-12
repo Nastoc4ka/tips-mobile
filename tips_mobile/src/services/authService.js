@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import authHeader from "./authHeader";
 
 const login = (loginData) => {
+    console.log(loginData);
     return client.post("/auth/signin", loginData)
         .then(async (response) => {
             const jsonValue = JSON.stringify(response.data);

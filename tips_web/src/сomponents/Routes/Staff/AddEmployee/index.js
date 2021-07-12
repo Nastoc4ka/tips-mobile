@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Form from "./Form";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addUserFail } from "../../../../redux/actions";
 // import AvatarImagePath from "../../../../assets/images/default.png";
 
 const AddEmployee = () => {
   const organizationId = useSelector(
     (state) => state.adminReducer.chosenOrganization
   );
+  const isUserAdded = useSelector((state) => state.systemReducer.isUserAdded);
+
+  const dispatch = useDispatch();
 
   const initialState = {
     firstName: "",
@@ -18,8 +22,6 @@ const AddEmployee = () => {
     avatar: null,
     organizationId,
   };
-
-  const isUserAdded = useSelector((state) => state.systemReducer.isUserAdded);
 
   const history = useHistory();
   const [employeeData, setEmployeeData] = useState(initialState);
@@ -33,13 +35,14 @@ const AddEmployee = () => {
   }, [organizationId]);
 
   useEffect(() => {
-    if (isUserAdded)
+    if (isUserAdded) {
       setEmployeeData({
         ...initialState,
-        // password: Math.random().toString(36).slice(-8),
       });
+      dispatch(addUserFail());
+    }
   }, [isUserAdded]);
-  console.log(initialState.password);
+
   return (
     <div>
       <div className="staff__controllers">

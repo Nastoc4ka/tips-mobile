@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const pool = require('./db');
 const app = express();
+// const expressWs = require('express-ws')(app);
 
 app.use(cors());
 
@@ -17,6 +18,8 @@ app.get("/", (req, res) => {
     res.json({message: "Welcome to tips-mobile BE application."});
 });
 
+// app.ws('/api/userData', (ws, req))
+
 // routes
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
@@ -26,3 +29,4 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
+

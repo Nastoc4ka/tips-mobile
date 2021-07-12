@@ -52,6 +52,7 @@ const Form = ({ data, setData }) => {
   };
 
   const handleAddBtnClick = (e) => {
+    console.log("d");
     e.preventDefault();
     const result = validation();
     setErrors(result.messages);
@@ -61,7 +62,7 @@ const Form = ({ data, setData }) => {
   };
 
   return (
-    <form className="addEmployee__form">
+    <form className="addEmployee__form" onSubmit={handleAddBtnClick}>
       <InputWithError
         label="Имя"
         type="text"

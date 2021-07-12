@@ -191,32 +191,8 @@ li {
   line-height: 1;
 }
 
-.menu {
-  background-color: #00a03e;
-  padding: 1.25rem;
-  position: absolute;
-  right: -1px;
-  top: calc(1rem + 5px);
-  z-index: 1;
-}
-
-.menu__item {
-  list-style-type: none;
-}
-
-.menu__item:not(:last-child) {
-  padding-bottom: 1rem;
-}
-
-.menu__button {
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  font-size: 1rem;
-}
-
-.menu__button_danger {
-  color: #ff8080;
+.MuiButtonBase-root.menu__button_danger {
+  color: red;
 }
 
 .login {
@@ -433,6 +409,7 @@ li {
   display: -ms-flexbox;
   display: flex;
   cursor: pointer;
+  padding-bottom: 5px;
 }
 
 .staff__item__controllers_btn:focus {

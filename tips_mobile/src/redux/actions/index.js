@@ -1,6 +1,6 @@
 import {
-    CLEAR_MESSAGE, GET_ORGANISATIONS_FAIL, GET_ORGANISATIONS_SAGA,
-    GET_ORGANISATIONS_SUCCESS, HIDE_BLUR, HIDE_LOADING, LOGIN_FAIL,
+    CLEAR_MESSAGE, GET_ORGANIZATIONS_FAIL, GET_ORGANIZATIONS_SAGA,
+    GET_ORGANIZATIONS_SUCCESS, HIDE_BLUR, HIDE_LOADING, LOGIN_FAIL,
     LOGIN_SAGA, LOGIN_SCREEN_SHOW, LOGIN_SUCCESS, LOGOUT, LOGOUT_SAGA,
     REGISTER_FAIL, REGISTER_INIT, REGISTER_SAGA, REGISTER_SUCCESS,
     REGISTRATION_SCREEN_SHOW, REMOVE_PIN_AUTHENTICATION, SEND_DATA_ACTIVE,
@@ -8,12 +8,18 @@ import {
     SHOW_LOADING, PIN_AUTHENTICATION_SUCCESS, UPDATE_USER_SAGA,
     PIN_AUTHENTICATIED_FALSE, GET_LOCAL_DATA_SAGA, SET_PIN_AUTHENTICATION,
     SET_CONFIRM_CURRENT_PASSWORD_SAGA, CURRENT_PASSWORD_CONFIRMED,
-    CURRENT_PASSWORD_SET_FALSE, UPDATE_PASSWORD_SAGA,
+    CURRENT_PASSWORD_SET_FALSE, UPDATE_PASSWORD_SAGA, CHANGE_BIRTHDATE_ACCESS_SAGA
 
 } from "./types"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+const changeBirthdateAccessSaga = (access) => {
+    return {
+        type: CHANGE_BIRTHDATE_ACCESS_SAGA,
+        payload: access
+    }
+};
 const getLocalDataSaga = () => {
     return {
         type: GET_LOCAL_DATA_SAGA
@@ -117,23 +123,23 @@ const registerSaga = (registrationData) => {
     }
 };
 
-const getOrganisationsSaga = () => {
+const getOrganizationsSaga = () => {
     return {
-        type: GET_ORGANISATIONS_SAGA,
+        type: GET_ORGANIZATIONS_SAGA,
     }
 };
 
-const getOrganisationsSuccess = (organisations) => {
+const getOrganizationsSuccess = (organizations) => {
     return {
-        type: GET_ORGANISATIONS_SUCCESS,
-        payload: organisations
+        type: GET_ORGANIZATIONS_SUCCESS,
+        payload: organizations
 
     }
 };
 
-const getOrganisationsFail = () => {
+const getOrganizationsFail = () => {
     return {
-        type: GET_ORGANISATIONS_FAIL,
+        type: GET_ORGANIZATIONS_FAIL,
     }
 };
 
@@ -228,9 +234,9 @@ export {
     hideBlur,
     showLoading,
     hideLoading,
-    getOrganisationsFail,
-    getOrganisationsSuccess,
-    getOrganisationsSaga,
+    getOrganizationsFail,
+    getOrganizationsSuccess,
+    getOrganizationsSaga,
     registrationScreenShow,
     loginScreenShow,
     sendDataActive,
@@ -246,4 +252,6 @@ export {
     currentPasswordConfirmed,
     currentPasswordSetFalse,
     updatePasswordSaga,
+    changeBirthdateAccessSaga,
+
 };

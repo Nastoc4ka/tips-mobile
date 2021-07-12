@@ -48,11 +48,13 @@
 
     &__controllers {
       align-self: flex-start;
+
       &_btn {
         background-color: transparent;
         border: none;
         display: flex;
         cursor: pointer;
+        padding-bottom: 5px;
 
         &:focus {
           outline: none;

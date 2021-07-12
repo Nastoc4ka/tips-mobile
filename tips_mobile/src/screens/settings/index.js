@@ -30,6 +30,7 @@ const screens = [
 ];
 
 const SettingsNavigator = () => {
+
     const dispatch = useDispatch();
     const Stack = createStackNavigator();
 
@@ -69,7 +70,7 @@ const SettingsNavigator = () => {
         <Stack.Navigator
             headerMode={"screen"}
             screenOptions={{
-                header: createHeader
+                header: createHeader,
             }}
         >
 

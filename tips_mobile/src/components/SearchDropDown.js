@@ -7,13 +7,13 @@ export default SearchDropDown = ({dataSource, onPress}) => {
             {
                 dataSource.length ?
                     dataSource.map(item => {
-                        const organisationAndAddress = `${item.name} (${item.address})`;
+                        const organizationAndAddress = `${item.name} (${item.address})`;
                         return (
                             <TouchableOpacity
                                 key={item.id}
-                                onPress={() => onPress(item.id, organisationAndAddress)}
+                                onPress={() => onPress(item.id, organizationAndAddress)}
                             >
-                                <Text style={styles.organisationText}>{item.name}</Text>
+                                <Text style={styles.organizationText}>{item.name}</Text>
                                 <Text style={styles.addressText}>{item.address}</Text>
                             </TouchableOpacity>
                         )
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         flex: 1,
     },
-    organisationText: {
+    organizationText: {
         marginTop: 10,
         fontSize: 14,
     },

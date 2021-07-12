@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Avatar from "../../../../assets/images/default.png";
+import { deleteUserSaga, updateUserSaga } from "../../../../redux/actions";
 import StaffMenu from "../../../elements/StaffMenu";
 import VerifyMenu from "../../../elements/VerifyMenu";
 
 const StaffItem = ({ employeeData, areVerified }) => {
-  const [isMenuVisible, setMenuVisibility] = useState(false);
-  const { avatar, position, first_name, last_name, id, tips } = employeeData;
+  const [anchorElement, setAnchorelement] = useState(null);
+  const { avatar, position, firstName, lastName, id, tips } = employeeData;
   const dispatch = useDispatch();
-  console.log(employeeData);
-  const verifyEmployee = () => {};
 
-  const handleMenuVisibility = (e) => {
-    e.stopPropagation();
-    setMenuVisibility(!isMenuVisible);
+  const verifyEmployee = () => {
+    dispatch(updateUserSaga({ ...employeeData, verified: true }));
   };
 
-  useEffect(() => {
-    const body = document.querySelector("body");
+  const deleteEmployee = () => {
+    dispatch(deleteUserSaga(employeeData));
+  };
 
-    if (isMenuVisible) {
-      body.addEventListener("click", handleMenuVisibility);
-    } else {
-      body.removeEventListener("click", handleMenuVisibility);
-    }
-  }, [isMenuVisible]);
+  const handleOpen = (event) => {
+    setAnchorelement(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorelement(null);
+  };
 
   return (
     <li className="staff__item">
@@ -35,11 +35,10 @@ const StaffItem = ({ employeeData, areVerified }) => {
           alt="avatar"
         />
       </div>
-
       <div className="staff__item__info">
         <div className="staff__item__info_employee">
           <p className="staff__item__info_employee_p">
-            {position}, {first_name} {last_name}
+            {position}, {firstName} {lastName}
           </p>
 
           <span className="staff__item__info_employee_span">Код: {id}</span>
@@ -47,19 +46,29 @@ const StaffItem = ({ employeeData, areVerified }) => {
 
         <p className="staff__item__info_tips">Чаевые: {tips}₴</p>
       </div>
-
       <div className="staff__item__controllers">
-        <button
-          className="staff__item__controllers_btn"
-          onClick={handleMenuVisibility}
-        >
+        <button className="staff__item__controllers_btn" onClick={handleOpen}>
           <span className="staff__item__controllers_circle"></span>
           <span className="staff__item__controllers_circle"></span>
           <span className="staff__item__controllers_circle"></span>
         </button>
       </div>
-
-      {isMenuVisible ? areVerified ? <StaffMenu /> : <VerifyMenu /> : null}
+      {areVerified ? (
+        <StaffMenu
+          anchor={anchorElement}
+          deleteEmployee={deleteEmployee}
+          handleClose={handleClose}
+          open={!!anchorElement}
+        />
+      ) : (
+        <VerifyMenu
+          deleteEmployee={deleteEmployee}
+          anchor={anchorElement}
+          verifyEmployee={verifyEmployee}
+          handleClose={handleClose}
+          open={!!anchorElement}
+        />
+      )}
     </li>
   );
 };

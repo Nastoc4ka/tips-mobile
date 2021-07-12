@@ -12,14 +12,10 @@ module.exports = function (app) {
 
     app.get("/api/organizations", controller.organizations);
     app.put("/api/userData", [authJwt.verifyToken], controller.updateUserData);
+    app.delete("/api/userData/:id", [authJwt.verifyToken], controller.deleteUser);
     app.post("/api/users", [authJwt.verifyToken], controller.usersByOrganization);
     app.post("/api/organizations", [authJwt.verifyToken], controller.organizationsByAdmin);
     app.put("/api/updatePassword", [authJwt.verifyToken], controller.updatePassword);
-
-    // app.get("/api/users", [authJwt.verifyToken], controller.users);
-    // app.get("/api/dashboard", [authJwt.verifyToken], controller.dashboard);
-    // app.post("/api/profiles", [authJwt.verifyToken], controller.userAddProfile);
-    // app.put("/api/profiles", [authJwt.verifyToken], controller.userUpdateProfile);
-    // app.delete("/api/profiles", [authJwt.verifyToken], controller.userDeleteProfile);
-
+    app.put("/api/updateBirthdateAccess", [authJwt.verifyToken], controller.updateBirthdateAccess);
+    app.post("/api/organizations", controller.organizationsByAdmin);
 };
