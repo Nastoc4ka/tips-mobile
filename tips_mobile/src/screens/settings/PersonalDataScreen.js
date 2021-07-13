@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {styleSettingsInput, styleSettingsScreen} from "../../styles";
 import {AuthModal, BackgroundSettings, Input, InputPhone, UploadImageModal} from "../../components";
@@ -16,11 +16,12 @@ const isNumberLengthCorrect = (phoneNumber) => phoneNumber.length === PHONE_NUMB
 
 const initialErrorsState = {
     firstName: '',
+    lastName: '',
     phoneNumber: '',
     birthdate: '',
 };
 
-const PersonalData = ({navigation}) => {
+const PersonalDataScreen = ({navigation}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.authLoginReducer);
     const {sendData, message} = useSelector(state => state.systemReducer);
@@ -48,7 +49,7 @@ const PersonalData = ({navigation}) => {
 
     const validateName = (name) => {
         const isInvalid = !name.trim();
-        const firstName = isInvalid ? 'Имя должны быть заполнены' : '';
+        const firstName = isInvalid ? 'Имя и фамилия должны быть заполнены' : '';
         return {firstName};
     };
 
@@ -82,7 +83,15 @@ const PersonalData = ({navigation}) => {
         }
     };
 
-    const onChange = (val, key) => {
+    const onChangeName = (val, key) => {
+        setData({
+            ...data,
+            [key]: val,
+        });
+        displayInputError(validateName)(val);
+    };
+
+    const onChangeBirthdate = (val, key) => {
         setData({
             ...data,
             [key]: val,
@@ -91,12 +100,12 @@ const PersonalData = ({navigation}) => {
             ...errors,
             [key]: '',
         });
-        displayInputError(validateName)(data.firstName);
     };
 
     const validateForm = (dataToValidate) => {
         return {
             ...validateName(dataToValidate.firstName),
+            ...validateName(dataToValidate.lastName),
             ...validateBirthDate(dataToValidate.birthdate),
             ...validatePhoneNumber(dataToValidate.phoneNumber)
         };
@@ -121,6 +130,7 @@ const PersonalData = ({navigation}) => {
     }, [sendData]);
 
     return (
+        <ScrollView>
         <BackgroundSettings>
             <View style={styleSettingsScreen.container}>
                 <TouchableOpacity
@@ -143,8 +153,20 @@ const PersonalData = ({navigation}) => {
                 maxLength={40}
                 message={errors.firstName}
                 value={data.firstName}
-                handleBlur={displayInputError(validateName)}
-                handleChange={(text) => onChange(text, 'firstName')}
+                handleBlur={() => displayInputError(validateName)}
+                handleChange={(text) => onChangeName(text, 'firstName')}
+            />
+            <Input
+                autoCapitalize='words'
+                type='name'
+                style={styleSettingsInput}
+                name='lastName'
+                label='Фамилия'
+                maxLength={40}
+                message={errors.lastName}
+                value={data.lastName}
+                handleBlur={() => displayInputError(validateName)}
+                handleChange={(text) => onChangeName(text, 'lastName')}
             />
             <InputPhone
                 value={data.phoneNumber}
@@ -152,7 +174,7 @@ const PersonalData = ({navigation}) => {
                 message={errors.phoneNumber}
                 style={styleSettingsInput}
                 handleChange={validatePhoneNumberCorrect}
-                handleBlur={displayInputError(validatePhoneNumber)}
+                handleBlur={() => displayInputError(validatePhoneNumber)}
             />
             <Input
                 placeholder='формат: 23.01.1900'
@@ -160,11 +182,11 @@ const PersonalData = ({navigation}) => {
                 style={styleSettingsInput}
                 name='birthdate'
                 label='Дата рождения'
-                handleBlur={displayInputError(validateBirthDate)}
+                handleBlur={() => displayInputError(validateBirthDate)}
                 maxLength={10}
                 message={errors.birthdate}
                 value={data.birthdate}
-                handleChange={(text) => onChange(text, 'birthdate')}
+                handleChange={(text) => onChangeBirthdate(text, 'birthdate')}
             />
             <PositionAndOrganization position={data.position} organization={data.organization.name}/>
             <Portal>
@@ -180,7 +202,8 @@ const PersonalData = ({navigation}) => {
                 />
             </Portal>
         </BackgroundSettings>
-    );
+        </ScrollView>
+            );
 };
 
-export default PersonalData
+export default PersonalDataScreen

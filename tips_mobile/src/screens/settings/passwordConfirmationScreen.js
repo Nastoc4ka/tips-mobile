@@ -11,7 +11,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const EMPTY_INPUT_ERROR = 'поле должно быть заполнено';
 
-const passwordConfirmation = ({navigation}) => {
+const passwordConfirmationScreen = ({navigation}) => {
     const dispatch = useDispatch();
     const {message, confirmPassword} = useSelector(state => state.systemReducer);
     const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -48,15 +48,13 @@ const passwordConfirmation = ({navigation}) => {
         }
     };
 
-    const navigateToChangePassword = () => setTimeout(() => navigation.navigate(CHANGE_PASSWORD), 100);
-
     useEffect(() => {
         if (confirmPassword) {
             dispatch(currentPasswordSetFalse());
             setCurrentPassword('');
             setCurrentPasswordError('');
             dispatch(hideBlur());
-            navigateToChangePassword();
+            navigation.navigate(CHANGE_PASSWORD);
         }
     }, [confirmPassword]);
 
@@ -109,4 +107,4 @@ const passwordConfirmation = ({navigation}) => {
     );
 };
 
-export default passwordConfirmation
+export default passwordConfirmationScreen

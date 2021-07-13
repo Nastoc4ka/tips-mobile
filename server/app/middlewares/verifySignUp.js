@@ -1,4 +1,4 @@
-const {getUserData} = require("../models");
+const {getUserDataByUserId} = require("../models");
 const db = require("../../db");
 
 checkDuplicatePhoneNumber = async (req, res, next) => {

@@ -13,7 +13,7 @@ const Authentication = ({handleAuthSecurity}) => {
                 showHideTransition='fade'
             />
             <Password handleAuthSecurity={handleAuthSecurity}/>
-            <BiometricPopup />
+            <BiometricPopup handleAuthSecurity={handleAuthSecurity}/>
         </View>
     )
 };

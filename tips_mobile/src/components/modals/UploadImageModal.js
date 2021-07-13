@@ -7,8 +7,8 @@ const UploadImageModal = ({handleCloseModal, setData, modalIsVisible}) => {
 
     const chooseFromLibrary = () => {
         ImagePicker.openPicker({
-            width: 70,
-            height: 70,
+            width: 200,
+            height: 200,
             cropping: true,
             includeBase64: true,
             includeExif: true,
@@ -25,8 +25,8 @@ const UploadImageModal = ({handleCloseModal, setData, modalIsVisible}) => {
 
     const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
-            width: 70,
-            height: 70,
+            width: 200,
+            height: 200,
             cropping: true,
             includeBase64: true,
             includeExif: true,
