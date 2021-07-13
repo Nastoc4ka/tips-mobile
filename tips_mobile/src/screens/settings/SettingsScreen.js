@@ -11,7 +11,7 @@ import AvatarWrapper from "./AvatarWrapper";
 
 const buttons = [PERSONAL_DATA, SECURITY, NOTIFICATIONS, LANGUAGE];
 
-const Settings = () => {
+const SettingsScreen = () => {
     const {user} = useSelector(state => state.authLoginReducer);
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -68,4 +68,4 @@ const Settings = () => {
     );
 };
 
-export default Settings
+export default SettingsScreen

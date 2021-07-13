@@ -23,7 +23,7 @@ const initialDataState = {
     confirm_secureTextEntry: true,
 };
 
-const ChangePassword = ({navigation}) => {
+const ChangePasswordScreen = ({navigation}) => {
 
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
@@ -56,7 +56,7 @@ const ChangePassword = ({navigation}) => {
     const updateSecureTextEntry = (key) => {
         setData(prevData => ({
             ...prevData,
-            [key]: !prevData.[key],
+            [key]: !prevData[key],
         }));
     };
 
@@ -167,4 +167,4 @@ const ChangePassword = ({navigation}) => {
     );
 };
 
-export default ChangePassword
+export default ChangePasswordScreen

@@ -3,12 +3,38 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 
-exports.getUserData = async (userId) => {
+exports.getUserPasswordByUserId = async (userId) => {
+
+    const queryPassword = {
+        name: 'fetch-userPassword',
+        text: 'SELECT password FROM users WHERE id = $1',
+        values: [userId],
+    };
+
+    const {rows: [{password}]} = await db.query(queryPassword);
+
+    return password
+};
+
+exports.getUserDataByUserId = async (userId) => {
 
     const queryUser = {
         name: 'fetch-user',
         text: 'SELECT * FROM users WHERE id = $1',
         values: [userId],
+    };
+
+    const {rows: [user]} = await db.query(queryUser);
+
+    return user
+};
+
+exports.getUserDataByPhone = async (phoneNumber) => {
+
+    const queryUser = {
+        name: 'fetch-user',
+        text: 'SELECT * FROM users WHERE phone_number = $1',
+        values: [phoneNumber],
     };
 
     const {rows: [user]} = await db.query(queryUser);
@@ -79,8 +105,8 @@ exports.getOrganizationsByAdminId = async (adminId = null) => {
 
 exports.updateUser = async ({body, userId}) => {
     const updateUser = {
-        text: 'UPDATE users SET first_name=$1, phone_number=$2, birthdate=$3, avatar=$4 WHERE id = $5',
-        values: [body.firstName, body.phoneNumber, body.birthdate, body.avatar, userId]
+        text: 'UPDATE users SET first_name=$1, last_name=$2, phone_number=$3, birthdate=$4, avatar=$5, filter_birthdate=$6, verified=$7, position=$8 WHERE id = $9',
+        values: [body.firstName, body.lastName, body.phoneNumber, body.birthdate, body.avatar, body.filterBirthdate, body.verified, body.position, userId]
     };
 
     const { rowCount } = await db.query(updateUser);

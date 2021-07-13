@@ -89,7 +89,7 @@ const SignUp = () => {
     const updateSecureTextEntry = (key) => {
         setData({
             ...data,
-            [key]: !data.[key],
+            [key]: !data[key],
         });
     };
 
