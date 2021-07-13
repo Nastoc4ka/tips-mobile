@@ -1,21 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
-const baseURL = 'http://10.100.3.18:8080/api';
+const baseURL = "http://localhost:8080/api";
 //localhost
-//10.100.3.18
+//10.100.2.104
 const client = axios.create({
-    baseURL
+  baseURL,
 });
 
 const catchError = (errorType) => (err) => {
-    if (err.response && err.response.data && err.response.data.msg) {
-        throw new errorType(err.response.data.msg);
-    }
-    throw new errorType('Something went wrong... please contact vendor');
+  if (err.response && err.response.data && err.response.data.msg) {
+    throw new errorType(err.response.data.msg);
+  }
+  throw new errorType("Something went wrong... please contact vendor");
 };
 
-export {
-    client,
-    catchError,
-}
-
+export { client, catchError };

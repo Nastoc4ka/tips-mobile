@@ -4,11 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     hideBlur,
     hideLoading,
-    loginFail,
-    loginLoading,
     loginSuccess,
     logout,
-    registerFail,
     registerSuccess,
     setMessage,
     showBlur,

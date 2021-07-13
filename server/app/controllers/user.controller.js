@@ -89,3 +89,17 @@ exports.updateBirthdateAccess = async (req, res) => {
 
     res.status(200).send({userData, msg});
 };
+
+exports.usersByOrganization = async (req, res) => {
+    const {orgId}  = req.body;
+
+    const queryUsers = {
+        name: 'get-users',
+        text: 'SELECT * FROM users WHERE organization_id = $1 AND role = $2',
+        values: [orgId, 'employee']
+    };
+
+    const {rows: users} = await db.query(queryUsers);
+
+    res.status(200).json(users);
+};

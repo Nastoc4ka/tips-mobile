@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {Link} from '@material-ui/core';
 import FormButton from './FormButton';
-import Input from './Input';
+import Input from '../../c/Input';
 
 const Form = ({handleLogin}) => {
     const [data, setData] = useState({
