@@ -179,7 +179,7 @@ const SignUp = () => {
     };
 
     useEffect(() => {
-        dispatch(getorganizationsSaga());
+        dispatch(getOrganizationsSaga());
     }, []);
 
     useEffect(() => {

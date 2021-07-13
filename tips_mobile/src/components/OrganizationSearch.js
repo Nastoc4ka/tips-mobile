@@ -49,7 +49,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
         } else {
             setSearching(false);
 
-            setFiltered(organisations);
+            setFiltered(organizations);
         }
     };
 
