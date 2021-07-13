@@ -1,7 +1,5 @@
-import authService from './authService';
-import organizationsService from './organizationsService';
+import authService from "./authService";
+import organizationsService from "./organizationsService";
+import smsService from "./smsService";
 
-export {
-    authService,
-    organizationsService,
-}
+export { authService, organizationsService, smsService };

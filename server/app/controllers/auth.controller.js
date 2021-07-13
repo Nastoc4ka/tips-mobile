@@ -1,39 +1,72 @@
 const config = require("../config/auth.config");
 const db = require("../../db");
-const {getUserData, saveUserData} = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-exports.signup = async (req, res) => {
+function createUser(user) {
+    const query = `INSERT INTO users (first_name, last_name, role, organization_id, password, phone_number, position, avatar, verified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`;
+    const values = [user.firstName, user.lastName, user.role, user.organizationId, user.password, user.phoneNumber, user.position, user.avatar, user.verified];
+    return db.query(query, values);
+}
 
+exports.addUser = async (req, res) => {
     const userData = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        organisationId: req.body.organisationId,
+        organizationId: req.body.organizationId,
         phoneNumber: req.body.phoneNumber,
         password: bcrypt.hashSync(req.body.password, 8),
         role: 'employee',
+        position: req.body.position,
+        avatar: req.body.avatar,
+        verified: true,
     };
 
-    const newPerson = await createUser(userData).catch((e) => {
+    await createUser(userData).catch((e) => {
+        const msg = {
+            title: "Произошла ошибка",
+        };
+        res.status(500).send({error: true, msg})
+
+    });
+    
+    res.status(201).send({
+        success: true,
+        msg: {
+            title: "Регистрация прошла успешно!",
+            text: "",
+        }
+    })
+};
+
+exports.signup = async (req, res) => {
+    const userData = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        organizationId: req.body.organizationId,
+        phoneNumber: req.body.phoneNumber,
+        password: bcrypt.hashSync(req.body.password, 8),
+        role: 'employee',
+        position: null,
+        avatar: null,
+        verified: false,
+    };
+
+    await createUser(userData).catch((e) => {
         const msg = {
             title: "Произошла ощибка",
             text: "Пользователь не заренистрирован, обратитесь к автору"
         };
         res.status(500).send({error: true, msg})
     });
+
     const msg = {
         title: "Регистрация прошла успешно!",
         text: "Ожидайте смс-подтверждение от администратора."
     };
+    
     res.status(201).send({success: true, msg})
 };
-
-function createUser(user) {
-    const query = `INSERT INTO users (first_name, last_name, role, organisation_id, password, phone_number) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
-    const values = [user.firstName, user.lastName, user.role, user.organisationId, user.password, user.phoneNumber];
-    return db.query(query, values);
-}
 
 exports.signin = async (req, res) => {
     const userToAuth = req.body;
@@ -59,13 +92,13 @@ exports.signin = async (req, res) => {
         return res.status(404).send({error: true, msg})
     }
 
-    const queryOrganisation = {
-        name: 'fetch-organisation',
-        text: 'SELECT * FROM organisations WHERE id = $1',
-        values: [user.organisation_id],
+    const queryOrganization = {
+        name: 'fetch-organization',
+        text: 'SELECT * FROM organizations WHERE id = $1',
+        values: [user.organization_id],
     };
 
-    const {rows: [organisation]} = await db.query(queryOrganisation);
+    const {rows: [organization]} = await db.query(queryOrganization);
 
     if (!user.verified) {
         const msg = {
@@ -87,7 +120,7 @@ exports.signin = async (req, res) => {
         filterBirthdate: user.filter_birthdate,
         phoneNumber: user.phone_number,
         position: user.position,
-        organisation: organisation,
+        organization: organization,
         firstName: user.first_name,
         lastName: user.last_name,
         avatar: user.avatar,
@@ -108,8 +141,6 @@ exports.confirmPassword = async (req, res) => {
     };
 
     const {rows: [{password}]} = await db.query(queryPassword);
-
-console.log(password);
 
     const passwordIsValid = password && bcrypt.compareSync(
         dataToConfirm.password,

@@ -7,6 +7,7 @@ import {Portal} from 'react-native-portalize';
 import {clearMessage, hideBlur, sendDataDisable, showBlur, updateUserSaga} from "../../redux/actions";
 import AvatarWrapper from "./AvatarWrapper";
 import PositionAndOrganization from "./PositionAndOrganization";
+import {SETTINGS} from "../../constants/routeNames";
 
 const PHONE_NUMBER_LENGTH = 19;
 const DATE_REG_EXP = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/;
@@ -52,10 +53,15 @@ const PersonalData = ({navigation}) => {
     };
 
     const handleCloseModal = () => {
+        setModalIsVisible(false);
         dispatch(clearMessage());
-        dispatch(hideBlur());
+        setTimeout(() => navigation.navigate(SETTINGS), 100);
+    };
+
+    const handleCloseImageModal = () => {
         setChoosePhoto(false);
         setModalIsVisible(false);
+        dispatch(hideBlur());
     };
 
     const pickAvatar = () => {
@@ -110,7 +116,6 @@ const PersonalData = ({navigation}) => {
             } else {
                 dispatch(updateUserSaga(data));
                 setErrors(initialErrorsState);
-                setData(user);
             }
         }
     }, [sendData]);
@@ -161,15 +166,13 @@ const PersonalData = ({navigation}) => {
                 value={data.birthdate}
                 handleChange={(text) => onChange(text, 'birthdate')}
             />
-            <PositionAndOrganization position={data.position} organization={data.organisation.name}/>
+            <PositionAndOrganization position={data.position} organization={data.organization.name}/>
             <Portal>
                 <UploadImageModal
                     modalIsVisible={choosePhoto}
                     setData={setData}
-                    handleCloseModal={handleCloseModal}
+                    handleCloseModal={handleCloseImageModal}
                 />
-            </Portal>
-            <Portal>
                 <AuthModal
                     modalIsVisible={modalIsVisible}
                     message={message}

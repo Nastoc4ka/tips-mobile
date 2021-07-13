@@ -1,16 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import { getOrganisationsSaga } from '../redux/actions';
+import { getOrganizationsSaga } from '../redux/actions';
 import {Input, SearchDropDown, IconInInputView} from './index'
 
 const OrganizationSearch = ({error, setOrganizationInData}) => {
     const dispatch = useDispatch();
-    const {organisations} = useSelector(state => state.authRegisterReducer);
+    const {organizations} = useSelector(state => state.authRegisterReducer);
     const organizationInputRef = useRef(null);
     const [searching, setSearching] = useState(false);
     const [focus, setFocus] = useState(false);
-    const [filtered, setFiltered] = useState(organisations);
+    const [filtered, setFiltered] = useState(organizations);
     const [organization, setOrganization] = useState({
         name: '',
         id: ''
@@ -38,7 +38,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
 
         if (text.trim().length > 2) {
             setSearching(true);
-            const tempList = organisations.filter(item => {
+            const tempList = organizations.filter(item => {
                 const itemToCheck = String(`${item.name} (${item.address})`).toLowerCase();
                 const newString = String(text.toLowerCase());
                 if (itemToCheck.startsWith(newString)) {
@@ -48,6 +48,8 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
             setFiltered(tempList);
         } else {
             setSearching(false);
+
+            setFiltered(organisations);
         }
     };
 
@@ -63,7 +65,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
     };
 
     useEffect(() => {
-        dispatch(getOrganisationsSaga());
+        dispatch(getOrganizationsSaga());
     }, []);
 
     return (
@@ -89,7 +91,7 @@ const OrganizationSearch = ({error, setOrganizationInData}) => {
                     id: ''
                 })}>
                     <IconInInputView>
-                        {focus && organisations ? <Text style={styles.text}>x</Text> : null}
+                        {focus && organizations ? <Text style={styles.text}>x</Text> : null}
                     </IconInInputView>
                 </TouchableOpacity>
             </Input>

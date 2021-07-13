@@ -20,6 +20,9 @@ module.exports = function (app) {
     );
 
     app.post("/api/auth/signin", controller.signin);
+
+    app.post("/api/auth/add_user", controller.addUser);
+
     app.post("/api/auth/confirmPassword",
         [authJwt.verifyToken],
         controller.confirmPassword);

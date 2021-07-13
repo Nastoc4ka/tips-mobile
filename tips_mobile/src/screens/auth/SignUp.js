@@ -14,8 +14,7 @@ import {AuthModal, CustomButton, IconInInputView, Input, InputPhone, Organizatio
 import {VisibilityHide, VisibilityShow} from '../../assets/icons';
 import {
     clearMessage,
-    getOrganisationsSaga,
-    hideBlur,
+    getOrganizationsSaga,
     loginScreenShow,
     registerInit,
     registerSaga
@@ -180,7 +179,7 @@ const SignUp = () => {
     };
 
     useEffect(() => {
-        dispatch(getOrganisationsSaga());
+        dispatch(getorganizationsSaga());
     }, []);
 
     useEffect(() => {
