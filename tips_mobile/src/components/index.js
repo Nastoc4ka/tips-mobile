@@ -4,7 +4,7 @@ import Input from './Input';
 import NewsItem from './NewsItem';
 import UserPreview from './UserPreview';
 import IconInInputView from './IconInInputView';
-import InputPhone from './InputPhone';
+import InputPhone from './inputPhone';
 import Blur from './Blur';
 import ErrorMessage from './ErrorMessage';
 import SearchDropDown from './SearchDropDown';
@@ -19,24 +19,23 @@ import BackgroundSettings from './BackgroundSettings';
 import FilterBirthdateAccessModal from './modals/FilterBirthdateAccessModal';
 
 export {
-    Background,
-    CustomButton,
-    Input,
-    NewsItem,
-    UserPreview,
-    IconInInputView,
-    InputPhone,
-    Blur,
-    ErrorMessage,
-    SearchDropDown,
-    Loading,
-    OrganizationSearch,
-    SettingsTopPanel,
-    BackButton,
-    UploadImageModal,
-    AuthModal,
-    ModalWrapper,
-    BackgroundSettings,
-    FilterBirthdateAccessModal,
-
-}
+  Background,
+  CustomButton,
+  Input,
+  NewsItem,
+  UserPreview,
+  IconInInputView,
+  InputPhone,
+  Blur,
+  ErrorMessage,
+  SearchDropDown,
+  Loading,
+  OrganizationSearch,
+  SettingsTopPanel,
+  BackButton,
+  UploadImageModal,
+  AuthModal,
+  ModalWrapper,
+  BackgroundSettings,
+  FilterBirthdateAccessModal,
+};

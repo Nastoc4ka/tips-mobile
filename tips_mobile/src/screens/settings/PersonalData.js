@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {styleSettingsInput, styleSettingsScreen} from '../../styles';
 import {
@@ -10,7 +10,6 @@ import {
   UploadImageModal,
 } from '../../components';
 import {Portal} from 'react-native-portalize';
-<<<<<<< HEAD
 import {
   clearMessage,
   hideBlur,
@@ -20,12 +19,7 @@ import {
 } from '../../redux/actions';
 import AvatarWrapper from './AvatarWrapper';
 import PositionAndOrganization from './PositionAndOrganization';
-=======
-import {clearMessage, hideBlur, sendDataDisable, showBlur, updateUserSaga} from "../../redux/actions";
-import AvatarWrapper from "./AvatarWrapper";
-import PositionAndOrganization from "./PositionAndOrganization";
-import {SETTINGS} from "../../constants/routeNames";
->>>>>>> f6acc725a9c2b1edf2ab3f07afd7abb3d2476fe5
+import {SETTINGS} from '../../constants/routeNames';
 
 const PHONE_NUMBER_LENGTH = 19;
 const DATE_REG_EXP =
@@ -36,6 +30,7 @@ const isNumberLengthCorrect = phoneNumber =>
 
 const initialErrorsState = {
   firstName: '',
+  lastName: '',
   phoneNumber: '',
   birthdate: '',
 };
@@ -43,7 +38,6 @@ const initialErrorsState = {
 const PersonalData = ({navigation}) => {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.authLoginReducer);
-  console.log(user);
   const {sendData, message} = useSelector(state => state.systemReducer);
   const [data, setData] = useState(user);
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -71,15 +65,20 @@ const PersonalData = ({navigation}) => {
 
   const validateName = name => {
     const isInvalid = !name.trim();
-    const firstName = isInvalid ? 'Имя должны быть заполнены' : '';
+    const firstName = isInvalid ? 'Имя и фамилия должны быть заполнены' : '';
     return {firstName};
   };
 
   const handleCloseModal = () => {
+    setModalIsVisible(false);
     dispatch(clearMessage());
-    dispatch(hideBlur());
+    setTimeout(() => navigation.navigate(SETTINGS), 100);
+  };
+
+  const handleCloseImageModal = () => {
     setChoosePhoto(false);
     setModalIsVisible(false);
+    dispatch(hideBlur());
   };
 
   const pickAvatar = () => {
@@ -100,7 +99,15 @@ const PersonalData = ({navigation}) => {
     }
   };
 
-  const onChange = (val, key) => {
+  const onChangeName = (val, key) => {
+    setData({
+      ...data,
+      [key]: val,
+    });
+    displayInputError(validateName)(val);
+  };
+
+  const onChangeBirthdate = (val, key) => {
     setData({
       ...data,
       [key]: val,
@@ -109,16 +116,15 @@ const PersonalData = ({navigation}) => {
       ...errors,
       [key]: '',
     });
-    displayInputError(validateName)(data.firstName);
   };
 
   const validateForm = dataToValidate => {
     return {
       ...validateName(dataToValidate.firstName),
+      ...validateName(dataToValidate.lastName),
       ...validateBirthDate(dataToValidate.birthdate),
       ...validatePhoneNumber(dataToValidate.phoneNumber),
     };
-<<<<<<< HEAD
   };
 
   useEffect(() => {
@@ -130,6 +136,7 @@ const PersonalData = ({navigation}) => {
   useEffect(() => {
     if (sendData) {
       dispatch(sendDataDisable());
+      console.log(data);
       const formErrors = validateForm(data);
       const errorArray = Object.entries(formErrors).filter(
         ([key, value]) => value.length > 0,
@@ -139,224 +146,87 @@ const PersonalData = ({navigation}) => {
       } else {
         dispatch(updateUserSaga(data));
         setErrors(initialErrorsState);
-        setData(user);
       }
     }
   }, [sendData]);
 
   return (
-    <BackgroundSettings>
-      <View style={styleSettingsScreen.container}>
-        <TouchableOpacity
-          style={styleSettingsScreen.avatar}
-          onPress={pickAvatar}>
-          <AvatarWrapper source={data.avatar} textAvatar={data.firstName[0]} />
-          <Text style={styleSettingsScreen.textPhoto}>Фото</Text>
-        </TouchableOpacity>
-      </View>
-      <Input
-        autoCapitalize="words"
-        type="name"
-        style={styleSettingsInput}
-        name="firstName"
-        label="Имя"
-        maxLength={40}
-        message={errors.firstName}
-        value={data.firstName}
-        handleBlur={displayInputError(validateName)}
-        handleChange={text => onChange(text, 'firstName')}
-      />
-      <InputPhone
-        value={data.phoneNumber}
-        label="Телефон"
-        message={errors.phoneNumber}
-        style={styleSettingsInput}
-        handleChange={validatePhoneNumberCorrect}
-        handleBlur={displayInputError(validatePhoneNumber)}
-      />
-      <Input
-        placeholder="формат: 23.01.1900"
-        autoCapitalize="words"
-        style={styleSettingsInput}
-        name="birthdate"
-        label="Дата рождения"
-        handleBlur={displayInputError(validateBirthDate)}
-        maxLength={10}
-        message={errors.birthdate}
-        value={data.birthdate}
-        handleChange={text => onChange(text, 'birthdate')}
-      />
-      <PositionAndOrganization
-        position={data.position}
-        organization={data.organization.name}
-      />
-      <Portal>
-        <UploadImageModal
-          modalIsVisible={choosePhoto}
-          setData={setData}
-          handleCloseModal={handleCloseModal}
+    <ScrollView>
+      <BackgroundSettings>
+        <View style={styleSettingsScreen.container}>
+          <TouchableOpacity
+            style={styleSettingsScreen.avatar}
+            onPress={pickAvatar}>
+            <AvatarWrapper
+              source={data.avatar}
+              textAvatar={data.firstName[0]}
+            />
+            <Text style={styleSettingsScreen.textPhoto}>Фото</Text>
+          </TouchableOpacity>
+        </View>
+        <Input
+          autoCapitalize="words"
+          type="name"
+          style={styleSettingsInput}
+          name="firstName"
+          label="Имя"
+          maxLength={40}
+          message={errors.firstName}
+          value={data.firstName}
+          handleBlur={() => displayInputError(validateName)}
+          handleChange={text => onChangeName(text, 'firstName')}
         />
-      </Portal>
-      <Portal>
-        <AuthModal
-          modalIsVisible={modalIsVisible}
-          message={message}
-          handleCloseModal={handleCloseModal}
+        <Input
+          autoCapitalize="words"
+          type="name"
+          style={styleSettingsInput}
+          name="lastName"
+          label="Фамилия"
+          maxLength={40}
+          message={errors.lastName}
+          value={data.lastName}
+          handleBlur={() => displayInputError(validateName)}
+          handleChange={text => onChangeName(text, 'lastName')}
         />
-      </Portal>
-    </BackgroundSettings>
+        <InputPhone
+          value={data.phoneNumber}
+          label="Телефон"
+          message={errors.phoneNumber}
+          style={styleSettingsInput}
+          handleChange={validatePhoneNumberCorrect}
+          handleBlur={() => displayInputError(validatePhoneNumber)}
+        />
+        <Input
+          placeholder="формат: 23.01.1900"
+          autoCapitalize="words"
+          style={styleSettingsInput}
+          name="birthdate"
+          label="Дата рождения"
+          handleBlur={() => displayInputError(validateBirthDate)}
+          maxLength={10}
+          message={errors.birthdate}
+          value={data.birthdate}
+          handleChange={text => onChangeBirthdate(text, 'birthdate')}
+        />
+        <PositionAndOrganization
+          position={data.position}
+          organization={data.organization.name}
+        />
+        <Portal>
+          <UploadImageModal
+            modalIsVisible={choosePhoto}
+            setData={setData}
+            handleCloseModal={handleCloseImageModal}
+          />
+          <AuthModal
+            modalIsVisible={modalIsVisible}
+            message={message}
+            handleCloseModal={handleCloseModal}
+          />
+        </Portal>
+      </BackgroundSettings>
+    </ScrollView>
   );
-=======
-
-    const validateBirthDate = (value) => {
-        const dateCheck = value.trim();
-        if (dateCheck && !(DATE_REG_EXP.test(dateCheck))) {
-            return {birthdate: 'формат: 20.05.2000'};
-        }
-        return {birthdate: ''}
-    };
-
-    const validatePhoneNumber = (inputNumber) => {
-        const phoneNumber = isNumberLengthCorrect(inputNumber) ? '' : 'некорректный номер';
-        return {phoneNumber}
-    };
-
-    const validateName = (name) => {
-        const isInvalid = !name.trim();
-        const firstName = isInvalid ? 'Имя должны быть заполнены' : '';
-        return {firstName};
-    };
-
-    const handleCloseModal = () => {
-        setModalIsVisible(false);
-        dispatch(clearMessage());
-        setTimeout(() => navigation.navigate(SETTINGS), 100);
-    };
-
-    const handleCloseImageModal = () => {
-        setChoosePhoto(false);
-        setModalIsVisible(false);
-        dispatch(hideBlur());
-    };
-
-    const pickAvatar = () => {
-        setChoosePhoto(true);
-        dispatch(showBlur());
-    };
-
-    const validatePhoneNumberCorrect = (phoneNumber) => {
-        setData({
-            ...data,
-            phoneNumber,
-        });
-        if (isNumberLengthCorrect(phoneNumber)) {
-            setErrors({
-                ...errors,
-                phoneNumber: '',
-            });
-        }
-    };
-
-    const onChange = (val, key) => {
-        setData({
-            ...data,
-            [key]: val,
-        });
-        setErrors({
-            ...errors,
-            [key]: '',
-        });
-        displayInputError(validateName)(data.firstName);
-    };
-
-    const validateForm = (dataToValidate) => {
-        return {
-            ...validateName(dataToValidate.firstName),
-            ...validateBirthDate(dataToValidate.birthdate),
-            ...validatePhoneNumber(dataToValidate.phoneNumber)
-        };
-    };
-
-    useEffect(() => {
-        if(message) setModalIsVisible(true);
-    }, [message]);
-
-    useEffect(() => {
-        if (sendData) {
-            dispatch(sendDataDisable());
-            const formErrors = validateForm(data);
-            const errorArray = Object.entries(formErrors).filter(([key, value]) => value.length > 0);
-            if (errorArray.length) {
-                setErrors(formErrors);
-            } else {
-                dispatch(updateUserSaga(data));
-                setErrors(initialErrorsState);
-            }
-        }
-    }, [sendData]);
-
-    return (
-        <BackgroundSettings>
-            <View style={styleSettingsScreen.container}>
-                <TouchableOpacity
-                    style={styleSettingsScreen.avatar}
-                    onPress={pickAvatar}
-                >
-                    <AvatarWrapper
-                        source={data.avatar}
-                        textAvatar={data.firstName[0]}
-                    />
-                    <Text style={styleSettingsScreen.textPhoto}>Фото</Text>
-                </TouchableOpacity>
-            </View>
-            <Input
-                autoCapitalize='words'
-                type='name'
-                style={styleSettingsInput}
-                name='firstName'
-                label='Имя'
-                maxLength={40}
-                message={errors.firstName}
-                value={data.firstName}
-                handleBlur={displayInputError(validateName)}
-                handleChange={(text) => onChange(text, 'firstName')}
-            />
-            <InputPhone
-                value={data.phoneNumber}
-                label='Телефон'
-                message={errors.phoneNumber}
-                style={styleSettingsInput}
-                handleChange={validatePhoneNumberCorrect}
-                handleBlur={displayInputError(validatePhoneNumber)}
-            />
-            <Input
-                placeholder='формат: 23.01.1900'
-                autoCapitalize='words'
-                style={styleSettingsInput}
-                name='birthdate'
-                label='Дата рождения'
-                handleBlur={displayInputError(validateBirthDate)}
-                maxLength={10}
-                message={errors.birthdate}
-                value={data.birthdate}
-                handleChange={(text) => onChange(text, 'birthdate')}
-            />
-            <PositionAndOrganization position={data.position} organization={data.organization.name}/>
-            <Portal>
-                <UploadImageModal
-                    modalIsVisible={choosePhoto}
-                    setData={setData}
-                    handleCloseModal={handleCloseImageModal}
-                />
-                <AuthModal
-                    modalIsVisible={modalIsVisible}
-                    message={message}
-                    handleCloseModal={handleCloseModal}
-                />
-            </Portal>
-        </BackgroundSettings>
-    );
->>>>>>> f6acc725a9c2b1edf2ab3f07afd7abb3d2476fe5
 };
 
 export default PersonalData;

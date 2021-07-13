@@ -18,6 +18,7 @@ const Form = ({ data, setData }) => {
   const dispatch = useDispatch();
   const { firstName, lastName, phoneNumber, position, avatar } = data;
   const [errors, setErrors] = useState(initialErrors);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));

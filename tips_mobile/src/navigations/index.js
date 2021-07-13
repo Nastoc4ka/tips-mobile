@@ -17,25 +17,24 @@ const AppNavContainer = () => {
   }, []);
 
   useEffect(() => {}, [success, pin, user]);
+
   return (
     <Host>
-      {
-        <NavigationContainer>
-          {user?.success ? (
-            pin ? (
-              success ? (
-                <HomeNavigator />
-              ) : (
-                <Authentication />
-              )
-            ) : (
+      <NavigationContainer>
+        {user?.success ? (
+          pin ? (
+            success ? (
               <HomeNavigator />
+            ) : (
+              <Authentication />
             )
           ) : (
-            <Auth />
-          )}
-        </NavigationContainer>
-      }
+            <HomeNavigator />
+          )
+        ) : (
+          <Auth />
+        )}
+      </NavigationContainer>
     </Host>
   );
 };

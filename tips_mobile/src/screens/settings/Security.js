@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, Switch, Text, View} from "react-native";
 import {AuthModal, BackgroundSettings, CustomButton, FilterBirthdateAccessModal} from "../../components";
 import {Arrow_right_blue} from "../../assets/icons";
@@ -8,7 +8,7 @@ import {changeBirthdateAccessSaga, clearMessage, removePinAuthentication} from '
 import {styleRightButtonLayout, styleSettingsButton, styleSettingsButtonBlue, styleSettingsScreen} from "../../styles";
 import {CHANGE_PASSWORD, PASSWORD_CONFIRMATION, PIN_CODE} from "../../constants/routeNames";
 import Authentication from "../authentication";
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
 const filterOptionsBirthdateAccess = [
     {
@@ -79,6 +79,7 @@ const Security = ({navigation}) => {
     }, []);
 
     useEffect(() => {
+        console.log(authenticatedSecurity);
     }, [pin, authenticatedSecurity]);
 
     const handleChooseFilter = (access) => {
@@ -104,7 +105,6 @@ const Security = ({navigation}) => {
     }
 
     return (
-
         <BackgroundSettings>
             <View style={styleSettingsScreen.container}>
                 <CustomButton
