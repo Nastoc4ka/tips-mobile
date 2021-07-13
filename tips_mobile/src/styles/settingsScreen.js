@@ -6,11 +6,13 @@ export const styleSettingsScreen = StyleSheet.create({
     },
     avatar: {
         borderRadius: 67 / 2,
-        width: '100%',
+        width: 67,
         height: 67,
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
+        alignSelf: 'center',
+        backgroundColor: 'grey'
     },
     textPhoto: {
         color: 'grey',

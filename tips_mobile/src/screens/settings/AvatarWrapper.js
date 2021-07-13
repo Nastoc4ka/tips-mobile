@@ -6,9 +6,8 @@ const AvatarWrapper = ({source, textAvatar}) => {
     return (<>
             {source ?
                 <AvatarSettings source={source}/> :
-                <View>
                     <Text style={style.textAvatar}>{textAvatar}</Text>
-                </View>}
+                }
         </>)
 };
 

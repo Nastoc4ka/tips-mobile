@@ -3,7 +3,7 @@ import {StyleSheet, Dimension, Dimensions} from 'react-native';
 export const styleSettingsInput = StyleSheet.create({
     wrapper: {
         width: Dimensions.get('window').width,
-        marginBottom: 35,
+        marginBottom: 25,
     },
     text: {
         marginBottom: 12,

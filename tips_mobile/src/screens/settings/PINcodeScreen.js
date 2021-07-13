@@ -9,7 +9,7 @@ import {styleSettingsButton, styleSettingsInput, styleSettingsScreen} from "../.
 const PIN_LENGTH = 4;
 const isPinLengthCorrect = (pin) => pin.length === PIN_LENGTH;
 
-const PINcode = ({navigation}) => {
+const PINcodeScreen = ({navigation}) => {
     const dispatch = useDispatch();
 
     const [pin, setPin] = useState('');
@@ -61,4 +61,4 @@ const PINcode = ({navigation}) => {
     );
 };
 
-export default PINcode
+export default PINcodeScreen

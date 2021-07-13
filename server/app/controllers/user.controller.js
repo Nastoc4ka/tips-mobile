@@ -1,10 +1,6 @@
-const {getUserData, getOrganizations,
+const {getUserDataByUserId, getOrganizations, getOrganizationById,
     updateUser, updatePassword, userDataToSetToLocalStorage,
     updateBirthdateAccess, getOrganizationsByAdminId} = require('../models');
-const db = require("../../db");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config");
 
 exports.organizations = async (req, res) => {
 
@@ -54,7 +50,7 @@ exports.updatePassword = async (req, res) => {
         return res.status(404).send({error: true, msg})
     }
 
-    const user = await getUserData(req.userId);
+    const user = await getUserDataByUserId(req.userId);
 
     const organization = await getOrganizationById(user.organization_id);
 
@@ -80,7 +76,7 @@ exports.updateBirthdateAccess = async (req, res) => {
         return res.status(404).send({error: true, msg})
     }
 
-    const user = await getUserData(req.userId);
+    const user = await getUserDataByUserId(req.userId);
 
     const organization = await getOrganizationById(user.organization_id);
 
