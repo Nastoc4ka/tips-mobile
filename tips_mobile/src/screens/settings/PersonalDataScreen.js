@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {styleSettingsInput, styleSettingsScreen} from "../../styles";
-import {AuthModal, BackgroundSettings, Input, InputPhone, UploadImageModal} from "../../components";
+import {AuthModal, AvatarWrapper, BackgroundSettings, Input, InputPhone, UploadImageModal} from "../../components";
 import {Portal} from 'react-native-portalize';
 import {clearMessage, hideBlur, sendDataDisable, showBlur, updateUserSaga} from "../../redux/actions";
-import AvatarWrapper from "./AvatarWrapper";
 import PositionAndOrganization from "./PositionAndOrganization";
 import {SETTINGS} from "../../constants/routeNames";
 
@@ -132,6 +131,11 @@ const PersonalDataScreen = ({navigation}) => {
     return (
         <ScrollView>
         <BackgroundSettings>
+            <KeyboardAvoidingView
+                style={{width: '100%', flex: 1}}
+                behavior={"position"}
+                enabled
+            >
             <View style={styleSettingsScreen.container}>
                 <TouchableOpacity
                     style={styleSettingsScreen.avatar}
@@ -189,6 +193,8 @@ const PersonalDataScreen = ({navigation}) => {
                 handleChange={(text) => onChangeBirthdate(text, 'birthdate')}
             />
             <PositionAndOrganization position={data.position} organization={data.organization.name}/>
+            </KeyboardAvoidingView>
+
             <Portal>
                 <UploadImageModal
                     modalIsVisible={choosePhoto}

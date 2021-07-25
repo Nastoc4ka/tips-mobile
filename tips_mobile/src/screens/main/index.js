@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { SafeAreaView, Text, TouchableHighlight, View } from 'react-native';
 import Events from './Events';
 import News from './News';
-import { Back, Icn_filters }  from '../../assets/icons';
-import Background from '../../components/Background';
 import { main, styleMainScreens } from '../../styles';
 import { buttonPanelActive, buttonPanelNotActive } from '../../styles';
-import {CustomButton} from '../../components';
+import {CustomButton, MainHeader, Background} from '../../components';
 
 const Main = () => {
+
   const NEWS = 'Новости';
   const EVENTS = 'События';
   const userId = 10001;  
@@ -17,20 +16,7 @@ const Main = () => {
 
   return (
     <Background>
-      <SafeAreaView style={{width:'100%', alignItems: 'center'}}>
-        <View style={main.header}>
-          <TouchableHighlight>
-            <Back />
-          </TouchableHighlight>
-
-          <Text style={styleMainScreens.text}>{activePanel}</Text>
-
-          <TouchableHighlight>
-            <Icn_filters />
-          </TouchableHighlight>
-        </View>
-      </SafeAreaView>
-
+      <MainHeader style={{...main.header, ...main.headerWitButtons}} activePanel={activePanel}/>
       <View style={main.paper}>
         <View style={styleMainScreens.buttonsTabsWrapper}>
           <CustomButton 

@@ -1,6 +1,5 @@
 import React, {useMemo} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {StyleSheet} from "react-native";
 import PersonalDataScreen from "./PersonalDataScreen";
 import SecurityScreen from "./SecurityScreen";
 import NotificationsScreen from "./NotificationsScreen";
