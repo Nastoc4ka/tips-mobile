@@ -15,6 +15,9 @@ export const main = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
     },
+    headerWitButtons: {
+        height: 65,
+    },
     bottom: {
       position: 'absolute',
       zIndex: -1,
@@ -29,10 +32,14 @@ export const main = StyleSheet.create({
       borderLeftColor: '#017C31',
       borderLeftWidth: Dimensions.get('window').width
     },
+    wrapperHeader: {
+        width:'100%',
+        alignItems: 'center'
+    },
     header: {
       width: '80%',
       marginTop: 10,
-      height: 80,
+      marginBottom: 15,
       flexDirection: 'row',
       justifyContent: 'space-between'
     },

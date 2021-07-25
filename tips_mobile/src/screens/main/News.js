@@ -108,12 +108,18 @@ const News = ({id: userId}) => {
         <>
             {news.length ?
                 <SwipeListView
+                    useFlatList={true}
                     style={styles.container}
                     data={news}
                     renderItem={renderItem}
                     renderHiddenItem={renderHiddenItem}
                     rightOpenValue={-100}
                     disableRightSwipe
+                    onRowOpen={(rowKey, rowMap) => {
+                        setTimeout(() => {
+                            rowMap[rowKey].closeRow()
+                        }, 2000)
+                    }}
                 />
                 : null}
         </>

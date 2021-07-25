@@ -103,6 +103,18 @@ exports.getOrganizationsByAdminId = async (adminId = null) => {
     return organizations
 };
 
+exports.getCardNumber = async (userId) => {
+    const queryCard =  {
+            name: 'fetch-card',
+            text: 'SELECT card_number FROM users WHERE id = $1',
+            values: [userId]
+        };
+
+    const {rows: [{card_number}]} = await db.query(queryCard);
+console.log('card_number', card_number);
+    return card_number
+};
+
 exports.updateUser = async ({body, userId}) => {
     const updateUser = {
         text: 'UPDATE users SET first_name=$1, last_name=$2, phone_number=$3, birthdate=$4, avatar=$5, filter_birthdate=$6, verified=$7, position=$8 WHERE id = $9',
@@ -138,4 +150,10 @@ exports.updateBirthdateAccess = async ({body, userId}) => {
     const { rowCount } = await db.query(updateBirthdateAccess);
 
     return rowCount
+};
+
+exports.createTip = async (amount, order_desc) => {
+    const query = `INSERT INTO tips (amount, user_id) VALUES ($1, $2) RETURNING *`;
+    const values = [amount, order_desc];
+    return db.query(query, values);
 };

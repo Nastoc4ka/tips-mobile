@@ -190,10 +190,11 @@ const SignUp = () => {
         <>
             <Text style={main.headerTextRegistration}>Добро пожаловать!</Text>
             <KeyboardAvoidingView
+                keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
                 style={{width: '100%', flex: 1}}
-                behavior="height">
+                behavior={Platform.OS === "ios" ? "padding" : null}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <ScrollView>
+                    <ScrollView style={{flex: 1}}>
                         <Input
                             autoCapitalize='words'
                             type='name'
@@ -264,8 +265,6 @@ const SignUp = () => {
                         </Input>
                     </ScrollView>
                 </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-
             <CustomButton title='Готово' styles={button} onPress={handleAuthorization}/>
             <Portal>
                 <AuthModal
@@ -273,6 +272,7 @@ const SignUp = () => {
                     handleCloseModal={handleCloseModal}
                     message={message}/>
             </Portal>
+            </KeyboardAvoidingView>
         </>
     )
 };

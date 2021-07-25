@@ -27,6 +27,16 @@ target 'tips_mobile' do
   # you should disable the next line.
   # use_flipper!()
 
+    pre_install do |installer|
+     installer.pod_targets.each do |pod|
+       if pod.name.eql?('RNScreens') || pod.name.eql?('RNCMaskedView')
+         def pod.build_type
+           Pod::BuildType.static_library
+         end
+       end
+      end
+    end
+
   post_install do |installer|
     react_native_post_install(installer)
 

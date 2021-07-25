@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet} from "react-native";
-import AvatarSettings from './AvatarSettings';
+import {Text, StyleSheet} from "react-native";
+import Avatar from './Avatar';
 
 const AvatarWrapper = ({source, textAvatar}) => {
     return (<>
             {source ?
-                <AvatarSettings source={source}/> :
+                <Avatar source={source}/> :
                     <Text style={style.textAvatar}>{textAvatar}</Text>
                 }
         </>)
