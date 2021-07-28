@@ -6,12 +6,11 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TouchableOpacity,
+    Platform,
     TouchableWithoutFeedback
 } from 'react-native';
 import {buttonFill, main} from '../../styles';
-import {AuthModal, CustomButton, IconInInputView, Input, InputPhone, OrganizationSearch} from '../../components';
-import {VisibilityHide, VisibilityShow} from '../../assets/icons';
+import {AuthModal, CustomButton, UpdateSecureTextEntry, Input, InputPhone, OrganizationSearch} from '../../components';
 import {
     clearMessage,
     getOrganizationsSaga,
@@ -239,11 +238,10 @@ const SignUp = () => {
                             placeholder='•••••••••'
                             handleBlur={validatePassword}
                         >
-                            <TouchableOpacity onPress={() => updateSecureTextEntry('secureTextEntry')}>
-                                <IconInInputView>
-                                    {data.secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
-                                </IconInInputView>
-                            </TouchableOpacity>
+                            <UpdateSecureTextEntry
+                                updateSecureTextEntry={() => updateSecureTextEntry('secureTextEntry')}
+                                secureTextEntry={data.secureTextEntry}
+                            />
                         </Input>
 
                         <Input
@@ -257,11 +255,10 @@ const SignUp = () => {
                             value={data.confirm_password}
                             handleChange={confirmPasswordHandleChange}
                         >
-                            <TouchableOpacity onPress={() => updateSecureTextEntry('confirm_secureTextEntry')}>
-                                <IconInInputView>
-                                    {data.confirm_secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
-                                </IconInInputView>
-                            </TouchableOpacity>
+                            <UpdateSecureTextEntry
+                                updateSecureTextEntry={() => updateSecureTextEntry('confirm_secureTextEntry')}
+                                secureTextEntry={data.confirm_secureTextEntry}
+                            />
                         </Input>
                     </ScrollView>
                 </TouchableWithoutFeedback>
