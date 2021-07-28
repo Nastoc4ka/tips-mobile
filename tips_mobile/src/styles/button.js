@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styleButton = StyleSheet.create({
     all: {
@@ -67,13 +67,13 @@ export const buttonFill = StyleSheet.create({
 export const buttonLight = StyleSheet.create({
     button: {...styleButton.all, ...styleButton.light},
     text: styleButton.textLight
-})
+});
 export const buttonPanelActive = StyleSheet.create({
     button: {...styleButton.panelAll, ...styleButton.panelActive},
     text: {...styleButton.panelAllText, ...styleButton.panelActiveText}
-})
+});
 
 export const buttonPanelNotActive = StyleSheet.create({
     button: {...styleButton.panelAll, ...styleButton.panelNotActive},
     text: {...styleButton.panelAllText, ...styleButton.panelNotActiveText}
-})
+});

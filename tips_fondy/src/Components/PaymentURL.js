@@ -1,7 +1,6 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Route} from 'react-router';
-import { usePaymentInputs } from 'react-payment-inputs';
-
+import '../styles/paymentURL.css';
 import 'ipsp-js-sdk';
 
 import axios from 'axios';
@@ -12,10 +11,11 @@ const client = axios.create({
     baseURL
 });
 
+const styles = {}
 const PaymentURL = ({match}) => {
 
     const userId = match.params.id;
-
+    const [loading, setLoading] = useState(false);
     // const requestData = {
     //     order_id: '333erfdhderfggffewevrwg',
     //     operation_id: '333erfdhderfggffewevrwg',
@@ -58,37 +58,70 @@ const PaymentURL = ({match}) => {
     // const { meta, getCardNumberProps, getExpiryDateProps, getCVCProps } = usePaymentInputs();
 
     function checkoutInit(url) {
-        const checkoutElement = useRef();
-        const checkoutElementWrapper = useRef();
+        window.$ipsp('checkout').scope(function () {
+            this.setCheckoutWrapper('#checkout_wrapper');
+            this.addCallback(window.__DEFAULTCALLBACK__);
+            this.action('show', function (data) {
+                console.log(window);
+                //window.$('#checkout_loader').remove();
+                // window.$('#checkout').show();
+            });
+            this.action('hide', function (data) {
+                console.log('hide');
+                window.$('#checkout').hide();
+            });
+            this.action('resize', function (data) {
+                setLoading(false);
+                console.log('resize');
 
-        $ipsp(checkoutElement).scope(function() {
-            this.setCheckoutWrapper(checkoutElementWrapper);
-            this.addCallback(__DEFAULTCALLBACK__);
-            this.action('show', function(data) {
-                $('#checkout_loader').remove();
-                $('#checkout').show();
-            });
-            this.action('hide', function(data) {
-                $('#checkout').hide();
-            });
-            this.action('resize', function(data) {
-                $('#checkout_wrapper').width(480).height(data.height);
+                // window.$('#checkout_wrapper').width(480).height(data.height);
             });
             this.loadUrl(url);
         });
-    };
+    }
 
-    const button = $ipsp.get("button");
-    button.setMerchantId( 1396424);
-    button.setAmount(10.99, 'USD', false);
-    button.setHost('pay.fondy.eu');
-    checkoutInit(button.getUrl());
-    return (
+    const receiver = [
+        {
+            requisites: {
+                amount: 0,
+                settlement_description: "Назначение платежа для банковского перевода",
+                merchant_id: 500001
+            },
+            type: "merchant"
+        }, {
+            requisites: {
+                amount: 200,
+                settlement_description: "Назначение платежа для банковского перевода",
+                merchant_id: 600001
+            },
+            type: "merchant"
+        }
+    ];
 
-    <div ref={checkoutElement} id="checkout">
-        <div ref={checkoutElementWrapper} id="checkout_wrapper"></div>
-    </div>
-    )
+    useEffect(() => {
+        const button = window.$ipsp.get("button");
+        button.setMerchantId(1396424);
+        button.setAmount('', 'UAH', false);
+        button.setHost('pay.fondy.eu');
+        button.addField({
+            receiver
+        });
+        setLoading(true);
+        checkoutInit(button.getUrl());
+
+    }, []);
+
+    useEffect(() => {
+
+    }, [loading]);
+
+    return (<>
+        {loading && <div>loading...</div>}
+        <div id="checkout">
+            <div style={{height: '90vh'}} id="checkout_wrapper"></div>
+
+        </div>
+    </>)
 };
 
 export default PaymentURL

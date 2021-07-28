@@ -1,12 +1,11 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {AuthModal, BackgroundSettings, CustomButton, IconInInputView, Input} from "../../components";
+import {View} from "react-native";
+import {AuthModal, BackgroundSettings, UpdateSecureTextEntry, CustomButton, Input} from "../../components";
 import {useDispatch, useSelector} from "react-redux";
 import {Portal} from 'react-native-portalize';
 import {clearMessage, currentPasswordSetFalse, hideBlur, setConfirmCurrentPasswordSaga} from '../../redux/actions';
 import {styleSettingsButtonString, styleSettingsInput, styleSettingsScreen} from "../../styles";
 import {CHANGE_PASSWORD, SMS_CONFIRMATION} from "../../constants/routeNames";
-import {VisibilityHide, VisibilityShow} from '../../assets/icons';
 import { useFocusEffect } from '@react-navigation/native';
 
 const EMPTY_INPUT_ERROR = 'поле должно быть заполнено';
@@ -79,11 +78,10 @@ const passwordConfirmationScreen = ({navigation}) => {
                     handleBlur={displayInputError(validate)}
                     handleChange={onChange}
                 >
-                    <TouchableOpacity onPress={updateSecureTextEntry}>
-                        <IconInInputView>
-                            {secureTextEntry ? <VisibilityHide/> : <VisibilityShow/>}
-                        </IconInInputView>
-                    </TouchableOpacity>
+                    <UpdateSecureTextEntry
+                        updateSecureTextEntry={updateSecureTextEntry}
+                        secureTextEntry={secureTextEntry}
+                    />
                 </Input>
                 <CustomButton
                     title='Подтвердить'

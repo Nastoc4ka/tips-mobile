@@ -20,6 +20,7 @@ import FilterBirthdateAccessModal from './modals/FilterBirthdateAccessModal';
 import AvatarWrapper from './AvatarWrapper';
 import MainHeader from './MainHeader';
 import AvatarView from './AvatarView';
+import UpdateSecureTextEntry from './UpdateSecureTextEntry';
 
 export {
     Background,
@@ -43,5 +44,6 @@ export {
     FilterBirthdateAccessModal,
     AvatarWrapper,
     MainHeader,
-    AvatarView
+    AvatarView,
+    UpdateSecureTextEntry
 }
