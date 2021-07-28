@@ -1,6 +1,6 @@
 import React from 'react';
 import {useIsFocused} from '@react-navigation/native';
-import {Dimensions, SafeAreaView, StatusBar, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {SafeAreaView, StatusBar, Text, View} from "react-native";
 
 const FocusAwareStatusBar = (props) => {
     const isFocused = useIsFocused();

@@ -70,6 +70,7 @@ const InputPhone = ({ label, handleBlur, message, handleChange, value = null,  s
             <Text style={styleCurrentInput.text}>{label}</Text>
 
             <TextInput
+                accessibilityRole='input-phone'
                 onBlur={onBlur}
                 maxLength={19}
                 placeholder='+38 (0••) ••• •• ••'

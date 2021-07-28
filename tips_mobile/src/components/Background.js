@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, KeyboardAvoidingView, StatusBar } from 'react-native';
+import React from 'react';
+import { View, StatusBar } from 'react-native';
 import { main } from '../styles';
 import { Blur, Loading } from '../components';
 
@@ -19,7 +19,7 @@ const Background = ({ children }) => {
             <Loading />
         </View>
     )
-}
+};
 
 
 

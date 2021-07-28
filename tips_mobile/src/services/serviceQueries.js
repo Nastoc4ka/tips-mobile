@@ -9,7 +9,7 @@ const getNews = (id) => {
         newsItem.key = i;
         newsItem.dateFormated = moment(newsItem.date).format('HH:MM');
         const currentUserOrganization = users.find(user => user.id === id).organization;
-        return userNewsAuthor.organization === currentUserorganization;
+        return userNewsAuthor.organization === currentUserOrganization;
     });
 };
 

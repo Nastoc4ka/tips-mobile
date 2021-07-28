@@ -28,11 +28,10 @@ const BiometricPopup = (props) => {
         biometryType: null
     });
 
-    const requiresLegacyAuthentication = () => Platform.Version < 23;
+    const requiresLegacyAuthentication = () => Platform.OS === "android" && Platform.Version < 23;
 
     const getMessage = () =>{
         const {biometryType}=state;
-        console.log(biometryType);
         if(biometryType == 'Face ID')
         {
             return 'Scan your Face on the device to continue'
@@ -42,7 +41,7 @@ const BiometricPopup = (props) => {
             return 'Scan your Fingerprint on the device scanner to continue'
         }
     };
- 
+
     const authCurrent = () => {
         FingerprintScanner
             .authenticate({ description: getMessage(), title: 'Отсканируйте, чтобы войти', cancelButton: 'Ввести ПИН-код' })

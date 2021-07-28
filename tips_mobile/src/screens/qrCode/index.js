@@ -1,65 +1,63 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Text, View, StyleSheet } from "react-native";
+import React, {useEffect, useRef, useState} from 'react';
+import {StyleSheet, Text, View} from "react-native";
 import QRCode from 'react-native-qrcode-svg';
-import { buttonLight, main } from "../../styles";
-import Background from "../../components/Background";
-import { CustomButton, UserPreview } from '../../components';
-import { getUser } from '../../services/serviceQueries';
+import {buttonLight, main} from "../../styles";
+import {useSelector} from "react-redux";
+import {AvatarView, Background, CustomButton, MainHeader} from '../../components';
 import RNPrint from 'react-native-print';
 
 const QRcode = () => {
-  const qrCode = useRef();
-  const [user, setUser] = useState(null);
-  const [qrCodeBase64, setqrCodeBase64] = useState(null)
+    const qrCode = useRef();
+    const {user} = useSelector(state => state.authLoginReducer);
+    const [qrCodeBase64, setqrCodeBase64] = useState(null);
 
-  useEffect(() => {
-      const user = getUser(10010);
-      setUser(user);
+    useEffect(() => {
+        qrCode.current.toDataURL(base64 => {
+            setqrCodeBase64(base64);
+        });
+    });
 
-      qrCode.current.toDataURL(base64 => {
-        setqrCodeBase64(base64);
-      });
-  })
-
-  const printHTML = async () => {
-    await RNPrint.print({
-      html:
-        `
+    const printHTML = async () => {
+        await RNPrint.print({
+            html:
+                `
           <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%">
             <p style="font-size: 40pt; padding-bottom: 0; margin-bottom: -30pt">${user.firstName} ${user.lastName}</p>
             <p style="font-size: 50pt">${user.id}</p>
             <img src="data:image/png;base64, ${qrCodeBase64}" alt="Red dot" />
           </div>
         `,
-    });
-  };
+        });
+    };
 
-  return (
-    <Background>
-      <View style={paper}>
-        <View style={wrappers.wrapper}>
-          { user && <UserPreview firstName={user.firstName} lastName={user.lastName} avatar={user.avatar} id={user.id}/> }
+    return (
+        <Background>
+            <MainHeader style={main.header} activePanel={'QR code'}/>
+            <View style={paper}>
+                <View style={wrappers.wrapper}>
+                    <AvatarView source={user.avatar} firstName={user.firstName} id={user.id}/>
 
-          <QRCode
-            getRef={qrCode}
-            size={157}
-          />
+                    <QRCode
+                        getRef={qrCode}
+                        value="http://awesome.link.qr"
+                        size={157}
+                    />
 
-          <Text style={{fontSize: 30, paddingTop: 15}}>{user && user.id}</Text>
+                    <Text style={{fontSize: 30, paddingTop: 15}}>{user && user.id}</Text>
 
-          <View style={wrappers.buttonsWrapper}>
-              <CustomButton title='Печать' styles={button} onPress={printHTML} />
-          </View>
-        </View>
-      </View>
-    </Background>
-  );
+                    <View style={wrappers.buttonsWrapper}>
+                        <CustomButton title='Печать' styles={button} onPress={printHTML}/>
+                    </View>
+                </View>
+            </View>
+        </Background>
+    );
 };
 
 const paper = StyleSheet.compose({...main.paper, paddingHorizontal: 14});
 const wrappers = StyleSheet.create({
     wrapper: {
-        paddingTop: 33, 
+        paddingTop: 33,
         alignItems: 'center',
         flex: 1,
         width: '100%',
@@ -68,7 +66,7 @@ const wrappers = StyleSheet.create({
         width: '100%',
         marginTop: 'auto',
         marginBottom: 30,
-    } 
+    }
 })
 const button = StyleSheet.create({
     button: {
