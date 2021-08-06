@@ -19,28 +19,29 @@ import VisibilityHide from './visibilityHide.svg';
 import VisibilityShow from './visibilityShow.svg';
 import SettingsBtnIcon from './SettingsBtnIcon.svg';
 import Arrow_right_blue from './arrow_right_blue.svg';
+import Add_in_circle from './addInCircle.svg';
 
 export {
-    Icn_home,
-    Icn_qrcode,
-    Icn_revievs,
-    Icn_settings,
-    Icn_tips,
-    Logo,
-    Back,
-    Icn_filters,
-    Flag_huge,
-    Icn_arrow,
-    Flag_petite,
-    Reaction_huge,
-    Reaction_petite,
-    Dot,
-    Arrow_left,
-    Arrow_right,
-    VisibilityHide,
-    VisibilityShow,
-    BackArrowBlack,
-    SettingsBtnIcon,
-    Arrow_right_blue,
-
-}
+  Icn_home,
+  Icn_qrcode,
+  Icn_revievs,
+  Icn_settings,
+  Icn_tips,
+  Logo,
+  Back,
+  Icn_filters,
+  Flag_huge,
+  Icn_arrow,
+  Flag_petite,
+  Reaction_huge,
+  Reaction_petite,
+  Dot,
+  Arrow_left,
+  Arrow_right,
+  VisibilityHide,
+  VisibilityShow,
+  BackArrowBlack,
+  SettingsBtnIcon,
+  Arrow_right_blue,
+  Add_in_circle,
+};
