@@ -43,7 +43,7 @@ const FilterButton = ({filterBirthdate}) => {
     )
 };
 
-const Security = ({navigation}) => {
+const SecurityScreen = ({navigation}) => {
     const dispatch = useDispatch();
     const {message} = useSelector(state => state.systemReducer);
     const {filterBirthdate} = useSelector(state => state.authLoginReducer.user);
@@ -151,7 +151,7 @@ const Security = ({navigation}) => {
     );
 };
 
-export default Security
+export default SecurityScreen
 
 const styleFilterButton = StyleSheet.create({
     wrapper: {

@@ -33,10 +33,12 @@ import {
   CURRENT_PASSWORD_SET_FALSE,
   UPDATE_PASSWORD_SAGA,
   CHANGE_BIRTHDATE_ACCESS_SAGA,
+  PIN_CHANGE_ACTIVE,
+  PIN_CHANGE_DISABLE,
 } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const changeBirthdateAccessSaga = access => {
+const changeBirthdateAccessSaga = (access) => {
   return {
     type: CHANGE_BIRTHDATE_ACCESS_SAGA,
     payload: access,
@@ -47,7 +49,7 @@ const getLocalDataSaga = () => {
     type: GET_LOCAL_DATA_SAGA,
   };
 };
-const updatePasswordSaga = password => {
+const updatePasswordSaga = (password) => {
   return {
     type: UPDATE_PASSWORD_SAGA,
     payload: password,
@@ -64,13 +66,13 @@ const removePinAuthentication = () => {
     type: REMOVE_PIN_AUTHENTICATION,
   };
 };
-const setPinAuthenticationSaga = pin => {
+const setPinAuthenticationSaga = (pin) => {
   return {
     type: SET_PIN_AUTHENTICATION_SAGA,
     payload: pin,
   };
 };
-const setConfirmCurrentPasswordSaga = password => {
+const setConfirmCurrentPasswordSaga = (password) => {
   return {
     type: SET_CONFIRM_CURRENT_PASSWORD_SAGA,
     payload: password,
@@ -86,7 +88,7 @@ const currentPasswordSetFalse = () => {
     type: CURRENT_PASSWORD_SET_FALSE,
   };
 };
-const setPinAuthentication = pin => {
+const setPinAuthentication = (pin) => {
   return {
     type: SET_PIN_AUTHENTICATION,
     payload: pin,
@@ -122,14 +124,14 @@ const sendDataActive = () => {
   };
 };
 
-const updateUserSaga = updateUser => {
+const updateUserSaga = (updateUser) => {
   return {
     type: UPDATE_USER_SAGA,
     payload: updateUser,
   };
 };
 
-const setMessage = message => ({
+const setMessage = (message) => ({
   type: SET_MESSAGE,
   payload: message,
 });
@@ -138,7 +140,7 @@ const clearMessage = () => ({
   type: CLEAR_MESSAGE,
 });
 
-const registerSaga = registrationData => {
+const registerSaga = (registrationData) => {
   return {
     type: REGISTER_SAGA,
     payload: registrationData,
@@ -151,7 +153,7 @@ const getOrganizationsSaga = () => {
   };
 };
 
-const getOrganizationsSuccess = organizations => {
+const getOrganizationsSuccess = (organizations) => {
   return {
     type: GET_ORGANIZATIONS_SUCCESS,
     payload: organizations,
@@ -182,14 +184,14 @@ const registerFail = () => {
   };
 };
 
-const loginSaga = loginData => {
+const loginSaga = (loginData) => {
   return {
     type: LOGIN_SAGA,
     payload: loginData,
   };
 };
 
-const loginSuccess = user => {
+const loginSuccess = (user) => {
   return {
     type: LOGIN_SUCCESS,
     payload: user,
@@ -238,12 +240,24 @@ const hideLoading = () => {
   };
 };
 
+const pinChangeActive = () => {
+  return {
+    type: PIN_CHANGE_ACTIVE,
+  };
+};
+
+const pinChangeDisable = () => {
+  return {
+    type: PIN_CHANGE_DISABLE,
+  };
+};
+
 export {
   loginSaga,
   loginSuccess,
+  loginFail,
   logoutSaga,
   logout,
-  loginFail,
   registerSaga,
   registerSuccess,
   registerFail,
@@ -273,4 +287,6 @@ export {
   currentPasswordSetFalse,
   updatePasswordSaga,
   changeBirthdateAccessSaga,
+  pinChangeActive,
+  pinChangeDisable,
 };

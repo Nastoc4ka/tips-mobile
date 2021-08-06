@@ -18,4 +18,5 @@ module.exports = function (app) {
     app.put("/api/updatePassword", [authJwt.verifyToken], controller.updatePassword);
     app.put("/api/updateBirthdateAccess", [authJwt.verifyToken], controller.updateBirthdateAccess);
     app.post("/api/organizations", controller.organizationsByAdmin);
+    app.post("/api/pay", controller.pay);
 };

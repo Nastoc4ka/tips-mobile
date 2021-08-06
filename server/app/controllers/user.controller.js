@@ -1,7 +1,8 @@
-const {getUserData, getOrganizations, getOrganizationById,
+const {
+    getUserDataByUserId, getOrganizations, getOrganizationById,
     updateUser, updatePassword, userDataToSetToLocalStorage,
-    updateBirthdateAccess, getOrganizationsByAdminId, userDataToSetToAdmin} = require('../models');
-const db = require("../../db");
+    updateBirthdateAccess, getOrganizationsByAdminId, userDataToSetToAdmin, getCardNumber, createTip
+} = require('../models');
 
 exports.organizations = async (req, res) => {
     const organizations = await getOrganizations();
@@ -16,6 +17,7 @@ exports.organizationsByAdmin = async (req, res) => {
 };
 
 exports.updateUserData = async (req, res) => {
+    console.log(req);
     const userUpdated = await updateUser(req);
     if (!userUpdated) {
         const msg = {
@@ -27,7 +29,7 @@ exports.updateUserData = async (req, res) => {
 
     const updateUserDataSuccess = {
         success: true,
-        msg:{
+        msg: {
             title: "Данные успешно обновлены.",
             text: ""
         }
@@ -47,7 +49,7 @@ exports.updatePassword = async (req, res) => {
         return res.status(404).send({error: true, msg})
     }
 
-    const user = await getUserData(req.userId);
+    const user = await getUserDataByUserId(req.userId);
     const organization = await getOrganizationById(user.organization_id);
     const userData = await userDataToSetToLocalStorage(user, organization);
 
@@ -70,7 +72,7 @@ exports.updateBirthdateAccess = async (req, res) => {
         return res.status(404).send({error: true, msg})
     }
 
-    const user = await getUserData(req.userId);
+    const user = await getUserDataByUserId(req.userId);
     const organization = await getOrganizationById(user.organization_id);
     const userData = await userDataToSetToLocalStorage(user, organization);
 
@@ -123,3 +125,47 @@ exports.deleteUser = async (req, res) => {
     };
     res.status(200).json(updateUserDataSuccess);
 }
+
+const CloudIpsp = require('cloudipsp-node-js-sdk');
+
+exports.pay = async (req, res) => {
+    const requestData = req.body;
+    const cardNumber = await getCardNumber(requestData.order_desc);
+
+    //const CloudIpsp = require('../lib');
+
+    const fondy = new CloudIpsp(
+        {
+            merchantId: 700001,
+            secretKey: 'test',
+            protocol: '2.0'
+        }
+    );
+
+    const receivers = [{
+        requisites: {
+            amount: +requestData.amount,
+            merchant_id: 600001
+        },
+        type: 'merchant'
+    },
+        {
+            requisites: {
+                amount: 0,
+                merchant_id: 700001
+            },
+            type: 'merchant'
+        }];
+
+    requestData.receiver = receivers;
+console.dir('requestData', requestData);
+    fondy.Checkout(requestData).then(async data => {
+        await createTip(requestData.amount, requestData.order_desc)
+            .then((tip) => {
+                console.log('tip', tip);
+                res.status(200).json(data)
+            });
+    }).catch((error) => {
+        console.dir(error)
+    })
+};

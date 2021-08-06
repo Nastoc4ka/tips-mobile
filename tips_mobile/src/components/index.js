@@ -17,6 +17,10 @@ import UploadImageModal from './modals/UploadImageModal';
 import ModalWrapper from './modals/ModalWrapper';
 import BackgroundSettings from './BackgroundSettings';
 import FilterBirthdateAccessModal from './modals/FilterBirthdateAccessModal';
+import AvatarWrapper from './AvatarWrapper';
+import MainHeader from './MainHeader';
+import AvatarView from './AvatarView';
+import UpdateSecureTextEntry from './UpdateSecureTextEntry';
 
 export {
   Background,
@@ -38,4 +42,8 @@ export {
   ModalWrapper,
   BackgroundSettings,
   FilterBirthdateAccessModal,
+  AvatarWrapper,
+  MainHeader,
+  AvatarView,
+  UpdateSecureTextEntry,
 };

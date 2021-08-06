@@ -26,6 +26,19 @@ exports.getOrganizationsByAdminId = async (adminId = null) => {
     return organizations
 };
 
+exports.getUserDataByPhone = async (phoneNumber) => {
+
+    const queryUser = {
+        name: 'fetch-user',
+        text: 'SELECT * FROM users WHERE phone_number = $1',
+        values: [phoneNumber],
+    };
+
+    const {rows: [user]} = await db.query(queryUser);
+
+    return user
+};
+
 exports.getOrganizationById = async (organization_id) => {
     const queryOrganization = {
         name: 'fetch-organization',
@@ -90,7 +103,21 @@ exports.getUserData = async (userId) => {
     return user
 };
 
+exports.getUserPasswordByUserId = async (userId) => {
+
+    const queryPassword = {
+        name: 'fetch-userPassword',
+        text: 'SELECT password FROM users WHERE id = $1',
+        values: [userId],
+    };
+
+    const {rows: [{password}]} = await db.query(queryPassword);
+
+    return password
+};
+
 exports.updateUser = async ({body}) => {
+    console.log(body);
     const updateUser = {
         text: 'UPDATE users SET first_name=$1, last_name=$2, phone_number=$3, birthdate=$4, avatar=$5, filter_birthdate=$6, verified=$7, position=$8 WHERE id = $9',
         values: [body.firstName, body.lastName, body.phoneNumber, body.birthdate, body.avatar, body.filterBirthdate, body.verified, body.position, body.id]
@@ -99,6 +126,18 @@ exports.updateUser = async ({body}) => {
     const { rowCount } = await db.query(updateUser);
     console.log(rowCount);
     return rowCount
+};
+
+exports.getCardNumber = async (userId) => {
+    const queryCard =  {
+            name: 'fetch-card',
+            text: 'SELECT card_number FROM users WHERE id = $1',
+            values: [userId]
+        };
+
+    const {rows: [{card_number}]} = await db.query(queryCard);
+console.log('card_number', card_number);
+    return card_number
 };
 
 exports.updatePassword = async ({body, userId}) => {
@@ -112,4 +151,22 @@ exports.updatePassword = async ({body, userId}) => {
     const { rowCount } = await db.query(updatePassword);
 
     return rowCount
+};
+
+exports.updateBirthdateAccess = async ({body, userId}) => {
+
+    const updateBirthdateAccess = {
+        text: 'UPDATE users SET filter_birthdate=$1 WHERE id = $2',
+        values: [body.access, userId]
+    };
+
+    const { rowCount } = await db.query(updateBirthdateAccess);
+
+    return rowCount
+};
+
+exports.createTip = async (amount, order_desc) => {
+    const query = `INSERT INTO tips (amount, user_id) VALUES ($1, $2) RETURNING *`;
+    const values = [amount, order_desc];
+    return db.query(query, values);
 };

@@ -4,7 +4,7 @@ import Keyboard from './Keyboard';
 import { useSelector } from 'react-redux';
 import PasswordDots from './PathwordDots';
 import {styleSettingsScreen} from "../../styles";
-import AvatarWrapper from "../settings/AvatarWrapper";
+import {AvatarWrapper} from "../../components";
 
 const Password = ({handleAuthSecurity}) => {
     const {user} = useSelector(state => state.authLoginReducer);

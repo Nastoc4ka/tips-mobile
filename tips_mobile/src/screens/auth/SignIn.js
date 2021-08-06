@@ -1,23 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {buttonFill, buttonLight, styleAuth} from '../../styles';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { buttonFill, buttonLight, styleAuth } from '../../styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text } from 'react-native';
 import {
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import {CustomButton, IconInInputView, Input} from '../../components';
-import {VisibilityHide, VisibilityShow} from '../../assets/icons';
-import {clearMessage, loginSaga} from '../../redux/actions';
-import {Portal} from 'react-native-portalize';
-import AuthModal from '../../components/modals/AuthModal';
-import InputPhone from '../../components/inputPhone';
+  AuthModal,
+  CustomButton,
+  Input,
+  InputPhone,
+  UpdateSecureTextEntry,
+} from '../../components';
+import { clearMessage, loginSaga } from '../../redux/actions';
 
-const SignIn = ({handleRegistrationClick}) => {
+const SignIn = ({ handleRegistrationClick }) => {
   const dispatch = useDispatch();
-  const {message} = useSelector(state => state.systemReducer);
+  const { message } = useSelector((state) => state.systemReducer);
   const [onLogin, setOnLogin] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
@@ -36,7 +32,7 @@ const SignIn = ({handleRegistrationClick}) => {
     dispatch(clearMessage());
   };
 
-  const validatePhoneNumber = text => {
+  const validatePhoneNumber = (text) => {
     if (text.length < 19) {
       setErrors({
         ...errors,
@@ -50,8 +46,7 @@ const SignIn = ({handleRegistrationClick}) => {
     }
   };
 
-  const validatePhoneNumberCorrect = phoneNumber => {
-    console.log(phoneNumber);
+  const validatePhoneNumberCorrect = (phoneNumber) => {
     setData({
       ...data,
       phoneNumber,
@@ -64,7 +59,7 @@ const SignIn = ({handleRegistrationClick}) => {
     }
   };
 
-  const passwordHandleChange = password => {
+  const passwordHandleChange = (password) => {
     setData({
       ...data,
       password,
@@ -76,7 +71,7 @@ const SignIn = ({handleRegistrationClick}) => {
   };
 
   const updateSecureTextEntry = () => {
-    setData(dataPrev => ({
+    setData((dataPrev) => ({
       ...dataPrev,
       secureTextEntry: !dataPrev.secureTextEntry,
     }));
@@ -84,21 +79,17 @@ const SignIn = ({handleRegistrationClick}) => {
 
   const handleLogin = () => {
     validatePhoneNumber(data.phoneNumber);
-    const checkFields = Object.entries(data).filter(
-      ([key, value]) => value.length === 0,
-    );
+    const checkFields = Object.entries(data).filter(([key, value]) => value.length === 0);
     if (checkFields.length) {
       checkFields.map(([key]) => {
-        setErrors(errors => ({...errors, [key]: 'поле должно быть заполнено'}));
+        setErrors((errors) => ({ ...errors, [key]: 'поле должно быть заполнено' }));
       });
     }
     setOnLogin(true);
   };
 
   useEffect(() => {
-    const currentErrors = Object.entries(errors).filter(
-      ([key, value]) => value.length > 0,
-    );
+    const currentErrors = Object.entries(errors).filter(([key, value]) => value.length > 0);
     if (!currentErrors.length && onLogin) {
       dispatch(loginSaga(data));
     }
@@ -115,13 +106,10 @@ const SignIn = ({handleRegistrationClick}) => {
   return (
     <>
       <Text style={styleAuth.headerSignIn}>Привет</Text>
-      <KeyboardAvoidingView
-        style={{width: '100%', paddingBottom: 58}}
-        behavior="padding">
+      <KeyboardAvoidingView style={{ width: '100%', paddingBottom: 58 }} behavior="padding">
         <ScrollView>
           <InputPhone
             label="Телефон"
-            value={data.phoneNumber}
             handleChange={validatePhoneNumberCorrect}
             handleBlur={validatePhoneNumber}
             message={errors.phoneNumber}
@@ -135,34 +123,26 @@ const SignIn = ({handleRegistrationClick}) => {
             placeholder="•••••••••"
             maxLength={60}
             handleChange={passwordHandleChange}
-            message={errors.password}>
-            <TouchableOpacity onPress={updateSecureTextEntry}>
-              <IconInInputView>
-                {data.secureTextEntry ? <VisibilityHide /> : <VisibilityShow />}
-              </IconInInputView>
-            </TouchableOpacity>
+            message={errors.password}
+          >
+            <UpdateSecureTextEntry
+              updateSecureTextEntry={updateSecureTextEntry}
+              secureTextEntry={data.secureTextEntry}
+            />
           </Input>
         </ScrollView>
       </KeyboardAvoidingView>
 
       <CustomButton onPress={handleLogin} title="Войти" styles={buttonFill} />
 
-      <Text style={{fontSize: 16, paddingTop: 16, paddingBottom: 8}}>
-        Нет профиля?
-      </Text>
+      <Text style={{ fontSize: 16, paddingTop: 16, paddingBottom: 8 }}>Нет профиля?</Text>
 
-      <CustomButton
-        onPress={handleRegistrationClick}
-        title="Регистрация"
-        styles={buttonLight}
+      <CustomButton onPress={handleRegistrationClick} title="Регистрация" styles={buttonLight} />
+      <AuthModal
+        modalIsVisible={modalIsVisible}
+        handleCloseModal={handleCloseModal}
+        message={message}
       />
-      <Portal>
-        <AuthModal
-          modalIsVisible={modalIsVisible}
-          handleCloseModal={handleCloseModal}
-          message={message}
-        />
-      </Portal>
     </>
   );
 };

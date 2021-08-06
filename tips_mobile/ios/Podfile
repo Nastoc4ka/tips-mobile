@@ -16,6 +16,8 @@ target 'tips_mobile' do
 
   # pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
   target 'tips_mobileTests' do
     inherit! :complete
     # Pods for testing
@@ -26,6 +28,16 @@ target 'tips_mobile' do
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
   # use_flipper!()
+
+    pre_install do |installer|
+     installer.pod_targets.each do |pod|
+       if pod.name.eql?('RNScreens') || pod.name.eql?('RNCMaskedView')
+         def pod.build_type
+           Pod::BuildType.static_library
+         end
+       end
+      end
+    end
 
   post_install do |installer|
     react_native_post_install(installer)

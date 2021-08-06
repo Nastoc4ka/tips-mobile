@@ -1,4 +1,4 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -18,6 +18,7 @@ import {
   setPinAuthentication,
   pinAuthenticatiedFalse,
   currentPasswordConfirmed,
+  pinChangeActive,
 } from '../redux/actions';
 import {
   authService,
@@ -44,10 +45,7 @@ export function* sagaWatcher() {
   yield takeEvery(LOGIN_SAGA, loginSaga);
   yield takeEvery(UPDATE_PASSWORD_SAGA, updatePasswordSaga);
   yield takeEvery(CHANGE_BIRTHDATE_ACCESS_SAGA, changeBirthdateAccessSaga);
-  yield takeEvery(
-    SET_CONFIRM_CURRENT_PASSWORD_SAGA,
-    setConfirmCurrentPasswordSaga,
-  );
+  yield takeEvery(SET_CONFIRM_CURRENT_PASSWORD_SAGA, setConfirmCurrentPasswordSaga);
   yield takeEvery(SET_PIN_AUTHENTICATION_SAGA, setPinAuthenticationSaga);
   yield takeEvery(GET_LOCAL_DATA_SAGA, getLocalDataSaga);
   yield takeEvery(GET_ORGANIZATIONS_SAGA, fetchOrganizationsSaga);
@@ -109,6 +107,7 @@ function* setPinAuthenticationSaga(action) {
     yield put(setPinAuthentication(action.payload));
     yield put(hideLoading());
     yield put(hideBlur());
+    yield put(pinChangeActive());
   } catch (error) {
     yield put(hideLoading());
     yield put(hideBlur());
@@ -206,5 +205,5 @@ function* registerSaga(action) {
 }
 
 function delay(ms) {
-  return new Promise(resolve => setTimeout(() => resolve(true), ms));
+  return new Promise((resolve) => setTimeout(() => resolve(true), ms));
 }
