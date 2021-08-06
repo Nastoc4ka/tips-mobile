@@ -1,13 +1,13 @@
 import React from 'react';
 import {Image, StyleSheet, View} from "react-native";
 
-const AvatarSettings = ({source}) => {
+const Avatar = ({source}) => {
     return <View style={style.wrapper}>
     <Image style={style.image} source={{uri: source}}/>
     </View>
 };
 
-export default AvatarSettings;
+export default Avatar;
 
 const style = StyleSheet.create({
     wrapper: {

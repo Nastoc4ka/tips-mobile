@@ -1,13 +1,12 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from "react-native";
+import {View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from "react-redux";
-import {logoutSaga, pinAuthenticatiedFalse } from "../../redux/actions";
-import {BackgroundSettings, CustomButton} from '../../components';
+import {logoutSaga} from "../../redux/actions";
+import {BackgroundSettings, CustomButton, AvatarView} from '../../components';
 import {styleSettingsButton, styleSettingsScreen} from "../../styles";
 import {SettingsBtnIcon} from '../../assets/icons';
 import {LANGUAGE, NOTIFICATIONS, PERSONAL_DATA, SECURITY} from "../../constants/routeNames";
-import AvatarWrapper from "./AvatarWrapper";
 
 const buttons = [PERSONAL_DATA, SECURITY, NOTIFICATIONS, LANGUAGE];
 
@@ -32,16 +31,7 @@ const SettingsScreen = () => {
 
     return (
         <BackgroundSettings>
-            <View style={styleSettingsScreen.container}>
-                <View style={styleSettingsScreen.avatar}>
-                    <AvatarWrapper
-                        source={user.avatar}
-                        textAvatar={user.firstName[0]}
-                    />
-                </View>
-            </View>
-            <Text style={styleSettingsScreen.avatarLabelName}>{user.firstName}</Text>
-            <Text style={styleSettingsScreen.avatarLabelId}>{user.id}</Text>
+            <AvatarView source={user.avatar} firstName={user.firstName} id={user.id}/>
 
             {renderButtons}
 

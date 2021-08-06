@@ -17,26 +17,35 @@ import UploadImageModal from './modals/UploadImageModal';
 import ModalWrapper from './modals/ModalWrapper';
 import BackgroundSettings from './BackgroundSettings';
 import FilterBirthdateAccessModal from './modals/FilterBirthdateAccessModal';
+import AvatarWrapper from './AvatarWrapper';
+import MainHeader from './MainHeader';
+import AvatarView from './AvatarView';
+import UpdateSecureTextEntry from './UpdateSecureTextEntry';
+import CreateEventModal from './modals/CreateEventModal';
 
 export {
-    Background,
-    CustomButton,
-    Input,
-    NewsItem,
-    UserPreview,
-    IconInInputView,
-    InputPhone,
-    Blur,
-    ErrorMessage,
-    SearchDropDown,
-    Loading,
-    OrganizationSearch,
-    SettingsTopPanel,
-    BackButton,
-    UploadImageModal,
-    AuthModal,
-    ModalWrapper,
-    BackgroundSettings,
-    FilterBirthdateAccessModal,
-
-}
+  Background,
+  CustomButton,
+  Input,
+  NewsItem,
+  UserPreview,
+  IconInInputView,
+  InputPhone,
+  Blur,
+  ErrorMessage,
+  SearchDropDown,
+  Loading,
+  OrganizationSearch,
+  SettingsTopPanel,
+  BackButton,
+  UploadImageModal,
+  AuthModal,
+  ModalWrapper,
+  BackgroundSettings,
+  FilterBirthdateAccessModal,
+  AvatarWrapper,
+  MainHeader,
+  AvatarView,
+  UpdateSecureTextEntry,
+  CreateEventModal,
+};

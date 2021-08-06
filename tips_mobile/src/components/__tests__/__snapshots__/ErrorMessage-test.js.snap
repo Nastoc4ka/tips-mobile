@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests ErrorMessage Android component render properly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "flex-end",
+      "marginRight": 5,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "red",
+        "fontSize": 12,
+      }
+    }
+  >
+    some small error
+  </Text>
+</View>
+`;
+
+exports[`Tests ErrorMessage IOS component render properly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "flex-end",
+      "marginRight": 5,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "red",
+        "fontSize": 12,
+      }
+    }
+  >
+    some small error
+  </Text>
+</View>
+`;
+

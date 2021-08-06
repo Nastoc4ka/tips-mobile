@@ -1,4 +1,4 @@
-import {StyleSheet, Dimension, Dimensions} from 'react-native';
+import {StyleSheet, Dimension, Dimensions, Platform} from 'react-native';
 
 export const styleSettingsInput = StyleSheet.create({
     wrapper: {

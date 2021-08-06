@@ -1,11 +1,11 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import {BackArrowBlack} from '../assets/icons';
+import {TouchableOpacity} from 'react-native';
+import BackArrowBlackIconWrapped from "./BackArrowBlackIconWrapped";
 
-const BackButton = ({ onPress }) => {
+const BackButton = ({onPress}) => {
     return (
-        <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
-            <BackArrowBlack />
+        <TouchableOpacity accessibilityRole='button' activeOpacity={0.6} onPress={onPress}>
+            <BackArrowBlackIconWrapped />
         </TouchableOpacity>
     )
 };
