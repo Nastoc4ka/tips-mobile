@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Portal } from 'react-native-portalize';
 import { buttonFill, buttonLight, styleAuth } from '../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text } from 'react-native';
@@ -116,13 +117,13 @@ const SignIn = ({ handleRegistrationClick }) => {
           />
           <Input
             maxWidth="90%"
-            type="password"
+            textContentType="password"
             secureTextEntry={data.secureTextEntry}
             autoCapitalize="none"
             label="Пароль"
             placeholder="•••••••••"
             maxLength={60}
-            handleChange={passwordHandleChange}
+            onChangeText={passwordHandleChange}
             message={errors.password}
           >
             <UpdateSecureTextEntry
@@ -138,11 +139,13 @@ const SignIn = ({ handleRegistrationClick }) => {
       <Text style={{ fontSize: 16, paddingTop: 16, paddingBottom: 8 }}>Нет профиля?</Text>
 
       <CustomButton onPress={handleRegistrationClick} title="Регистрация" styles={buttonLight} />
-      <AuthModal
-        modalIsVisible={modalIsVisible}
-        handleCloseModal={handleCloseModal}
-        message={message}
-      />
+      <Portal>
+        <AuthModal
+          modalIsVisible={modalIsVisible}
+          handleCloseModal={handleCloseModal}
+          message={message}
+        />
+      </Portal>
     </>
   );
 };

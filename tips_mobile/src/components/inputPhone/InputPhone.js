@@ -1,14 +1,14 @@
 import React from 'react';
-import {IMaskNativeMixin} from 'react-native-imask';
-import {TextInput} from 'react-native';
+import { IMaskNativeMixin } from 'react-native-imask';
+import { TextInput } from 'react-native';
 
-const InputPhone = props => {
-  const InputComponent = IMaskNativeMixin(({inputRef, ...props}) => (
-    <TextInput ref={inputRef} {...props} />
-  ));
+const InputPhone = (props) => {
+  // const InputComponent = IMaskNativeMixin(({ inputRef, ...props }) => (
+  //   <TextInput ref={inputRef} {...props} />
+  // ));
 
   return (
-    <InputComponent
+    <TextInput
       mask="+{38 }(000) 000 00 00"
       maxLength={19}
       placeholder="+38 (0••) ••• •• ••"

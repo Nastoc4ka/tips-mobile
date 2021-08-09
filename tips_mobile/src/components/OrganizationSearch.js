@@ -78,11 +78,11 @@ const OrganizationSearch = ({ error, setOrganizationInData }) => {
       <Input
         label="Заведение"
         onFocus={() => setFocus(true)}
-        refs={organizationInputRef}
+        ref={organizationInputRef}
         value={organization.name}
         maxLength={60}
         message={error}
-        handleChange={handleSearch}
+        onChangeText={handleSearch}
       >
         <TouchableOpacity
           onPress={() =>

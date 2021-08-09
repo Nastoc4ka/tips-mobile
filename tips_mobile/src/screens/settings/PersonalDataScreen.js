@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { styleSettingsInput, styleSettingsScreen } from '../../styles';
 import {
   AuthModal,
-  BackgroundSettings,
   AvatarWrapper,
+  BackgroundSettings,
   Input,
   InputPhone,
   UploadImageModal,
@@ -137,7 +137,6 @@ const PersonalDataScreen = ({ navigation }) => {
       if (errorArray.length) {
         setErrors(formErrors);
       } else {
-        console.log('data to send', data);
         dispatch(updateUserSaga(data));
         setErrors(initialErrorsState);
       }
@@ -164,7 +163,7 @@ const PersonalDataScreen = ({ navigation }) => {
             message={errors.firstName}
             value={data.firstName}
             handleBlur={() => displayInputError(validateName)}
-            handleChange={(text) => onChangeName(text, 'firstName')}
+            onChangeText={(text) => onChangeName(text, 'firstName')}
           />
           <Input
             autoCapitalize="words"
@@ -176,7 +175,7 @@ const PersonalDataScreen = ({ navigation }) => {
             message={errors.lastName}
             value={data.lastName}
             handleBlur={() => displayInputError(validateName)}
-            handleChange={(text) => onChangeName(text, 'lastName')}
+            onChangeText={(text) => onChangeName(text, 'lastName')}
           />
           <InputPhone
             value={data.phoneNumber}
@@ -196,7 +195,7 @@ const PersonalDataScreen = ({ navigation }) => {
             maxLength={10}
             message={errors.birthdate}
             value={data.birthdate}
-            handleChange={(text) => onChangeBirthdate(text, 'birthdate')}
+            onChangeText={(text) => onChangeBirthdate(text, 'birthdate')}
           />
           <PositionAndOrganization position={data.position} organization={data.organization.name} />
         </KeyboardAvoidingView>

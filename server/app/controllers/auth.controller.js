@@ -32,6 +32,36 @@ function createUser(user) {
     return db.query(query, values);
 }
 
+exports.addUser = async (req, res) => {
+    const userData = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        organisationId: req.body.organisationId,
+        phoneNumber: req.body.phoneNumber,
+        password: bcrypt.hashSync(req.body.password, 8),
+        role: 'employee',
+        position: req.body.position,
+        avatar: req.body.avatar,
+        verified: true,
+    };
+
+    await createUser(userData).catch((e) => {
+        const msg = {
+            title: "Произошла ошибка",
+        };
+        res.status(500).send({error: true, msg})
+
+    });
+
+    res.status(201).send({
+        success: true,
+        msg: {
+            title: "Регистрация прошла успешно!",
+            text: "",
+        }
+    })
+};
+
 exports.signin = async (req, res) => {
     const userToAuth = req.body;
 

@@ -56,7 +56,7 @@ const PINcodeScreen = ({ navigation }) => {
           value={pin}
           keyboardType="numeric"
           handleBlur={displayInputError(validatePin)}
-          handleChange={onChange}
+          onChangeText={onChange}
         />
         <CustomButton title="Сохранить" onPress={onSetOrUpdatePin} styles={styleSettingsButton} />
       </View>

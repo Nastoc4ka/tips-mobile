@@ -4,7 +4,6 @@ import { catchError, client } from './client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const updateUserDataService = async (userData) => {
-  console.log(userData);
   return client
     .put('/userData', userData, { headers: await authHeader() })
     .then(async (response) => {

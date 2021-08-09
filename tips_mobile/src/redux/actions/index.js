@@ -35,8 +35,71 @@ import {
   CHANGE_BIRTHDATE_ACCESS_SAGA,
   PIN_CHANGE_ACTIVE,
   PIN_CHANGE_DISABLE,
+  NEWS_REQUESTED_SAGA,
+  NEWS_ITEM_UPDATE_SAGA,
+  NEWS_ITEM_CREATE_SAGA,
+  NEWS_ITEM_REMOVE_SAGA,
+  NEWS_CREATED,
+  NEWS_FETCHED,
+  NEWS_UPDATED,
+  NEWS_REMOVED,
 } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const removeNewsItemSaga = (id) => {
+  return {
+    type: NEWS_ITEM_REMOVE_SAGA,
+    payload: id,
+  };
+};
+
+const createNewsItemSaga = (newsItem) => {
+  return {
+    type: NEWS_ITEM_CREATE_SAGA,
+    payload: newsItem,
+  };
+};
+
+const updateNewsSaga = (newsItem) => {
+  return {
+    type: NEWS_ITEM_UPDATE_SAGA,
+    payload: newsItem,
+  };
+};
+
+const updatedNews = (newsItem) => {
+  return {
+    type: NEWS_UPDATED,
+    payload: newsItem,
+  };
+};
+
+const removedNewsItem = (id) => {
+  return {
+    type: NEWS_REMOVED,
+    payload: id,
+  };
+};
+
+const createdNewsItem = (newsItem) => {
+  return {
+    type: NEWS_CREATED,
+    payload: newsItem,
+  };
+};
+
+const fetchedNews = (news) => {
+  return {
+    type: NEWS_FETCHED,
+    payload: news,
+  };
+};
+
+const fetchNewsSaga = () => {
+  return {
+    type: NEWS_REQUESTED_SAGA,
+  };
+};
 
 const changeBirthdateAccessSaga = (access) => {
   return {
@@ -44,56 +107,66 @@ const changeBirthdateAccessSaga = (access) => {
     payload: access,
   };
 };
+
 const getLocalDataSaga = () => {
   return {
     type: GET_LOCAL_DATA_SAGA,
   };
 };
+
 const updatePasswordSaga = (password) => {
   return {
     type: UPDATE_PASSWORD_SAGA,
     payload: password,
   };
 };
+
 const pinAuthenticationSuccess = () => {
   return {
     type: PIN_AUTHENTICATION_SUCCESS,
   };
 };
+
 const removePinAuthentication = () => {
   AsyncStorage.removeItem('pin');
   return {
     type: REMOVE_PIN_AUTHENTICATION,
   };
 };
+
 const setPinAuthenticationSaga = (pin) => {
   return {
     type: SET_PIN_AUTHENTICATION_SAGA,
     payload: pin,
   };
 };
+
 const setConfirmCurrentPasswordSaga = (password) => {
   return {
     type: SET_CONFIRM_CURRENT_PASSWORD_SAGA,
     payload: password,
   };
 };
+
 const currentPasswordConfirmed = () => {
   return {
     type: CURRENT_PASSWORD_CONFIRMED,
   };
 };
+
 const currentPasswordSetFalse = () => {
   return {
     type: CURRENT_PASSWORD_SET_FALSE,
   };
 };
+
 const setPinAuthentication = (pin) => {
   return {
     type: SET_PIN_AUTHENTICATION,
     payload: pin,
   };
 };
+
 const pinAuthenticatiedFalse = () => {
   return {
     type: PIN_AUTHENTICATIED_FALSE,
@@ -171,7 +244,6 @@ const registerSuccess = () => {
     type: REGISTER_SUCCESS,
   };
 };
-
 const registerInit = () => {
   return {
     type: REGISTER_INIT,
@@ -289,4 +361,12 @@ export {
   changeBirthdateAccessSaga,
   pinChangeActive,
   pinChangeDisable,
+  fetchNewsSaga,
+  updateNewsSaga,
+  createNewsItemSaga,
+  removeNewsItemSaga,
+  fetchedNews,
+  updatedNews,
+  createdNewsItem,
+  removedNewsItem,
 };

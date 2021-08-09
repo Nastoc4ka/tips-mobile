@@ -1,37 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import {
-  AuthModal,
-  BackgroundSettings,
-  CustomButton,
-  Input,
-} from '../../components';
-import {useDispatch, useSelector} from 'react-redux';
-import {Portal} from 'react-native-portalize';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { AuthModal, BackgroundSettings, CustomButton, Input } from '../../components';
+import { useDispatch, useSelector } from 'react-redux';
+import { Portal } from 'react-native-portalize';
 import {
   clearMessage,
   currentPasswordSetFalse,
   setConfirmCurrentPasswordSaga,
 } from '../../redux/actions';
-import {
-  styleSettingsButtonString,
-  styleSettingsInput,
-  styleSettingsScreen,
-} from '../../styles';
-import {CHANGE_PASSWORD} from '../../constants/routeNames';
+import { styleSettingsButtonString, styleSettingsInput, styleSettingsScreen } from '../../styles';
+import { CHANGE_PASSWORD } from '../../constants/routeNames';
 
 const EMPTY_INPUT_ERROR = 'поле должно быть заполнено';
 
-const passwordConfirmation = ({navigation}) => {
+const passwordConfirmation = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {message, confirmPassword} = useSelector(state => state.systemReducer);
+  const { message, confirmPassword } = useSelector((state) => state.systemReducer);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [currentPasswordError, setCurrentPasswordError] = useState('');
 
-  const validate = value => (value.trim() ? '' : EMPTY_INPUT_ERROR);
+  const validate = (value) => (value.trim() ? '' : EMPTY_INPUT_ERROR);
 
-  const onChange = value => {
+  const onChange = (value) => {
     setCurrentPassword(value);
     setCurrentPasswordError('');
   };
@@ -41,7 +32,7 @@ const passwordConfirmation = ({navigation}) => {
     setModalIsVisible(false);
   };
 
-  const displayInputError = validatorFunc => data => {
+  const displayInputError = (validatorFunc) => (data) => {
     setCurrentPasswordError(validatorFunc(data));
   };
 
@@ -77,7 +68,7 @@ const passwordConfirmation = ({navigation}) => {
           value={currentPassword}
           keyboardType="numeric"
           handleBlur={displayInputError(validate)}
-          handleChange={onChange}
+          onChangeText={onChange}
         />
         <CustomButton
           title="Подтвердить"

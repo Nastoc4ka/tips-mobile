@@ -21,6 +21,7 @@ import AvatarWrapper from './AvatarWrapper';
 import MainHeader from './MainHeader';
 import AvatarView from './AvatarView';
 import UpdateSecureTextEntry from './UpdateSecureTextEntry';
+import CreateEventModal from './modals/CreateEventModal';
 
 export {
   Background,
@@ -46,4 +47,5 @@ export {
   MainHeader,
   AvatarView,
   UpdateSecureTextEntry,
+  CreateEventModal,
 };
