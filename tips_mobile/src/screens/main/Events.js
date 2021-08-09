@@ -142,7 +142,7 @@ const Events = () => {
             <Text style={styles.title}>{newsItem.theme}</Text>
           ))
         ) : (
-          <Text>Нет событий</Text>
+          <Text style={styles.text}>Нет событий</Text>
         )}
       </View>
       <Portal>
@@ -190,7 +190,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 17,
+    color: '#24A8AC',
     fontWeight: '600',
+    textAlign: 'center',
+  },
+  text: {
+    fontSize: 17,
     textAlign: 'center',
   },
 });

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { buttonFill, main } from '../../styles';
 import {
-  AuthModal,
+  MessageModal,
   CustomButton,
   UpdateSecureTextEntry,
   Input,
@@ -273,7 +273,7 @@ const SignUp = () => {
         </TouchableWithoutFeedback>
         <CustomButton title="Готово" styles={button} onPress={handleAuthorization} />
         <Portal>
-          <AuthModal
+          <MessageModal
             modalIsVisible={modalIsVisible}
             handleCloseModal={handleCloseModal}
             message={message}

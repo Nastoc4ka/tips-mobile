@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import { AuthModal, BackgroundSettings, CustomButton, Input } from '../../components';
+import { MessageModal, BackgroundSettings, CustomButton, Input } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Portal } from 'react-native-portalize';
 import {
@@ -75,7 +75,7 @@ const passwordConfirmation = ({ navigation }) => {
         />
       </View>
       <Portal>
-        <AuthModal
+        <MessageModal
           modalIsVisible={modalIsVisible}
           message={message}
           handleCloseModal={handleCloseModal}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { View } from 'react-native';
 import {
-  AuthModal,
+  MessageModal,
   BackgroundSettings,
   UpdateSecureTextEntry,
   CustomButton,
@@ -106,7 +106,7 @@ const passwordConfirmationScreen = ({ navigation }) => {
         />
       </View>
       <Portal>
-        <AuthModal
+        <MessageModal
           modalIsVisible={modalIsVisible}
           message={message}
           handleCloseModal={handleCloseModal}

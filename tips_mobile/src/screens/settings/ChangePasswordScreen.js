@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
-  AuthModal,
+  MessageModal,
   BackgroundSettings,
   CustomButton,
   IconInInputView,
@@ -164,7 +164,7 @@ const ChangePasswordScreen = ({ navigation }) => {
         />
       </View>
       <Portal>
-        <AuthModal
+        <MessageModal
           modalIsVisible={modalIsVisible}
           message={message}
           handleCloseModal={handleCloseModal}

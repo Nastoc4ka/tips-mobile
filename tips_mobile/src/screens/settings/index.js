@@ -22,7 +22,7 @@ import ChangePasswordScreen from './ChangePasswordScreen';
 import PINcodeScreen from './PINcodeScreen';
 import LanguageScreen from './LanguageScreen';
 import SettingsScreen from './SettingsScreen';
-import passwordConfirmationScreen from './passwordConfirmationScreen';
+import passwordConfirmationScreen from './PasswordConfirmationScreen';
 import SmsConfirmationScreen from './SmsConfirmationScreen';
 
 const screens = [

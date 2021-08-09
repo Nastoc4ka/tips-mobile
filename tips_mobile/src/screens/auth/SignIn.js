@@ -4,7 +4,7 @@ import { buttonFill, buttonLight, styleAuth } from '../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text } from 'react-native';
 import {
-  AuthModal,
+  MessageModal,
   CustomButton,
   Input,
   InputPhone,
@@ -138,7 +138,7 @@ const SignIn = ({ handleRegistrationClick }) => {
 
       <CustomButton onPress={handleRegistrationClick} title="Регистрация" styles={buttonLight} />
       <Portal>
-        <AuthModal
+        <MessageModal
           modalIsVisible={modalIsVisible}
           handleCloseModal={handleCloseModal}
           message={message}

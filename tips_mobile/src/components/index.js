@@ -12,7 +12,7 @@ import Loading from './Loading';
 import OrganizationSearch from './OrganizationSearch';
 import SettingsTopPanel from './SettingsTopPanel';
 import BackButton from './BackButton';
-import AuthModal from './modals/AuthModal';
+import MessageModal from './modals/MessageModal';
 import UploadImageModal from './modals/UploadImageModal';
 import ModalWrapper from './modals/ModalWrapper';
 import BackgroundSettings from './BackgroundSettings';
@@ -39,7 +39,7 @@ export {
   SettingsTopPanel,
   BackButton,
   UploadImageModal,
-  AuthModal,
+  MessageModal,
   ModalWrapper,
   BackgroundSettings,
   FilterBirthdateAccessModal,

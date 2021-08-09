@@ -1,12 +1,13 @@
 const {
-  getUserDataByUserId,
   getOrganizations,
   getOrganizationById,
+  getOrganizationsByAdminId,
   updateUser,
+  deleteUser,
   updatePassword,
   userDataToSetToLocalStorage,
+  getUserDataByUserId,
   updateBirthdateAccess,
-  getOrganizationsByAdminId,
   getCardNumber,
   createTip,
   getNews,
@@ -14,6 +15,27 @@ const {
   createNews,
   deleteNews,
 } = require("../models");
+
+exports.deleteUser = async (req, res) => {
+  const userDeleted = await deleteUser(req.params.id);
+
+  if (!userDeleted) {
+    const msg = {
+      title: "Пользователь не был удален.",
+      text: "Что-то пошло не так.",
+    };
+    return res.status(404).send({ error: true, msg });
+  }
+
+  const updateUserDataSuccess = {
+    success: true,
+    msg: {
+      title: "Пользователь успешно удален.",
+      text: "",
+    },
+  };
+  res.status(200).json(updateUserDataSuccess);
+};
 
 exports.news = async (req, res) => {
   const news = await getNews(req.userId);
@@ -172,8 +194,6 @@ const CloudIpsp = require("cloudipsp-node-js-sdk");
 exports.pay = async (req, res) => {
   const requestData = req.body;
   const cardNumber = await getCardNumber(requestData.order_desc);
-
-  //const CloudIpsp = require('../lib');
 
   const fondy = new CloudIpsp({
     merchantId: 700001,
