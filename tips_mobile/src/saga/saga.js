@@ -14,11 +14,13 @@ import {
   setPinAuthentication,
   pinAuthenticatiedFalse,
   currentPasswordConfirmed,
+  pinChangeActive,
   fetchedNews,
   updatedNews,
   createdNewsItem,
   removedNewsItem,
 } from '../redux/actions';
+
 import {
   authService,
   organizationsService,
@@ -178,6 +180,7 @@ function* setPinAuthenticationSaga(action) {
     yield put(setPinAuthentication(action.payload));
     yield put(hideLoading());
     yield put(hideBlur());
+    yield put(pinChangeActive());
   } catch (error) {
     yield put(hideLoading());
     yield put(hideBlur());
@@ -196,8 +199,12 @@ function* getLocalDataSaga() {
     yield put(showLoading());
     const userData = yield call(getUserFromLocalStorage);
     const pin = yield call(() => AsyncStorage.getItem('pin'));
-    if (userData) yield put(loginSuccess(userData));
-    if (pin) yield put(setPinAuthentication(pin));
+    if (userData) {
+      yield put(loginSuccess(userData));
+    }
+    if (pin) {
+      yield put(setPinAuthentication(pin));
+    }
     yield put(hideLoading());
     yield put(hideBlur());
   } catch (error) {

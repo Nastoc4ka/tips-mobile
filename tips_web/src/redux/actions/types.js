@@ -16,5 +16,11 @@ export const CAMERA_OFF = "CAMERA_OFF";
 export const SET_CHOSEN_ORGANIZATION = "SET_CHOSEN_ORGANIZATION";
 
 export const ADD_USER_SAGA = "ADD_USER_SAGA";
+export const ADD_USER_SUCCESS = "GET_USER_SUCCESS";
+export const ADD_USER_FAIL = "ADD_USER_FAIL";
+
+export const UPDATE_USER_SAGA = "UPDATE_USER_SAGA";
+
+export const DELETE_USER_SAGA = "DELETE_USER_SAGA";
 
 export const SEND_SMS_SAGA = "SEND_SMS_SAGA";

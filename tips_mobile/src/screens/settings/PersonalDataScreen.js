@@ -47,7 +47,7 @@ const PersonalDataScreen = ({ navigation }) => {
   };
 
   const validateBirthDate = (value) => {
-    const dateCheck = value.trim();
+    const dateCheck = value?.trim();
     if (dateCheck && !DATE_REG_EXP.test(dateCheck)) {
       return { birthdate: 'формат: 20.05.2000' };
     }
@@ -124,7 +124,9 @@ const PersonalDataScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (message) setModalIsVisible(true);
+    if (message) {
+      setModalIsVisible(true);
+    }
   }, [message]);
 
   useEffect(() => {

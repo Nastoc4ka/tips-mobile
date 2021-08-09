@@ -135,6 +135,25 @@ li {
   padding-bottom: 1rem;
 }
 
+.input {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-bottom: 0.4rem;
+}
+
+.input__error {
+  color: red;
+  font-size: 0.875rem;
+  height: 0.875rem;
+  line-height: 1;
+}
+
 #root {
   height: 100%;
 }
@@ -162,27 +181,18 @@ li {
   font-size: 1rem;
 }
 
-.menu {
-  background-color: #00a03e;
-  padding: 1.25rem;
-  position: absolute;
-  right: -1px;
-  top: calc(1rem + 5px);
-  z-index: 1;
+#root .block__form .MuiButton-root {
+  margin-top: 10px;
 }
 
-.menu__item {
-  list-style-type: none;
-  color: #fff;
-  font-size: 1rem;
+#root .block__form .MuiButton-label {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
-.menu__item:not(:last-child) {
-  padding-bottom: 1rem;
-}
-
-.menu__item_danger {
-  color: #ff8080;
+.MuiButtonBase-root.menu__button_danger {
+  color: red;
 }
 
 .login {
@@ -399,6 +409,7 @@ li {
   display: -ms-flexbox;
   display: flex;
   cursor: pointer;
+  padding-bottom: 5px;
 }
 
 .staff__item__controllers_btn:focus {

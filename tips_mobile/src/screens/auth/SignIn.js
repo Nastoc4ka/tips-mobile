@@ -99,7 +99,9 @@ const SignIn = ({ handleRegistrationClick }) => {
   }, [errors, onLogin]);
 
   useEffect(() => {
-    if (message) setModalIsVisible(true);
+    if (message) {
+      setModalIsVisible(true);
+    }
   }, [message]);
 
   return (

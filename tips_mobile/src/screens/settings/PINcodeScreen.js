@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { BackgroundSettings, CustomButton, Input } from '../../components';
-import { useDispatch } from 'react-redux';
-import { setPinAuthenticationSaga } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { pinChangeDisable, setPinAuthenticationSaga } from '../../redux/actions';
 import { SECURITY } from '../../constants/routeNames';
 import { styleSettingsButton, styleSettingsInput, styleSettingsScreen } from '../../styles';
 
@@ -11,6 +11,7 @@ const isPinLengthCorrect = (pin) => pin.length === PIN_LENGTH;
 
 const PINcodeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const isPINChange = useSelector((state) => state.systemReducer.pinChanged);
 
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState('');
@@ -32,9 +33,15 @@ const PINcodeScreen = ({ navigation }) => {
       setPinError(pinErr);
     } else {
       dispatch(setPinAuthenticationSaga(pin));
-      navigation.navigate(SECURITY);
     }
   };
+
+  useEffect(() => {
+    if (isPINChange) {
+      navigation.navigate(SECURITY);
+      dispatch(pinChangeDisable());
+    }
+  }, [isPINChange]);
 
   return (
     <BackgroundSettings>

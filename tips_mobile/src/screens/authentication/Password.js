@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     wrapper: {
         width: '40%',
         flex: 1,
+
         justifyContent: 'center'
     },
     avatar: {
