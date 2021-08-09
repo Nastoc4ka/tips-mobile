@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { AuthModal, BackgroundSettings, CustomButton, Input } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Portal } from 'react-native-portalize';
@@ -51,7 +51,9 @@ const passwordConfirmation = ({ navigation }) => {
   }
 
   useEffect(() => {
-    if (message) setModalIsVisible(true);
+    if (message) {
+      setModalIsVisible(true);
+    }
   }, [message]);
 
   return (

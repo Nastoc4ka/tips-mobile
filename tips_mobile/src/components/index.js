@@ -4,7 +4,7 @@ import Input from './Input';
 import NewsItem from './NewsItem';
 import UserPreview from './UserPreview';
 import IconInInputView from './IconInInputView';
-import InputPhone from './InputPhone';
+import InputPhone from './inputPhone';
 import Blur from './Blur';
 import ErrorMessage from './ErrorMessage';
 import SearchDropDown from './SearchDropDown';

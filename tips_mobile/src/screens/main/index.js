@@ -33,7 +33,7 @@ const Main = () => {
         </View>
 
         <View style={styleMainScreens.wrapper}>
-            { activePanel === NEWS ? <News id={userId} /> : <Events id={userId} /> }
+            { activePanel === NEWS ? <News userId={userId} /> : <Events id={userId} /> }
         </View>
       </View>
     </Background>

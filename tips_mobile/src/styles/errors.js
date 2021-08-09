@@ -1,12 +1,12 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export const errors = StyleSheet.create({
-    wrapper: {
-        marginRight: 5,
-        alignItems: 'flex-end',
-    },
-    text: {
-        fontSize: 12,
-        color: 'red',
-    }
+  wrapper: {
+    marginRight: 5,
+    alignItems: 'flex-end',
+  },
+  text: {
+    fontSize: 12,
+    color: 'red',
+  },
 });

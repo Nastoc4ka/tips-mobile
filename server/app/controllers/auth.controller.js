@@ -1,5 +1,5 @@
 const db = require("../../db");
-const {userDataToSetToLocalStorage, getUserDataByPhone, getOrganizationById, getUserPasswordByUserId} = require("../models");
+const { userDataToSetToLocalStorage, getUserDataByPhone, getOrganizationById, getUserPasswordByUserId } = require("../models");
 const bcrypt = require("bcryptjs");
 
 exports.signup = async (req, res) => {
@@ -9,7 +9,7 @@ exports.signup = async (req, res) => {
         organizationId: req.body.organizationId,
         phoneNumber: req.body.phoneNumber,
         password: bcrypt.hashSync(req.body.password, 8),
-        role: 'employee',
+        role: "employee",
     };
 
     const newPerson = await createUser(userData).catch((e) => {
@@ -17,13 +17,13 @@ exports.signup = async (req, res) => {
             title: "Произошла ощибка",
             text: "Пользователь не заренистрирован, обратитесь к автору"
         };
-        res.status(500).send({error: true, msg})
+        res.status(500).send({ error: true, msg })
     });
     const msg = {
         title: "Регистрация прошла успешно!",
         text: "Ожидайте смс-подтверждение от администратора."
     };
-    res.status(201).send({success: true, msg})
+    res.status(201).send({ success: true, msg })
 };
 
 function createUser(user) {
@@ -31,6 +31,36 @@ function createUser(user) {
     const values = [user.firstName, user.lastName, user.role, user.organizationId, user.password, user.phoneNumber];
     return db.query(query, values);
 }
+
+exports.addUser = async (req, res) => {
+    const userData = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        organisationId: req.body.organisationId,
+        phoneNumber: req.body.phoneNumber,
+        password: bcrypt.hashSync(req.body.password, 8),
+        role: 'employee',
+        position: req.body.position,
+        avatar: req.body.avatar,
+        verified: true,
+    };
+
+    await createUser(userData).catch((e) => {
+        const msg = {
+            title: "Произошла ошибка",
+        };
+        res.status(500).send({error: true, msg})
+
+    });
+
+    res.status(201).send({
+        success: true,
+        msg: {
+            title: "Регистрация прошла успешно!",
+            text: "",
+        }
+    })
+};
 
 exports.signin = async (req, res) => {
     const userToAuth = req.body;
@@ -47,7 +77,7 @@ exports.signin = async (req, res) => {
             title: "номер телефона или пароль указаны неверно.",
             text: ""
         };
-        return res.status(404).send({error: true, msg})
+        return res.status(404).send({ error: true, msg })
     }
 
     const organization = await getOrganizationById(user.organization_id);
@@ -57,7 +87,7 @@ exports.signin = async (req, res) => {
             title: "Регистрация еще не подтверждена.",
             text: "Ожидайте смс от администратора."
         };
-        return res.status(404).send({error: true, msg})
+        return res.status(404).send({ error: true, msg })
     }
 
     const userData = await userDataToSetToLocalStorage(user, organization);
@@ -86,7 +116,7 @@ exports.confirmPassword = async (req, res) => {
             title: "пароль указан неверно.",
             text: ""
         };
-        return res.status(404).send({error: true, msg})
+        return res.status(404).send({ error: true, msg })
     }
-    res.status(200).send({success: true});
+    res.status(200).send({ success: true });
 };

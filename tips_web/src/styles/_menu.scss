@@ -8,12 +8,19 @@
 
   &__item {
     list-style-type: none;
-    color: #fff;
-    font-size: 1rem;
+    display: flex;
 
     &:not(:last-child) {
       padding-bottom: 1rem;
     }
+  }
+
+  &__button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
 
     &_danger {
       color: #ff8080;

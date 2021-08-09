@@ -13,6 +13,10 @@ import {
   SET_CHOSEN_ORGANIZATION,
   ADD_USER_SAGA,
   SEND_SMS_SAGA,
+  ADD_USER_SUCCESS,
+  ADD_USER_FAIL,
+  UPDATE_USER_SAGA,
+  DELETE_USER_SAGA,
 } from "./types";
 
 const loginSaga = (loginData) => {
@@ -101,6 +105,32 @@ const addUserSaga = (data) => {
   };
 };
 
+const addUserSuccess = () => {
+  return {
+    type: ADD_USER_SUCCESS,
+  };
+};
+
+const addUserFail = () => {
+  return {
+    type: ADD_USER_FAIL,
+  };
+};
+
+const updateUserSaga = (updateUser) => {
+  return {
+    type: UPDATE_USER_SAGA,
+    payload: updateUser,
+  };
+};
+
+const deleteUserSaga = (user) => {
+  return {
+    type: DELETE_USER_SAGA,
+    payload: user,
+  };
+};
+
 const sendSMSSaga = (data) => {
   return {
     type: SEND_SMS_SAGA,
@@ -122,5 +152,9 @@ export {
   cameraOff,
   setChosenOrganization,
   addUserSaga,
+  addUserSuccess,
+  addUserFail,
   sendSMSSaga,
+  updateUserSaga,
+  deleteUserSaga,
 };
