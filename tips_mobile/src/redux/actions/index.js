@@ -43,6 +43,8 @@ import {
   NEWS_FETCHED,
   NEWS_UPDATED,
   NEWS_REMOVED,
+  REMOVE_IMPORTANT_NEWS,
+  REMOVE_IMPORTANT_NEWS_SAGA,
 } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -98,6 +100,23 @@ const fetchedNews = (news) => {
 const fetchNewsSaga = () => {
   return {
     type: NEWS_REQUESTED_SAGA,
+  };
+};
+
+const removeImportantNews = (newsId) => {
+  return {
+    type: REMOVE_IMPORTANT_NEWS,
+    payload: newsId,
+  };
+};
+
+const removeImportantNewsSaga = (importanId, newsId) => {
+  return {
+    type: REMOVE_IMPORTANT_NEWS_SAGA,
+    payload: {
+      importanId,
+      newsId,
+    },
   };
 };
 
@@ -369,4 +388,6 @@ export {
   updatedNews,
   createdNewsItem,
   removedNewsItem,
+  removeImportantNews,
+  removeImportantNewsSaga,
 };

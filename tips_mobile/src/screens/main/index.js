@@ -1,31 +1,38 @@
-import React, { useState } from 'react';
-import { SafeAreaView, Text, TouchableHighlight, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import Events from './Events';
 import News from './News';
 import { main, styleMainScreens } from '../../styles';
 import { buttonPanelActive, buttonPanelNotActive } from '../../styles';
-import {CustomButton, MainHeader, Background} from '../../components';
+import { CustomButton, MainHeader, Background } from '../../components';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNewsSaga } from '../../redux/actions';
 
 const Main = () => {
+  const { id } = useSelector((state) => state.authLoginReducer.user);
+  const dispatch = useDispatch();
 
   const NEWS = 'Новости';
   const EVENTS = 'События';
-  const userId = 10001;  
 
-  const [activePanel, setActive] = useState(NEWS);  
+  const [activePanel, setActive] = useState(NEWS);
+
+  useEffect(() => {
+    dispatch(fetchNewsSaga());
+  }, []);
 
   return (
     <Background>
-      <MainHeader style={{...main.header, ...main.headerWitButtons}} activePanel={activePanel}/>
+      <MainHeader style={{ ...main.header, ...main.headerWitButtons }} activePanel={activePanel} />
       <View style={main.paper}>
         <View style={styleMainScreens.buttonsTabsWrapper}>
-          <CustomButton 
+          <CustomButton
             title={NEWS}
             styles={activePanel === NEWS ? buttonPanelActive : buttonPanelNotActive}
             onPress={() => setActive(NEWS)}
           />
-          
-          <CustomButton 
+
+          <CustomButton
             title={EVENTS}
             styles={activePanel === EVENTS ? buttonPanelActive : buttonPanelNotActive}
             onPress={() => setActive(EVENTS)}
@@ -33,11 +40,11 @@ const Main = () => {
         </View>
 
         <View style={styleMainScreens.wrapper}>
-            { activePanel === NEWS ? <News userId={userId} /> : <Events id={userId} /> }
+          {activePanel === NEWS ? <News userId={id} /> : <Events id={id} />}
         </View>
       </View>
     </Background>
-  )
+  );
 };
 
 export default Main;

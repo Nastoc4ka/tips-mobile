@@ -20,6 +20,8 @@ import VisibilityShow from './visibilityShow.svg';
 import SettingsBtnIcon from './SettingsBtnIcon.svg';
 import Arrow_right_blue from './arrow_right_blue.svg';
 import Add_in_circle from './addInCircle.svg';
+import ArrowLeft from './ArrowLeft';
+import ArrowRight from './ArrowRight';
 
 export {
   Icn_home,
@@ -44,4 +46,6 @@ export {
   SettingsBtnIcon,
   Arrow_right_blue,
   Add_in_circle,
+  ArrowLeft,
+  ArrowRight,
 };

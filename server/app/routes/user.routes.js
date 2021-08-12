@@ -33,6 +33,7 @@ module.exports = function (app) {
   app.get("/api/news", [authJwt.verifyToken], controller.news);
   app.post("/api/news", [authJwt.verifyToken], controller.createNews);
   app.put("/api/news", [authJwt.verifyToken], controller.updateNews);
-  app.delete("/api/news", [authJwt.verifyToken], controller.deleteNews);
+  // app.delete("/api/news", [authJwt.verifyToken], controller.deleteNews);
   app.post("/api/pay", controller.pay);
+  app.delete("/api/news/:id", [authJwt.verifyToken], controller.deleteImportantNews);
 };

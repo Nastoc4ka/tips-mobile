@@ -4,14 +4,14 @@ import { catchError, client } from './client';
 
 const createNews = async (newsItem) => {
   return client
-    .post(`/news`, { ...newsItem }, { headers: await authHeader() })
+    .post('/news', { ...newsItem }, { headers: await authHeader() })
     .then(({ data }) => data)
     .catch(catchError(NewsError));
 };
 
 const updateNews = async (newsItem) => {
   return client
-    .put(`/news`, { ...newsItem }, { headers: await authHeader() })
+    .put('/news', { ...newsItem }, { headers: await authHeader() })
     .then(({ data }) => data)
     .catch(catchError(NewsError));
 };
@@ -25,9 +25,16 @@ const removeNews = async (id) => {
 
 const getNews = async () => {
   return client
-    .get(`/news`, { headers: await authHeader() })
+    .get('/news', { headers: await authHeader() })
     .then(({ data }) => data)
     .catch(catchError(NewsError));
 };
 
-export { createNews, getNews, removeNews, updateNews };
+const deleteImportantNews = async (id) => {
+  return client
+    .delete(`/news/${id}`, { headers: await authHeader() })
+    .then(({ data }) => data)
+    .catch(catchError(NewsError));
+};
+
+export { createNews, getNews, removeNews, updateNews, deleteImportantNews };

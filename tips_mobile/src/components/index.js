@@ -17,9 +17,9 @@ import UploadImageModal from './modals/UploadImageModal';
 import ModalWrapper from './modals/ModalWrapper';
 import BackgroundSettings from './BackgroundSettings';
 import FilterBirthdateAccessModal from './modals/FilterBirthdateAccessModal';
-import AvatarWrapper from './AvatarWrapper';
+import AvatarWrapper from './avatar/AvatarWrapper';
 import MainHeader from './MainHeader';
-import AvatarView from './AvatarView';
+import AvatarView from './avatar/AvatarView';
 import UpdateSecureTextEntry from './UpdateSecureTextEntry';
 import CreateEventModal from './modals/CreateEventModal';
 
