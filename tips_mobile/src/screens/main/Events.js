@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Portal } from 'react-native-portalize';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { View, StyleSheet, Dimensions, TouchableOpacity, Text } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
-import { Arrow_left, Arrow_right, Add_in_circle } from '../../assets/icons';
+import { Add_in_circle, ArrowLeft, ArrowRight } from '../../assets/icons';
 import { CreateEventModal } from '../../components';
-import { clearMessage, hideBlur, showBlur, fetchNewsSaga } from '../../redux/actions';
+import { hideBlur, showBlur } from '../../redux/actions';
 
-const marginNextBTN = { marginRight: Dimensions.get('window').width * 0.23 };
-const marginPrevBTN = { marginLeft: Dimensions.get('window').width * 0.23 };
+const marginNextBtn = Dimensions.get('window').width * 0.23;
+const marginPrevBtn = Dimensions.get('window').width * 0.23;
+
 const Events = () => {
-  const { news } = useSelector((state) => state.newsReducer);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchNewsSaga());
-  }, []);
+  const news = useSelector((state) => state.newsReducer.news.filter((el) => el.userId !== 0));
   let today = moment();
+
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [data, setData] = useState({
     chosenDate: today.format('DD.MM.YYYY'),
@@ -24,6 +22,7 @@ const Events = () => {
     text: '',
   });
   const [message, setMessage] = useState('');
+
   const customDatesStyles = (day) => {
     const styleEventDay = {
       containerStyle: {
@@ -31,12 +30,15 @@ const Events = () => {
       },
       textStyle: {},
     };
-    const events = news.filter(({ date }) => {
-      return moment(+date).format('DD.MM.YYYY') === day.format('DD.MM.YYYY');
+
+    const events = news.filter(({ eventDate }) => {
+      return moment(+eventDate).format('DD.MM.YYYY') === day.format('DD.MM.YYYY');
     });
+
     if (events.length) {
       styleEventDay.textStyle.color = '#24A8AC';
     }
+
     return styleEventDay;
   };
 
@@ -49,7 +51,8 @@ const Events = () => {
     };
 
     const isToday =
-      +today.format('e') === dayOfWeek && today.format('M.YYYY') == `${month + 1}.${year}`;
+      +today.format('e') === dayOfWeek && today.format('M.YYYY') === `${month + 1}.${year}`;
+
     if (isToday) {
       return {
         style: {
@@ -71,9 +74,12 @@ const Events = () => {
       ...data,
       [key]: val,
     });
+
     setMessage('');
+
     key === 'title' && !val.trim() && setMessage('Укажите тему события');
   };
+
   const onDateChange = (date) => {
     setData({
       ...data,
@@ -82,9 +88,11 @@ const Events = () => {
   };
 
   const eventsToShowOnPickedDate = () => {
-    console.log(today.format('DD.MM.YYYY'));
-    return news.filter(({ date }) => moment(+date).format('DD.MM.YYYY') === data.chosenDate);
+    return news.filter(
+      ({ eventDate }) => moment(+eventDate).format('DD.MM.YYYY') === data.chosenDate,
+    );
   };
+
   const createEvent = () => {
     dispatch(showBlur());
     setModalIsVisible(true);
@@ -95,11 +103,24 @@ const Events = () => {
     dispatch(hideBlur());
   };
 
+  const renderEvents = () => {
+    if (eventsToShowOnPickedDate().length) {
+      return eventsToShowOnPickedDate().map((newsItem) => (
+        <Text style={styles.title} key={newsItem.id}>
+          {newsItem.theme}
+        </Text>
+      ));
+    } else {
+      return <Text>Нет событий</Text>;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.addInCircleBtn} onPress={createEvent}>
         <Add_in_circle />
       </TouchableOpacity>
+
       <CalendarPicker
         onDateChange={onDateChange}
         startFromMonday
@@ -122,10 +143,8 @@ const Events = () => {
           'Декабрь',
         ]}
         scrollable
-        previousTitle={<Arrow_left />}
-        previousTitleStyle={marginPrevBTN}
-        nextTitle={<Arrow_right />}
-        nextTitleStyle={marginNextBTN}
+        previousComponent={<ArrowLeft margin={marginPrevBtn} />}
+        nextComponent={<ArrowRight margin={marginNextBtn} />}
         width={Dimensions.get('window').width * 0.85}
         textStyle={{
           fontFamily: 'SF Pro Display Regular',
@@ -136,15 +155,7 @@ const Events = () => {
       <View style={styles.headerWrapper}>
         <Text style={styles.title}>{data.chosenDate}</Text>
       </View>
-      <View style={{ height: 100 }}>
-        {eventsToShowOnPickedDate().length ? (
-          eventsToShowOnPickedDate().map((newsItem) => (
-            <Text style={styles.title}>{newsItem.theme}</Text>
-          ))
-        ) : (
-          <Text>Нет событий</Text>
-        )}
-      </View>
+      <View style={{ height: 100 }}>{renderEvents()}</View>
       <Portal>
         <CreateEventModal
           data={data}

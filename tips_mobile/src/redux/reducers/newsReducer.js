@@ -1,4 +1,10 @@
-import { NEWS_REMOVED, NEWS_CREATED, NEWS_UPDATED, NEWS_FETCHED } from '../actions/types';
+import {
+  NEWS_REMOVED,
+  NEWS_CREATED,
+  NEWS_UPDATED,
+  NEWS_FETCHED,
+  REMOVE_IMPORTANT_NEWS,
+} from '../actions/types';
 
 const initialState = {
   news: [],
@@ -26,6 +32,20 @@ const newsReducer = (state = initialState, action) => {
       const updatedNewsList = state.news.filter((item) => item.id !== idNewsItem);
       return {
         news: updatedNewsList,
+      };
+    case REMOVE_IMPORTANT_NEWS:
+      console.log(state.news, action.payload, 'reducer');
+      const updatedNews = state.news.map((el) => {
+        if (el.id === action.payload) {
+          delete el.important;
+          delete el.importantId;
+        }
+
+        return el;
+      });
+
+      return {
+        news: updatedNews,
       };
     default:
       return state;

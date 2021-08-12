@@ -14,6 +14,11 @@ const {
   updateNews,
   createNews,
   deleteNews,
+  mainUserData,
+  getReactions,
+  newsData,
+  getImportantNews,
+  deleteImportantNews,
 } = require("../models");
 
 exports.deleteUser = async (req, res) => {
@@ -38,15 +43,53 @@ exports.deleteUser = async (req, res) => {
 }
 
 exports.news = async (req, res) => {
-  const news = await getNews(req.userId);
+  const user = await getUserDataByUserId(req.userId);
+  const organization = await getOrganizationById(user.organization_id);
+  const news = await getNews(organization.admin_id, req.userId);
+  console.log(news);
+  const admin = await getUserDataByUserId(organization.admin_id);
+  const tips = await getUserDataByUserId(0);
+  const importantNews = await getImportantNews(req.userId);
+  const mainAdminData = mainUserData(admin);
+  const mainTipsData = mainUserData(tips);
 
-  const organization = await getOrganizationById(req.userId);
+  const newsWithUserData = await Promise.all(news.map(async (el) => {
+    const reactions = await getReactions(el.id);
+    el.reactions = reactions;
 
-  const adminNews = await getNews(req.userId, organization.admin_id);
+    const newEl = newsData(el);
 
-  const filteredNews = [...news, ...adminNews].sort((news1, news2) => {
-    return news2.date - news1.date;
+    const importantEl = importantNews.find((news) => news.news_id === newEl.id);
+
+    if (importantEl) {
+      newEl.important = true;
+      newEl.importantId = importantEl.id
+    }
+
+    if (newEl.userId === mainAdminData.id) {
+      return {
+        ...newEl,
+        user: {
+          ...mainAdminData
+        }
+      }
+    } else if (newEl.userId === mainTipsData.id) {
+      return {
+        ...newEl,
+        user: {
+          ...mainTipsData
+        }
+      }
+    } else {
+      return newEl
+    }
+  }))
+
+  const filteredNews = newsWithUserData.sort((prev, next) => {
+    return prev.creationDate - next.creationDate;
   });
+
+  console.log(filteredNews)
 
   res.status(200).json(filteredNews);
 };
@@ -234,3 +277,21 @@ exports.pay = async (req, res) => {
       console.dir(error);
     });
 };
+
+exports.deleteImportantNews = async (req, res) => {
+  console.log("hello", req.params.id)
+
+  const importantNewsDeleted = await deleteImportantNews(+req.params.id);
+  if (!importantNewsDeleted) {
+    const msg = {
+      title: "Метка не снята.",
+      text: "Что-то пошло не так."
+    };
+    return res.status(404).send({ error: true, msg })
+  }
+
+  const updateUserDataSuccess = {
+    success: true,
+  };
+  res.status(200).json(updateUserDataSuccess);
+}

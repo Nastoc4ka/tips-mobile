@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import AvatarWrapper from './AvatarWrapper';
-import { styleSettingsScreen } from '../styles';
+import { styleSettingsScreen } from '../../styles';
 
 const AvatarView = ({ source, firstName, id }) => {
   return (

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import { getNews, toggleImportantNews } from '../../services/serviceQueries';
 import { Avatar } from 'react-native-elements';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import {
@@ -12,13 +11,19 @@ import {
   Flag_huge,
 } from '../../assets/icons';
 import { styleNewsItem } from '../../styles';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import { removeImportantNewsSaga } from '../../redux/actions';
 
 const News = ({ userId }) => {
-  const [news, setNews] = useState([]);
-
-  useEffect(() => {
-    setNews(getNews(userId));
-  }, []);
+  const news = useSelector((state) => {
+    const filteredNews = state.newsReducer.news.filter((el) => +el.userId !== +userId);
+    return filteredNews.map((el, index) => {
+      el.key = index;
+      return el;
+    });
+  });
+  const dispatch = useDispatch();
 
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -27,16 +32,17 @@ const News = ({ userId }) => {
   };
 
   const toggleImportant = (rowMap, rowKey, id) => {
-    toggleImportantNews(id);
-    setNews(getNews(userId));
+    const el = news.find((item) => item.id === id);
+    if (el.important) {
+      dispatch(removeImportantNewsSaga(el.importantId, el.id));
+    }
+
     return closeRow(rowMap, rowKey);
   };
 
   const reactToNews = (rowMap, rowKey, id) => {
     return closeRow(rowMap, rowKey);
   };
-
-  console.log(data.avatar);
 
   const VisibleItem = ({ data }) => {
     return (
@@ -46,25 +52,28 @@ const News = ({ userId }) => {
           <View style={styleNewsItem.innerWrapper}>
             <View style={styleNewsItem.avatar}>
               <Avatar
-                title={data.author[0]}
+                title={`${data.user.firstName[0]}${
+                  data.user.lastName ? data.user.lastName[0] : ''
+                }`}
                 rounded
                 containerStyle={{ backgroundColor: 'lightgrey' }}
                 size={45}
-                source={data.avatar}
+                source={data.user.avatar && { uri: data.user.avatar }}
               />
             </View>
             <View style={styleNewsItem.main}>
               <Text numberOfLines={1} ellipsizeMode="tail" style={styleNewsItem.author}>
-                {data.author}
+                {data.user.firstName} {data.user.lastName}
               </Text>
               <Text numberOfLines={1} ellipsizeMode="tail" style={styleNewsItem.label}>
-                {data.label}
+                {data.theme}
               </Text>
               <Text numberOfLines={1} ellipsizeMode="tail" style={styleNewsItem.description}>
-                {data.description}
+                {data.details}
               </Text>
             </View>
             <View style={styleNewsItem.icons}>
+              {/* <Text>{moment(+data.creationDate).format('DD.MM.YYYY')}</Text> */}
               <View style={styleNewsItem.wrapperIcons}>
                 <Text style={styleNewsItem.date}>{data.dateFormated}</Text>
                 <TouchableOpacity style={styleNewsItem.icon}>

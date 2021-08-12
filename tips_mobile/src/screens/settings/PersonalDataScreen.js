@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View, ScrollView, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { styleSettingsInput, styleSettingsScreen } from '../../styles';
@@ -20,6 +20,7 @@ import {
 } from '../../redux/actions';
 import PositionAndOrganization from './PositionAndOrganization';
 import { SETTINGS } from '../../constants/routeNames';
+import { useFocusEffect } from '@react-navigation/native';
 
 const PHONE_NUMBER_LENGTH = 19;
 const DATE_REG_EXP = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/;
@@ -68,7 +69,7 @@ const PersonalDataScreen = ({ navigation }) => {
   const handleCloseModal = () => {
     setModalIsVisible(false);
     dispatch(clearMessage());
-    setTimeout(() => navigation.navigate(SETTINGS), 100);
+    navigation.navigate(SETTINGS);
   };
 
   const handleCloseImageModal = () => {
@@ -124,12 +125,6 @@ const PersonalDataScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (message) {
-      setModalIsVisible(true);
-    }
-  }, [message]);
-
-  useEffect(() => {
     if (sendData) {
       dispatch(sendDataDisable());
       const formErrors = validateForm(data);
@@ -142,6 +137,15 @@ const PersonalDataScreen = ({ navigation }) => {
       }
     }
   }, [sendData]);
+
+  //useFocus to upgrade modals status in current screen
+  useFocusEffect(
+    useCallback(() => {
+      if (message) {
+        setModalIsVisible(true);
+      }
+    }, [message]),
+  );
 
   return (
     <ScrollView>

@@ -3,18 +3,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 
-exports.getNews = async (userId, adminId) => {
+exports.getNews = async (adminId, userId) => {
   const queryNews = {
-    text: "SELECT * FROM news WHERE user_id = $1",
-    values: [userId],
+    text: "SELECT * FROM news WHERE (user_id = $1 AND is_public) OR user_id = $2 OR user_id = 0",
+    values: [adminId, userId],
   };
 
-  if (adminId && adminId !== userId) {
-    queryNews.text = "SELECT * FROM news WHERE user_id = $1 AND show_users";
-    queryNews.values = [adminId];
-  }
   const { rows: news } = await db.query(queryNews);
-
   return news;
 };
 
@@ -26,7 +21,6 @@ exports.deleteNews = async (id) => {
   };
 
   const { rows: newsDeleted } = await db.query(queryNews);
-
   return newsDeleted;
 };
 
@@ -37,7 +31,6 @@ exports.updateNews = async (body) => {
   };
 
   const { rowCount } = await db.query(updateNews);
-
   return rowCount;
 };
 
@@ -48,7 +41,6 @@ exports.createNews = async (body) => {
   };
 
   const { rowCount } = await db.query(createNews);
-
   return rowCount;
 };
 
@@ -59,7 +51,6 @@ exports.getOrganizations = async () => {
   };
 
   const { rows: organizations } = await db.query(queryOrganizations);
-
   return organizations
 };
 
@@ -73,7 +64,6 @@ exports.getOrganizationById = async (organization_id) => {
   const {
     rows: [organization],
   } = await db.query(queryOrganization);
-
   return organization;
 };
 
@@ -81,11 +71,10 @@ exports.getOrganizationsByAdminId = async (adminId = null) => {
   const queryOrganizations = {
     name: 'fetch-organizations',
     text: 'SELECT * FROM organizations WHERE admin_id = $1',
-    values: [adminId]
+    values: [adminId],
   };
 
   const { rows: organizations } = await db.query(queryOrganizations);
-
   return organizations
 }
 
@@ -99,7 +88,6 @@ exports.getUserPasswordByUserId = async (userId) => {
   const {
     rows: [{ password }],
   } = await db.query(queryPassword);
-
   return password;
 };
 
@@ -113,7 +101,6 @@ exports.getUserDataByUserId = async (userId) => {
   const {
     rows: [user],
   } = await db.query(queryUser);
-
   return user;
 };
 
@@ -127,7 +114,6 @@ exports.getUserDataByPhone = async (phoneNumber) => {
   const {
     rows: [user],
   } = await db.query(queryUser);
-
   return user;
 };
 
@@ -170,6 +156,33 @@ exports.userDataToSetToAdmin = (user) => {
   };
 };
 
+exports.mainUserData = (user) => {
+  return {
+    id: user.id,
+    phoneNumber: user.phone_number,
+    position: user.position,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    avatar: user.avatar,
+  };
+};
+
+exports.newsData = (news) => {
+  return {
+    id: news.id,
+    theme: news.theme,
+    details: news.details,
+    userId: news.user_id,
+    creationDate: news.creation_date,
+    eventDate: news.event_date,
+    reactions: news.reactions.map(reaction => ({
+      id: reaction.id,
+      userId: reaction.user_id,
+      newsId: reaction.news_id,
+      reaction: reaction.reaction
+    }))
+  };
+};
 
 exports.getUserData = async (userId) => {
   const queryUser = {
@@ -179,7 +192,6 @@ exports.getUserData = async (userId) => {
   };
 
   const { rows: [user] } = await db.query(queryUser);
-
   return user
 };
 
@@ -187,33 +199,30 @@ exports.deleteUserData = async (userId) => {
   const queryDelete = {
     name: 'delete-user',
     text: 'DELETE FROM users WHERE id = $1',
-    values: [req.params.id]
+    values: [userId]
   }
 
   const { rowCount } = await db.query(queryDelete);
-
   return rowCount
 };
 
 exports.updateUser = async ({ body }) => {
-  console.log(body);
   const updateUser = {
     text: 'UPDATE users SET first_name=$1, last_name=$2, phone_number=$3, birthdate=$4, avatar=$5, filter_birthdate=$6, verified=$7, position=$8 WHERE id = $9',
     values: [
-      body.firstName, 
-      body.lastName, 
-      body.phoneNumber, 
-      body.birthdate, 
-      body.avatar, 
-      body.filterBirthdate, 
-      body.verified, 
-      body.position, 
+      body.firstName,
+      body.lastName,
+      body.phoneNumber,
+      body.birthdate,
+      body.avatar,
+      body.filterBirthdate,
+      body.verified,
+      body.position,
       body.id
     ]
   };
 
   const { rowCount } = await db.query(updateUser);
- 
   return rowCount
 }
 
@@ -226,7 +235,6 @@ exports.updatePassword = async ({ body, userId }) => {
   };
 
   const { rowCount } = await db.query(updatePassword);
-
   return rowCount;
 };
 
@@ -237,7 +245,6 @@ exports.updateBirthdateAccess = async ({ body, userId }) => {
   };
 
   const { rowCount } = await db.query(updateBirthdateAccess);
-
   return rowCount;
 };
 
@@ -260,3 +267,36 @@ exports.createTip = async (amount, order_desc) => {
   const values = [amount, order_desc];
   return db.query(query, values);
 };
+
+exports.getReactions = async (newsId) => {
+  const queryReactions = {
+    name: "fetch-reactions",
+    text: "SELECT * FROM news_reactions WHERE news_id = $1",
+    values: [newsId],
+  }
+  
+  const { rows: reactions } = await db.query(queryReactions);
+  return reactions;
+}
+
+exports.getImportantNews = async (userId) => {
+  const queryReactions = {
+    name: "fetch-important-news",
+    text: "SELECT * FROM important_news WHERE user_id = $1",
+    values: [userId],
+  }
+
+  const { rows: importantNews } = await db.query(queryReactions);
+  return importantNews;
+}
+
+exports.deleteImportantNews = async (id) => {
+  const queryDelete = {
+    name: "delete-important-news",
+    text: "DELETE FROM important_news WHERE id = $1",
+    values: [id],
+  }
+
+  const { rowCount } = await db.query(queryDelete);
+  return rowCount;
+}

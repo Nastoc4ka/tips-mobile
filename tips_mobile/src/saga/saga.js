@@ -19,6 +19,7 @@ import {
   updatedNews,
   createdNewsItem,
   removedNewsItem,
+  removeImportantNews,
 } from '../redux/actions';
 
 import {
@@ -48,7 +49,9 @@ import {
   NEWS_ITEM_UPDATE_SAGA,
   NEWS_ITEM_CREATE_SAGA,
   NEWS_ITEM_REMOVE_SAGA,
+  REMOVE_IMPORTANT_NEWS_SAGA,
 } from '../redux/actions/types';
+import { deleteImportantNews } from '../services/newsService';
 
 export function* sagaWatcher() {
   yield takeEvery(LOGIN_SAGA, loginSaga);
@@ -65,16 +68,17 @@ export function* sagaWatcher() {
   yield takeEvery(NEWS_ITEM_CREATE_SAGA, createNewsItemSaga);
   yield takeEvery(NEWS_ITEM_UPDATE_SAGA, updateNewsItemSaga);
   yield takeEvery(NEWS_REQUESTED_SAGA, fetchNewsSaga);
+  yield takeEvery(REMOVE_IMPORTANT_NEWS_SAGA, removeImportantNewsSaga);
 }
 
 function* fetchNewsSaga() {
   try {
-    yield put(showBlur());
-    yield put(showLoading());
+    // yield put(showBlur());
+    // yield put(showLoading());
     const payload = yield call(getNews);
     yield put(fetchedNews(payload));
-    yield put(hideLoading());
-    yield put(hideBlur());
+    // yield put(hideLoading());
+    // yield put(hideBlur());
   } catch (error) {
     yield put(hideLoading());
     yield put(hideBlur());
@@ -123,6 +127,15 @@ function* updateNewsItemSaga(action) {
   } catch (error) {
     yield put(hideLoading());
     yield put(hideBlur());
+    yield put(setMessage(error.msg));
+  }
+}
+
+function* removeImportantNewsSaga(action) {
+  try {
+    yield call(() => deleteImportantNews(action.payload.importanId));
+    yield put(removeImportantNews(action.payload.newsId));
+  } catch (error) {
     yield put(setMessage(error.msg));
   }
 }
